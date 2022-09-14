@@ -6,6 +6,7 @@ import com.jaddy.calendarresourceoauth.service.TokenService;
 //import com.jaddy.calendarresourceoauth.service.ManagerTokenService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import com.jaddy.calendarresourceoauth.ds.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -45,15 +46,15 @@ public class AuthController {
         return token;
     }
 
+    @PreAuthorize("hasAuthority('manager:create')")
     @PostMapping("/tokenMnger")
     public String tokenMnger(Authentication authentication){
-        LOG.debug("Token requred for user has details: '{}'", authentication.getDetails());
+        LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
         LOG.debug("Token requested for user: '{}'", authentication.getName());
         String token = managerTokenService.generateToken(authentication);
         LOG.debug("Token granted: {}", token);
         return token;
     }
-
 
     @PostMapping("/register")
     public String registerUser(@RequestBody User registerUser){
