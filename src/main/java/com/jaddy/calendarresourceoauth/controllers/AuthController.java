@@ -1,14 +1,13 @@
 package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.constants.Role;
-import com.jaddy.calendarresourceoauth.service.ManagerTokenService;
-import com.jaddy.calendarresourceoauth.service.TokenService;
-//import com.jaddy.calendarresourceoauth.service.ManagerTokenService;
+import com.jaddy.calendarresourceoauth.ds.users.Customer;
+import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
+import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import com.jaddy.calendarresourceoauth.ds.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,8 +56,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody User registerUser){
-       User savedUser =  new User(registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CLIENT.name());
+    public String registerUser(@RequestBody Customer registerUser){
+       Customer savedUser =  new Customer(12315L, registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
        userDetailsManager.createUser(savedUser);
        return "Thank you for signing up " + registerUser.getUsername();
     }

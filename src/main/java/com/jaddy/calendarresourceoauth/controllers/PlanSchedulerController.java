@@ -1,0 +1,44 @@
+package com.jaddy.calendarresourceoauth.controllers;
+
+import com.jaddy.calendarresourceoauth.dao.ManagerDao;
+import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
+import com.jaddy.calendarresourceoauth.model.DayPlan;
+import com.jaddy.calendarresourceoauth.model.TimePeriod;
+import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
+import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+
+@RestController
+@RequestMapping("/schedulePlan")
+public class PlanSchedulerController {
+
+
+    @Autowired
+    private ManagerTokenService tokenService;
+
+    private final SchedulePlanService schedulePlanService;
+
+    @Autowired
+    private ManagerDao managerDao;
+
+    @Autowired
+    private InMemoryUserDetailsManager userDetailsManager;
+
+    public PlanSchedulerController(SchedulePlanService schedulePlanService) {
+        this.schedulePlanService = schedulePlanService;
+    }
+
+//    @PostAuthorize("hasAuthority('manager:create')")
+    @PostMapping("/monday")
+    public void manageMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
+//        tokenService.decodeToken(token);
+        schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan.getWorkingHours(), principal.getName());
+    }
+}

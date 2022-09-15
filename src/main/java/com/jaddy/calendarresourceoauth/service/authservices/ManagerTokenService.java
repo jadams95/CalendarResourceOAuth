@@ -1,13 +1,13 @@
-package com.jaddy.calendarresourceoauth.service;
+package com.jaddy.calendarresourceoauth.service.authservices;
 
 import com.jaddy.calendarresourceoauth.constants.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.core.token.Token;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 public class ManagerTokenService {
 
     private final JwtEncoder encoder;
+    private final JwtDecoder decoder;
 
-    public ManagerTokenService(JwtEncoder encoder) {
+    public ManagerTokenService(JwtEncoder encoder, JwtDecoder decoder) {
         this.encoder = encoder;
+        this.decoder = decoder;
     }
 
     public String generateToken(Authentication authentication) {
@@ -36,6 +38,10 @@ public class ManagerTokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public String decodeToken(Jwt jwt){
+        return this.decoder.decode(JwtDecoders.fromIssuerLocation(jwt.getIssuer().toString()).decode(jwt.getTokenValue()).getClaimAsString("scope")).toString();
     }
 
 }
