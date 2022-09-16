@@ -45,8 +45,8 @@ public class Manager implements UserDetails {
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_schedule"))
     private List<Schedule> schedules;
 
-    @OneToOne(mappedBy = "manager", cascade = {CascadeType.ALL})
-    private SchedulePlan schedulePlan;
+    @OneToMany(mappedBy = "manager", cascade = {CascadeType.ALL})
+    private List<SchedulePlan> schedulePlan;
 
     public Long getId() {
         return id;
@@ -69,7 +69,7 @@ public class Manager implements UserDetails {
     }
 
 
-    public Manager(Long id, String username, String password, String role, String[] authorities, SchedulePlan schedulePlan) {
+    public Manager(Long id, String username, String password, String role, String[] authorities, List<SchedulePlan> schedulePlan) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -94,11 +94,11 @@ public class Manager implements UserDetails {
         this.schedules = schedules;
     }
 
-    public SchedulePlan getSchedulePlan() {
+    public List<SchedulePlan> getSchedulePlan() {
         return schedulePlan;
     }
 
-    public void setSchedulePlan(SchedulePlan schedulePlan) {
+    public void setSchedulePlan(List<SchedulePlan> schedulePlan) {
         this.schedulePlan = schedulePlan;
     }
 

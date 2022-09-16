@@ -3,7 +3,6 @@ package com.jaddy.calendarresourceoauth.controllers;
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
-import com.jaddy.calendarresourceoauth.model.TimePeriod;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/schedulePlan")
@@ -38,7 +39,15 @@ public class PlanSchedulerController {
 //    @PostAuthorize("hasAuthority('manager:create')")
     @PostMapping("/monday")
     public void manageMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
-//        tokenService.decodeToken(token);
-        schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan.getWorkingHours(), principal.getName());
+//        DayPlan dayPlan = new DayPlan(schedulePlan.getMonday().getWorkingHours());
+//        schedulePlanModel.setTimePeriod(schedulePlanModel.getTimePeriod());
+
+//        schedulePlanModel.setDayPlan(dayPlan);
+//        schedulePlanModel.setStartOfSchedule(schedulePlanModel.getStartOfSchedule());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//        LocalDate startOfWorkWeek = dayPlan.getStartOfSchedule();
+
+        schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan, principal.getName());
     }
 }

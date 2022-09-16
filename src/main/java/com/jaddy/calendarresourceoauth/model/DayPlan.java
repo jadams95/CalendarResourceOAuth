@@ -1,12 +1,20 @@
 package com.jaddy.calendarresourceoauth.model;
 
+import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class DayPlan {
+
+    private Date startOfSchedule;
     private TimePeriod workingHours;
     private List<TimePeriod> breaks;
+
+
+
+
 
     public DayPlan() {
         breaks = new ArrayList();
@@ -16,6 +24,13 @@ public class DayPlan {
         this.workingHours = workingHours;
         this.breaks = new ArrayList();
     }
+
+    public DayPlan(Date startOfSchedule,TimePeriod workingHours) {
+        this.startOfSchedule = startOfSchedule;
+        this.workingHours = workingHours;
+        this.breaks = new ArrayList();
+    }
+
 
     public List<TimePeriod> getTimePeroidsWithBreaksExcluded() {
         ArrayList<TimePeriod> timePeroidsWithBreaksExcluded = new ArrayList<>();
@@ -52,6 +67,14 @@ public class DayPlan {
         return timePeroidsWithBreaksExcluded;
     }
 
+    public Date getStartOfSchedule() {
+        return startOfSchedule;
+    }
+
+    public void setStartOfSchedule(Date startOfSchedule) {
+        this.startOfSchedule = startOfSchedule;
+    }
+
     public TimePeriod getWorkingHours() {
         return workingHours;
     }
@@ -75,5 +98,7 @@ public class DayPlan {
     public void addBreak(TimePeriod breakToAdd) {
         breaks.add(breakToAdd);
     }
+
+
 
 }

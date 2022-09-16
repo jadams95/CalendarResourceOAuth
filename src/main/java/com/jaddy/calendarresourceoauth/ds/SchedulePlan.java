@@ -10,19 +10,40 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
+
+import static javax.persistence.TemporalType.DATE;
+
 @TypeDefs(@TypeDef(typeClass = JsonType.class, defaultForType = JsonNode.class))
 @Entity
 @Table(name = "schedule_plans", schema = "public")
 public class SchedulePlan {
+
     @Id
-    @Column(name = "id_manager")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @Temporal(DATE)
+    @Column(name = "schedule_start_of_week")
+    private Date scheduleStartOfWeek;
+
+
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_manager")
     private Manager manager;
+
+
+//    @Temporal(TemporalType.DATE)
+
+//    @Column(name = "start_work_week")
+//    private LocalDate startScheduleDate;
+
+
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "monday")
@@ -56,12 +77,20 @@ public class SchedulePlan {
     public SchedulePlan() {
     }
 
-    public Long getId() {
-        return id;
+//    public LocalDate getStartScheduleDate() {
+//        return startScheduleDate;
+//    }
+//
+//    public void setStartScheduleDate(LocalDate startScheduleDate) {
+//        this.startScheduleDate = startScheduleDate;
+//    }
+
+    public Date getScheduleStartOfWeek() {
+        return scheduleStartOfWeek;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
+        this.scheduleStartOfWeek = scheduleStartOfWeek;
     }
 
     public Manager getManager() {
@@ -156,13 +185,20 @@ public class SchedulePlan {
         this.sunday = sunday;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public static SchedulePlan generateDefaultWorkingPlan() {
         SchedulePlan wp = new SchedulePlan();
         LocalTime defaultStartHour = LocalTime.parse("06:00");
         LocalTime defaultEndHour = LocalTime.parse("18:00");
-        TimePeriod defaultWorkingPeroid = new TimePeriod(defaultStartHour, defaultEndHour);
-        DayPlan defaultDayPlan = new DayPlan(defaultWorkingPeroid);
+        TimePeriod defaultWorkingPeriod = new TimePeriod(defaultStartHour, defaultEndHour);
+        DayPlan defaultDayPlan = new DayPlan(defaultWorkingPeriod);
         wp.setMonday(defaultDayPlan);
         wp.setTuesday(defaultDayPlan);
         wp.setWednesday(defaultDayPlan);

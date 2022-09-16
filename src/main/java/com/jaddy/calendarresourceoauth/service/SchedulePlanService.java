@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.Instant;
+
+
 @Service
 public class SchedulePlanService {
 
@@ -28,27 +32,27 @@ public class SchedulePlanService {
     }
 
     @Transactional
-    public SchedulePlan saveSchedulePlanWorkDayMonday(TimePeriod timePeriod2, String userName){
+    public SchedulePlan saveSchedulePlanWorkDayMonday(DayPlan dayPlan, String userName){
         SchedulePlan schedulePlan = new SchedulePlan();
-        DayPlan dayPlan = new DayPlan();
+        DayPlan schedulePlanModel = new DayPlan();
         Manager dbManager = managerDao.findByUsername(userName);
+//        TimePeriod timePeriod = new TimePeriod();
+//        schedulePlanModel.setTimePeriod(schedulePlanModel.getTimePeriod());
 
-       LOG.info(dbManager.toString());
-
+        LOG.info(dbManager.toString());
         if(dbManager == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
+            schedulePlan.setId(schedulePlan.getId());
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            schedulePlan.
 
+            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
             schedulePlan.setManager(dbManager);
-//            schedulePlan.setId();
-//           schedulePlan.setId(manager.getId());
-//            dbManager.ifPresent(manager -> schedulePlan.setId(manager.getId()));
-//            schedulePlan.setId(userManager.getId());
-//            timePeriod.setStart(timePeriod2.getStart());
-//            timePeriod.setEnd(timePeriod2.getEnd());
-
-            dayPlan.setWorkingHours(timePeriod2);
-            schedulePlan.setMonday(dayPlan);
+            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+            schedulePlan.setMonday(schedulePlanModel);
             schedulePlanDao.save(schedulePlan);
             return schedulePlan;
         }
