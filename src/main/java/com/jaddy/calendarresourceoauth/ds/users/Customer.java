@@ -19,7 +19,7 @@ import static java.util.Arrays.stream;
 @PrimaryKeyJoinColumn(name = "id_customer")
 public class Customer implements UserDetails {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_customer", nullable = false)
     private Long id;
 
     @Column(name = "username")

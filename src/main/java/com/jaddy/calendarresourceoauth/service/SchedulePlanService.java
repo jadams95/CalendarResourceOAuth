@@ -28,8 +28,6 @@ public class SchedulePlanService {
     private static final Logger LOG = LoggerFactory.getLogger(SchedulePlanService.class);
     @Autowired
     private ManagerDao managerDao;
-
-
     private final SchedulePlanDao schedulePlanDao;
 
     public SchedulePlanService(SchedulePlanDao schedulePlanDao) {

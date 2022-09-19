@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.constants.Role;
+import com.jaddy.calendarresourceoauth.dao.CustomerDao;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
 import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
+
+import javax.transaction.Transactional;
 
 import static java.util.Arrays.stream;
 
@@ -27,6 +30,8 @@ public class AuthController {
 
     private final ManagerTokenService managerTokenService;
 
+    @Autowired
+    private CustomerDao customerDao;
 
     @Autowired
     private InMemoryUserDetailsManager userDetailsManager;
@@ -56,10 +61,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Transactional
     public String registerUser(@RequestBody Customer registerUser){
        Customer savedUser =  new Customer(12315L, registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+       customerDao.save(savedUser);
        userDetailsManager.createUser(savedUser);
        return "Thank you for signing up " + registerUser.getUsername();
     }
-
 }
