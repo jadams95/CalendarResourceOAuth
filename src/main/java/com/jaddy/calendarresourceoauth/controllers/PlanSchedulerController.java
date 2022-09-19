@@ -6,15 +6,15 @@ import com.jaddy.calendarresourceoauth.model.DayPlan;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/schedulePlan")
@@ -39,15 +39,23 @@ public class PlanSchedulerController {
 //    @PostAuthorize("hasAuthority('manager:create')")
     @PostMapping("/monday")
     public void manageMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
-//        DayPlan dayPlan = new DayPlan(schedulePlan.getMonday().getWorkingHours());
-//        schedulePlanModel.setTimePeriod(schedulePlanModel.getTimePeriod());
-
-//        schedulePlanModel.setDayPlan(dayPlan);
-//        schedulePlanModel.setStartOfSchedule(schedulePlanModel.getStartOfSchedule());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//        LocalDate startOfWorkWeek = dayPlan.getStartOfSchedule();
-
         schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan, principal.getName());
+    }
+
+    @GetMapping("/{id}")
+    public SchedulePlan displaySchedulePlanById(@PathVariable("id") Long id){
+        return schedulePlanService.findSchedulePlanById(id);
+    }
+
+
+    @GetMapping("/{managerId}")
+    public List<SchedulePlan> displayAllSchedulePlansByManagerId(@PathVariable("managerId") Long managerId){
+//        return schedulePlanService
+        return schedulePlanService.findSchedulesPlanByManagerId(managerId);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<SchedulePlan>> displayAllSchedulePlans(){
+        return new ResponseEntity<>(schedulePlanService.findAllSchedulePlans(), HttpStatus.OK);
     }
 }

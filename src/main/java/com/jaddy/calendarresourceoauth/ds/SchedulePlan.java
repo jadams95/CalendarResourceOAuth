@@ -1,5 +1,9 @@
 package com.jaddy.calendarresourceoauth.ds;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
@@ -16,7 +20,7 @@ import java.util.Date;
 
 import static javax.persistence.TemporalType.DATE;
 
-@TypeDefs(@TypeDef(typeClass = JsonType.class, defaultForType = JsonNode.class))
+@TypeDefs(@TypeDef( name = "json", typeClass = JsonType.class, defaultForType = JsonType.class))
 @Entity
 @Table(name = "schedule_plans", schema = "public")
 public class SchedulePlan {
@@ -35,6 +39,7 @@ public class SchedulePlan {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_manager")
+    @JsonIgnore
     private Manager manager;
 
 
@@ -47,30 +52,37 @@ public class SchedulePlan {
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "monday")
+    @JsonInclude
     private DayPlan monday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "tuesday")
+    @JsonInclude
     private DayPlan tuesday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "wednesday")
+    @JsonInclude
     private DayPlan wednesday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "thursday")
+    @JsonInclude
     private DayPlan thursday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "friday")
+    @JsonInclude
     private DayPlan friday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "saturday")
+    @JsonInclude
     private DayPlan saturday;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "sunday")
+    @JsonInclude
     private DayPlan sunday;
 
 

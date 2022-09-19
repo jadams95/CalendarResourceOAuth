@@ -1,5 +1,7 @@
 package com.jaddy.calendarresourceoauth.ds.users;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.ds.Appointment;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
@@ -39,6 +41,7 @@ public class Manager implements UserDetails {
 
 
     @OneToMany(mappedBy = "manager")
+    @JsonBackReference
     private List<Appointment> appointments;
 
     @ManyToMany

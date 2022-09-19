@@ -9,11 +9,16 @@ import com.jaddy.calendarresourceoauth.model.TimePeriod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,17 +41,12 @@ public class SchedulePlanService {
         SchedulePlan schedulePlan = new SchedulePlan();
         DayPlan schedulePlanModel = new DayPlan();
         Manager dbManager = managerDao.findByUsername(userName);
-//        TimePeriod timePeriod = new TimePeriod();
-//        schedulePlanModel.setTimePeriod(schedulePlanModel.getTimePeriod());
 
         LOG.info(dbManager.toString());
         if(dbManager == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             schedulePlan.setId(schedulePlan.getId());
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            schedulePlan.
-
             schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
@@ -56,7 +56,41 @@ public class SchedulePlanService {
             schedulePlanDao.save(schedulePlan);
             return schedulePlan;
         }
-//        schedulePlan.setManager(scheduleManager);
     }
+
+    public SchedulePlan findSchedulePlanById(Long id){
+      Optional<SchedulePlan> schedulePlan1 = schedulePlanDao.findById(id);
+      if(schedulePlan1 == null){
+          throw new RuntimeException("Cannot Find Appointment");
+      } else {
+          return schedulePlan1.get();
+      }
+    }
+
+    public List<SchedulePlan> findSchedulesPlanByManagerId(Long managerId){
+        List<SchedulePlan> schedulePlan2 = schedulePlanDao.findByManagerId(managerId);
+        if(schedulePlan2 == null){
+            throw new RuntimeException("Cannot Find Appointment");
+        } else {
+            return schedulePlan2.stream().collect(Collectors.toList());
+        }
+    }
+
+
+
+
+
+
+    public List<SchedulePlan> findAllSchedulePlans(){
+        List<SchedulePlan> schedulePlan1 = schedulePlanDao.findAll();
+        if(schedulePlan1 == null){
+            throw new RuntimeException("Cannot Find Appointment");
+        } else {
+            return schedulePlan1;
+        }
+    }
+
+
+
 
 }
