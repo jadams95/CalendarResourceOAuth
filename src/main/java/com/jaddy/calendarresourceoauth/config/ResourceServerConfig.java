@@ -15,18 +15,36 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoderInitializationException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-
 public class ResourceServerConfig {
 
     @Bean
     public SecurityFilterChain resourceConfig(HttpSecurity http) throws Exception {
-       http.csrf(AbstractHttpConfigurer::disable)
-               .authorizeRequests(x -> x.antMatchers("/register").permitAll()
+       http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+               .authorizeRequests(x -> x.antMatchers("/register", "/token").permitAll()
+
                        .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-               .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).httpBasic(Customizer.withDefaults());
+               .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+               .httpBasic();
        return http.build();
     }
+
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource(){
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration cors = new CorsConfiguration();
+        cors.setAllowCredentials(true);
+        cors.setAllowedOrigins(List.of("http://localhost:4200"));
+        cors.setAllowedHeaders(List.of("*"));
+        cors.setAllowedMethods(List.of("*"));
+        source.registerCorsConfiguration("/**", cors);
+        return source;
+    }
+
 }

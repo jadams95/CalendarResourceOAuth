@@ -7,15 +7,21 @@ import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 
 import javax.transaction.Transactional;
+
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 import static java.util.Arrays.stream;
 
@@ -42,12 +48,15 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public String token(Authentication authentication) {
-        LOG.debug("Token requred for user has details: '{}'", authentication.getDetails());
-        LOG.debug("Token requested for user: '{}'", authentication.getName());
-        String token = tokenService.generateToken(authentication);
-        LOG.debug("Token granted: {}", token);
-        return token;
+    public ResponseEntity<String> token(Authentication authentication) {
+
+            LOG.debug("Token requred for user has details: '{}'", authentication.getDetails());
+            LOG.debug("Token requested for user: '{}'", authentication.getName());
+            LOG.debug("Token requested for user: '{}'", authentication.getCredentials());
+            LOG.debug("Token requested for user: '{}'", authentication.getPrincipal());
+            String token = tokenService.generateToken(authentication);
+            LOG.debug("Token granted: {}", token);
+            return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('manager:create')")
@@ -63,9 +72,15 @@ public class AuthController {
     @PostMapping("/register")
     @Transactional
     public String registerUser(@RequestBody Customer registerUser){
-       Customer savedUser =  new Customer(12315L, registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+       Customer savedUser =  new Customer(generateRandomId(), registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
        customerDao.save(savedUser);
        userDetailsManager.createUser(savedUser);
-       return "Thank you for signing up " + registerUser.getUsername();
+       return registerUser.getUsername();
     }
+
+    public Long generateRandomId(){
+        Random random = new Random();
+        return random.nextLong();
+    }
+
 }

@@ -56,6 +56,57 @@ public class SchedulePlanService {
         }
     }
 
+
+    public SchedulePlan saveSchedulePlanWorkDayTuesday(DayPlan dayPlan, String userName){
+        SchedulePlan schedulePlan = new SchedulePlan();
+        DayPlan schedulePlanModel = new DayPlan();
+        Manager dbManager = managerDao.findByUsername(userName);
+
+        LOG.info(dbManager.toString());
+        if(dbManager == null){
+            throw new RuntimeException(" User Cannot be loaded");
+        } else {
+            schedulePlan.setId(schedulePlan.getId());
+            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
+            schedulePlan.setManager(dbManager);
+            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+            schedulePlan.setTuesday(schedulePlanModel);
+            schedulePlanDao.save(schedulePlan);
+            return schedulePlan;
+        }
+    }
+
+
+    @Transactional
+    public SchedulePlan saveSchedulePlanWorkDayWednesday(DayPlan dayPlan, String userName, Long id){
+        SchedulePlan schedulePlan = new SchedulePlan();
+        DayPlan schedulePlanModel = new DayPlan();
+        Manager dbManager = managerDao.findByUsername(userName);
+
+
+
+
+
+        LOG.info(dbManager.toString());
+        if(dbManager == null){
+            throw new RuntimeException(" User Cannot be loaded");
+        } else {
+
+//            schedulePlanDao.findAllByScheduleStartOfWeek()
+            schedulePlan.setId(id);
+            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
+            schedulePlan.setManager(dbManager);
+            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+//            schedulePlan.setMonday();
+            schedulePlan.setWednesday(schedulePlanModel);
+            schedulePlanDao.save(schedulePlan);
+            return schedulePlan;
+        }
+    }
     public SchedulePlan findSchedulePlanById(Long id){
       Optional<SchedulePlan> schedulePlan1 = schedulePlanDao.findById(id);
       if(schedulePlan1 == null){
@@ -64,6 +115,9 @@ public class SchedulePlanService {
           return schedulePlan1.get();
       }
     }
+
+
+
 
     public List<SchedulePlan> findSchedulesPlanByManagerId(Long managerId){
         List<SchedulePlan> schedulePlan2 = schedulePlanDao.findByManagerId(managerId);

@@ -22,7 +22,7 @@ public class Schedule extends BaseEntity {
 
     @ManyToMany
     @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
-            inverseJoinColumns = @JoinColumn(name = "id_customer"))
+            inverseJoinColumns = @JoinColumn(name = "id_manager"))
     private List<Manager> managerList;
 
     private Boolean editable;

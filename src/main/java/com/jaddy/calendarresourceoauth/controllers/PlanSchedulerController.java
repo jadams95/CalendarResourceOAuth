@@ -38,8 +38,17 @@ public class PlanSchedulerController {
 
 //    @PostAuthorize("hasAuthority('manager:create')")
     @PostMapping("/monday")
-    public void manageMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
+    public void saveMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
         schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan, principal.getName());
+    }
+    @PostMapping("/tuesday/{id}")
+    public void saveTuesdayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
+        schedulePlanService.saveSchedulePlanWorkDayTuesday(dayPlan, principal.getName());
+    }
+
+    @PostMapping("/wednesday/{id}")
+    public void saveWednesdayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal, @PathVariable("id") Long customerId){
+        schedulePlanService.saveSchedulePlanWorkDayWednesday(dayPlan, principal.getName(), customerId);
     }
 
     @GetMapping("/{id}")

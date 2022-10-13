@@ -8,6 +8,7 @@ import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -21,16 +22,33 @@ public class ScheduleService {
     }
 
 
-    public Schedule saveSchedule(Schedule scheduleEntity, String userName){
+
+    public List<Schedule> getScheduleByUserName(String userName){
+//        Schedule scheduleDb = new Schedule();
+        List<Schedule> scheList;
+        Manager dbManager = managerDao.findByUsername(userName);
+        if(userName == null){
+            throw new RuntimeException(" User Cannot be loaded");
+        }
+        else {
+           scheList = dbManager.getSchedules();
+           return scheList;
+        }
+
+
+    }
+
+    public Schedule saveScheduleMonday(Schedule scheduleEntity, String userName){
         Schedule scheduleDb = new Schedule();
         Manager dbManager = managerDao.findByUsername(userName);
         if(scheduleEntity == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
-            scheduleDb.setId(scheduleEntity.getId());
+//            scheduleDb.setId(scheduleEntity.getId());
+            scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setDuration(scheduleEntity.getDuration());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
-//            scheduleDb.setManagerList(List.of(dbManager));
+            scheduleDb.setManagerList(List.of(dbManager));
             scheduleDb.setEditable(scheduleEntity.getEditable());
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
 //            schedulePlan.setMonday(schedulePlanModel);
