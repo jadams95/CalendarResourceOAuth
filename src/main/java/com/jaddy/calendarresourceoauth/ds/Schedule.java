@@ -22,8 +22,8 @@ public class Schedule extends BaseEntity {
 
 
     @OneToOne()
-    @JoinColumn(name = "id")
-    private SchedulePlan scheuleDetailsId;
+    @JoinColumn(name = "id_schedule_details")
+    private SchedulePlan scheduleDetailsId;
 
 
 
@@ -70,11 +70,11 @@ public class Schedule extends BaseEntity {
     }
 
     public SchedulePlan getSchedulePlanner() {
-        return scheuleDetailsId;
+        return scheduleDetailsId;
     }
 
-    public void setSchedulePlanner(SchedulePlan scheuleDetailsId) {
-        this.scheuleDetailsId = scheuleDetailsId;
+    public void setSchedulePlanner(SchedulePlan scheduleDetailsId) {
+        this.scheduleDetailsId = scheduleDetailsId;
     }
 
     public Boolean getEditable() {

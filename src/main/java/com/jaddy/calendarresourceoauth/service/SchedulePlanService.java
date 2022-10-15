@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -95,7 +96,7 @@ public class SchedulePlanService {
         } else {
 
 //            schedulePlanDao.findAllByScheduleStartOfWeek()
-            schedulePlan.setId(id);
+//            schedulePlan.setId(generateRandomId());
             schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
@@ -142,6 +143,11 @@ public class SchedulePlanService {
         }
     }
 
+
+        public Long generateRandomId(){
+        Random random = new Random();
+        return random.nextLong();
+    }
 
 
 

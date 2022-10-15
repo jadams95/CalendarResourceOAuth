@@ -45,7 +45,7 @@ public class ScheduleService {
         if(scheduleEntity == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
-            scheduleDb.setId(generateRandomId());
+//            scheduleDb.setId(generateRandomId());
             scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setDuration(scheduleEntity.getDuration());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
@@ -53,9 +53,9 @@ public class ScheduleService {
 
             // Removed the Many to Many for Schedules and Manager
             // In favor of one to one references of Schedule and Schedule Plan
-            //            scheduleDb.setManagerList(List.of(dbManager));
             scheduleDb.setEditable(scheduleEntity.getEditable());
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
+            scheduleDb.setSchedulePlanner(scheduleEntity.getSchedulePlanner());
 //            schedulePlan.setMonday(schedulePlanModel);
             schduleDao.save(scheduleDb);
             return scheduleDb;

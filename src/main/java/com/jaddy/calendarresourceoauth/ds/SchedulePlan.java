@@ -23,11 +23,8 @@ import static javax.persistence.TemporalType.DATE;
 @TypeDefs(@TypeDef( name = "json", typeClass = JsonType.class, defaultForType = JsonType.class))
 @Entity
 @Table(name = "schedule_plans", schema = "public")
-public class SchedulePlan {
+public class SchedulePlan extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     /**
      * Migrate this to Schedule because we are linking the Schedules to the Schedules Plan
@@ -38,7 +35,7 @@ public class SchedulePlan {
 
 
 
-    @OneToOne(mappedBy = "scheuleDetailsId")
+    @OneToOne(mappedBy = "scheduleDetailsId")
     private Schedule scheduleDetails;
 
 
@@ -203,13 +200,6 @@ public class SchedulePlan {
         this.sunday = sunday;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public static SchedulePlan generateDefaultWorkingPlan() {
         SchedulePlan wp = new SchedulePlan();
