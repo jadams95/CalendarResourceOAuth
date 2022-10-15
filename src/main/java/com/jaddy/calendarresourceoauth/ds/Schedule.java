@@ -20,10 +20,17 @@ public class Schedule extends BaseEntity {
     @Column(name = "target")
     private String targetCustomer;
 
-    @ManyToMany
-    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
-            inverseJoinColumns = @JoinColumn(name = "id_manager"))
-    private List<Manager> managerList;
+
+    @OneToOne()
+    @JoinColumn(name = "id")
+    private SchedulePlan scheuleDetailsId;
+
+
+
+//    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
+//            inverseJoinColumns = @JoinColumn(name = "id_manager"))
+
+
 
     private Boolean editable;
 
@@ -62,12 +69,12 @@ public class Schedule extends BaseEntity {
         this.targetCustomer = targetCustomer;
     }
 
-    public List<Manager> getManagerList() {
-        return managerList;
+    public SchedulePlan getSchedulePlanner() {
+        return scheuleDetailsId;
     }
 
-    public void setManagerList(List<Manager> managerList) {
-        this.managerList = managerList;
+    public void setSchedulePlanner(SchedulePlan scheuleDetailsId) {
+        this.scheuleDetailsId = scheuleDetailsId;
     }
 
     public Boolean getEditable() {

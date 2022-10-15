@@ -26,14 +26,18 @@ public class ScheduleController {
     public ScheduleController(ScheduleService scheduleService){
         this.scheduleService = scheduleService;
     }
-    @PostAuthorize("hasAuthority('manager:create')")
+    @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule")
-    public ResponseEntity<?> saveSchedules(@RequestBody Schedule schedule, Authentication authentication) throws RuntimeException{
-        scheduleService.saveScheduleMonday(schedule, authentication.getName());
+    public ResponseEntity<?> saveSchedules(@RequestBody Schedule schedule) throws RuntimeException{
+        if(schedule != null) {
+            scheduleService.saveSchedule(schedule);
+            return new ResponseEntity<>(schedule, HttpStatus.OK);
+        }
 //        if(authentication.getAuthorities().contains("customer:create")) return new ResponseEntity<>("User is unauthorized for request" + authentication.getName(), HttpStatus.UNAUTHORIZED);
 //        if(authentication.getAuthorities().contains(Arrays.stream(Role.ROLE_CUSTOMER.getAuthorities()).filter(x -> x.startsWith("customer")))) return new ResponseEntity<>("User is not authorized for request", HttpStatus.FORBIDDEN);
-        if (authentication.getName() != null) return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        if (authentication.getName() != null) return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 
 }

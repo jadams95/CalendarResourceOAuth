@@ -47,7 +47,7 @@ public class AuthController {
         this.managerTokenService = managerTokenService;
     }
 
-    @PostMapping("/token")
+    @PostMapping(value = "/token", produces = {"text/plain"})
     public ResponseEntity<String> token(Authentication authentication) {
 
             LOG.debug("Token requred for user has details: '{}'", authentication.getDetails());

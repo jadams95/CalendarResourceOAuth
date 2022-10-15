@@ -27,8 +27,8 @@ public class ResourceServerConfig {
     @Bean
     public SecurityFilterChain resourceConfig(HttpSecurity http) throws Exception {
        http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
-               .authorizeRequests(x -> x.antMatchers("/register", "/token").permitAll()
-
+               .authorizeRequests(x ->
+                       x.antMatchers("/register", "/token").permitAll().antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
                        .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                .httpBasic();

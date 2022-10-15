@@ -29,11 +29,17 @@ public class SchedulePlan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Migrate this to Schedule because we are linking the Schedules to the Schedules Plan
+     * **/
     @Temporal(DATE)
     @Column(name = "schedule_start_of_week")
     private Date scheduleStartOfWeek;
 
 
+
+    @OneToOne(mappedBy = "scheuleDetailsId")
+    private Schedule scheduleDetails;
 
 
 
