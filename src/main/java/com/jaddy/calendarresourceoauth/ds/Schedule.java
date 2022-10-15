@@ -21,6 +21,11 @@ public class Schedule extends BaseEntity {
     private String targetCustomer;
 
 
+    /**
+     * After thinking about it you Will Click on the Calendar
+     * make you input the times of hours and breaks for the  Schedule Plan for That week,
+     * then it will direct you to Schedule
+     */
     @OneToOne()
     @JoinColumn(name = "id_schedule_details")
     private SchedulePlan scheduleDetailsId;

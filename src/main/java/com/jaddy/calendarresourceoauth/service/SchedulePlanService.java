@@ -36,7 +36,9 @@ public class SchedulePlanService {
     }
 
     @Transactional
-    public SchedulePlan saveSchedulePlanWorkDayMonday(DayPlan dayPlan, String userName){
+    public SchedulePlan saveSchedulePlanWorkDayMonday(Long scheduleid, DayPlan dayPlan, String userName){
+
+
         SchedulePlan schedulePlan = new SchedulePlan();
         DayPlan schedulePlanModel = new DayPlan();
         Manager dbManager = managerDao.findByUsername(userName);
@@ -45,7 +47,8 @@ public class SchedulePlanService {
         if(dbManager == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
-            schedulePlan.setId(schedulePlan.getId());
+            Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
+            schedulePlan.setId(schedulePlanDB.get().getId());
             schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());

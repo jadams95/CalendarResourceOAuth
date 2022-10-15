@@ -53,7 +53,7 @@ public class SecurityConfig {
 
     @Bean
         public InMemoryUserDetailsManager users() {
-       Manager manager = new Manager(05211L, "dvega", "{noop}password", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
+       Manager manager = new Manager(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
        LOG.info(manager.toString());
        managerDao.save(manager);
             return new InMemoryUserDetailsManager(

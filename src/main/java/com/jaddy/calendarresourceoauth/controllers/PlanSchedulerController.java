@@ -37,9 +37,9 @@ public class PlanSchedulerController {
     }
 
 //    @PostAuthorize("hasAuthority('manager:create')")
-    @PostMapping("/monday")
-    public void saveMondayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
-        schedulePlanService.saveSchedulePlanWorkDayMonday(dayPlan, principal.getName());
+    @PutMapping("/monday/{id}")
+    public void saveMondayWorkSchedule(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        schedulePlanService.saveSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
     }
     @PostMapping("/tuesday/{id}")
     public void saveTuesdayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){
