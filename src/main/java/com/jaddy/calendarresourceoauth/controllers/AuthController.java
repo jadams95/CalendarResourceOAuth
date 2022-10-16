@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.Random;
 import java.util.random.RandomGenerator;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
@@ -43,10 +45,11 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
-    @PreAuthorize("hasAuthority('customer:create')")
-    @PostMapping(value = "/token", produces = {"text/plain"}, headers = {"x-rb-title=user"})
-    public ResponseEntity<String> token(Authentication authentication) {
-
+    @PreAuthorize("hasAnyAuthority('customer:read', 'customer:update', 'customer:create', 'manager:read', 'manager:update', 'manager:create', 'manager:delete')")
+    @PostMapping(value = "/token", produces = {"text/plain"})
+    public ResponseEntity<String> loginToken(Authentication authentication) {
+        if(authentication.getAuthorities().containsAll(stream(Role.ROLE_CUSTOMER.getAuthorities())
+                .map(SimpleGrantedAuthority::new).toList())) {
             LOG.debug("THE LIST OF AUTHORITY ------->" + authentication.getAuthorities().toString());
             LOG.debug("THE AUTHENTICATION DETAILS ------------>" + authentication.getDetails().toString());
             LOG.debug("THE USER PRINCIPAL -------->" + authentication.getPrincipal());
@@ -58,26 +61,29 @@ public class AuthController {
             LOG.debug("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
             // Removed if statement
-//        }
-//        if(authentication.getAuthorities().contains(Role.ROLE_MANAGER.getAuthorities())){
-//            LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
-//            LOG.debug("Token requested for user: '{}'", authentication.getName());
-//            String token = managerTokenService.generateToken(authentication);
-//            LOG.debug("Token granted: {}", token);
-//            return new ResponseEntity<>(token, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @PreAuthorize("hasAuthority('manager:create')")
-    @PostMapping(value = "/token", produces = {"text/plain"}, headers = {"x-rb-title=manager"})
-    public ResponseEntity<String> tokenMnger(Authentication authentication){
+            }
+        if(authentication.getAuthorities()
+                .containsAll(stream(Role.ROLE_MANAGER.getAuthorities())
+                        .map(SimpleGrantedAuthority::new).toList())){
             LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
             LOG.debug("Token requested for user: '{}'", authentication.getName());
             String token = tokenService.generateMngrToken(authentication);
             LOG.debug("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+// -------- Can Delete in a little refactoring to be in one method
+//    @PreAuthorize("hasAuthority('manager:create')")
+//    @PostMapping(value = "/token", produces = {"text/plain"}, headers = {"x-rb-title=manager"})
+//    public ResponseEntity<String> tokenMnger(Authentication authentication){
+//            LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
+//            LOG.debug("Token requested for user: '{}'", authentication.getName());
+//            String token = tokenService.generateMngrToken(authentication);
+//            LOG.debug("Token granted: {}", token);
+//            return new ResponseEntity<>(token, HttpStatus.OK);
+//    }
 
     @PostMapping("/register")
     @Transactional
