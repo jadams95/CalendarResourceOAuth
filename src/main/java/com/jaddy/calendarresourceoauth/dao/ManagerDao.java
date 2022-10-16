@@ -12,5 +12,8 @@ import java.util.Optional;
 public interface ManagerDao extends JpaRepository<Manager, Long> {
 //    @EntityGraph(attributePaths = {"schedulePlan.manager"})
 //    @Query("select m from Manager m where m.username=:username")
+
+    Manager findManagerBySchedules(Long id);
+
     Manager findByUsername(String userName);
 }

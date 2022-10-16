@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth.ds;
 
 
+import com.jaddy.calendarresourceoauth.ds.users.Customer;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 
 import javax.persistence.*;
@@ -35,6 +36,9 @@ public class Schedule extends BaseEntity {
 //    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
 //            inverseJoinColumns = @JoinColumn(name = "id_manager"))
 
+    @ManyToOne
+    @JoinTable(name = "schedule_manager", joinColumns = @JoinColumn(name = "id_schedule"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
+    private Manager managerSchedule;
 
 
     private Boolean editable;
@@ -64,6 +68,23 @@ public class Schedule extends BaseEntity {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+
+    public SchedulePlan getScheduleDetailsId() {
+        return scheduleDetailsId;
+    }
+
+    public void setScheduleDetailsId(SchedulePlan scheduleDetailsId) {
+        this.scheduleDetailsId = scheduleDetailsId;
+    }
+
+    public Manager getScheduleList() {
+        return managerSchedule;
+    }
+
+    public void setManagerSchedule(Manager managerSchedule) {
+        this.managerSchedule = managerSchedule;
     }
 
     public String getTargetCustomer() {

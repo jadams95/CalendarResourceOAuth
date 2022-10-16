@@ -29,9 +29,9 @@ public class ScheduleController {
     }
     @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule/{id}")
-    public ResponseEntity<?> saveSchedules(@PathVariable("id") Long schedulePlanId, @RequestBody Schedule schedule) throws RuntimeException{
+    public ResponseEntity<?> saveSchedules(@PathVariable("id") Long schedulePlanId, @RequestBody Schedule schedule, Authentication authentication) throws RuntimeException{
         if(schedule != null) {
-            scheduleService.saveSchedule(schedule, schedulePlanId);
+            scheduleService.saveSchedule(schedule, schedulePlanId, authentication.getName());
             return new ResponseEntity<>(schedule, HttpStatus.OK);
         }
 //        if(authentication.getAuthorities().contains("customer:create")) return new ResponseEntity<>("User is unauthorized for request" + authentication.getName(), HttpStatus.UNAUTHORIZED);

@@ -72,9 +72,9 @@ public class ScheduleService {
         }
     }
 
-    public Schedule saveSchedule(Schedule scheduleEntity, Long schedulePlanId){
+    public Schedule saveSchedule(Schedule scheduleEntity, Long schedulePlanId, String managerName){
         Schedule scheduleDb = new Schedule();
-//        Manager dbManager = managerDao.findByUsername(userName);
+        Manager dbManager = managerDao.findByUsername(managerName);
         if(scheduleEntity == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
@@ -84,6 +84,9 @@ public class ScheduleService {
             SchedulePlan schedulePlan = new SchedulePlan();
             schedulePlan.setId(schedulePlanId);
             schedulePlanDao.save(schedulePlan);
+
+
+
 
 //            scheduleDb.setId(generateRandomId());
             scheduleDb.setName(scheduleEntity.getName());
@@ -96,6 +99,7 @@ public class ScheduleService {
             scheduleDb.setEditable(scheduleEntity.getEditable());
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
             scheduleDb.setSchedulePlanner(schedulePlan);
+            scheduleDb.setManagerSchedule(dbManager);
 //            schedulePlan.setMonday(schedulePlanModel);
             schduleDao.save(scheduleDb);
             return scheduleDb;

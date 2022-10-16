@@ -44,12 +44,12 @@ public class Manager implements UserDetails {
     @JsonBackReference
     private List<Appointment> appointments;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedule"))
     private List<Schedule> schedules;
 
-    @OneToMany(mappedBy = "manager", cascade = {CascadeType.ALL})
-    private List<SchedulePlan> schedulePlan;
+    @OneToMany(mappedBy = "managerSchedule", targetEntity = Schedule.class, cascade = {CascadeType.ALL})
+    private List<Schedule> schedulePlan;
 
     public Long getId() {
         return id;
@@ -72,7 +72,7 @@ public class Manager implements UserDetails {
     }
 
 
-    public Manager(Long id, String username, String password, String role, String[] authorities, List<SchedulePlan> schedulePlan) {
+    public Manager(Long id, String username, String password, String role, String[] authorities, List<Schedule> schedulePlan) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -97,11 +97,11 @@ public class Manager implements UserDetails {
         this.schedules = schedules;
     }
 
-    public List<SchedulePlan> getSchedulePlan() {
+    public List<Schedule> getSchedulePlan() {
         return schedulePlan;
     }
 
-    public void setSchedulePlan(List<SchedulePlan> schedulePlan) {
+    public void setSchedulePlan(List<Schedule> schedulePlan) {
         this.schedulePlan = schedulePlan;
     }
 
