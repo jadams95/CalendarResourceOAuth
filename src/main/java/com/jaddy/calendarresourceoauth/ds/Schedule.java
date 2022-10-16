@@ -100,6 +100,6 @@ public class Schedule extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return super.hashCode();
     }
 }
