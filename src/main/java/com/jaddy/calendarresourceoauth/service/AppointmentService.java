@@ -1,5 +1,6 @@
 package com.jaddy.calendarresourceoauth.service;
 
+import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.dao.AppointmentDao;
 import com.jaddy.calendarresourceoauth.dao.CustomerDao;
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
@@ -9,10 +10,16 @@ import com.jaddy.calendarresourceoauth.ds.AppointmentStatus;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
 
 @Service
 public class AppointmentService {
@@ -33,8 +40,9 @@ public class AppointmentService {
     public void saveCustomerAppointment(Appointment appointment, Long scheduleId, String customerName){
         Appointment appointmentDb = new Appointment();
         Customer customerDB = customerDao.findByUsername(customerName);
-//        Manager managerDB = managerDao.findManagerBySchedules(scheduleId);
+//        Manager managerDB = scheduleDao.findSchedulesByManagerSchedule_Id(scheduleId);
         Optional<Schedule> scheduleDB = scheduleDao.findById(scheduleId);
+
         if(appointment == null){
             throw new RuntimeException("Appointment had an Error");
         }
@@ -43,8 +51,10 @@ public class AppointmentService {
 
             appointmentDb.setStatus(AppointmentStatus.BOOKED);
             appointmentDb.setCustomer(customerDB);
-//            appointmentDb.setManager(managerDB);
+
             appointmentDb.setSchedule(scheduleDB.get());
+//            managerEntity.setAppointments(List.of(appointmentDb));
+//            managerDao.save(managerEntity);
 
             // Entity
             appointmentDb.setAppointmentScheduleStartTime(appointment.getAppointmentScheduleStartTime());
@@ -53,11 +63,13 @@ public class AppointmentService {
             Customer customerEntity = new Customer();
             customerEntity.setId(customerDB.getId());
 //            customerEntity.setAppointments(List.of(appointmentDb));
-            customerDao.save(customerEntity);
+            customerDao.saveAndFlush(customerEntity);
 
-//            Manager managerEntity = new Manager();
-//            managerEntity.setAppointments(List.of(appointmentDb));
-//            managerDao.save(managerEntity);
+            Manager managerEntity = new Manager(scheduleDB.get().getScheduleList().getId(), scheduleDB.get().getScheduleList().getUsername(), scheduleDB.get().getScheduleList().getPassword(), scheduleDB.get().getScheduleList().getRole(), Role.ROLE_MANAGER.getAuthorities());
+//            managerEntity.setId();
+            managerDao.saveAndFlush(managerEntity);
+
+            appointmentDb.setManager(managerEntity);
             appointmentDao.save(appointmentDb);
         }
     }
