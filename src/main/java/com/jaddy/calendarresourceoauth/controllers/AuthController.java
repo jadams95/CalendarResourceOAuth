@@ -3,6 +3,7 @@ package com.jaddy.calendarresourceoauth.controllers;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.dao.CustomerDao;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
+import com.jaddy.calendarresourceoauth.model.CustomerDTO;
 import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.slf4j.Logger;
 import javax.security.auth.Subject;
 import javax.transaction.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Random;
 import java.util.random.RandomGenerator;
@@ -31,7 +34,6 @@ public class AuthController {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
-//    private NoOpPasswordEncoder noOpPasswordEncoder;
 
     private final TokenService tokenService;
 
@@ -50,25 +52,24 @@ public class AuthController {
     public ResponseEntity<String> loginToken(Authentication authentication) {
         if(authentication.getAuthorities().containsAll(stream(Role.ROLE_CUSTOMER.getAuthorities())
                 .map(SimpleGrantedAuthority::new).toList())) {
-            LOG.debug("THE LIST OF AUTHORITY ------->" + authentication.getAuthorities().toString());
-            LOG.debug("THE AUTHENTICATION DETAILS ------------>" + authentication.getDetails().toString());
-            LOG.debug("THE USER PRINCIPAL -------->" + authentication.getPrincipal());
-            LOG.debug("Token requred for user has details: '{}'", authentication.getDetails());
-            LOG.debug("Token requested for user: '{}'", authentication.getName());
-            LOG.debug("Token requested for user: '{}'", authentication.getCredentials());
-            LOG.debug("Token requested for user: '{}'", authentication.getPrincipal());
+            LOG.info("Token requred for user has details: '{}'", authentication.getDetails());
+            LOG.info("Token requested for user: '{}'", authentication.getName());
+            LOG.info("Token requested for user: '{}'", authentication.getCredentials());
+            LOG.info("Token requested for user: '{}'", authentication.getPrincipal());
             String token = tokenService.generateToken(authentication);
-            LOG.debug("Token granted: {}", token);
+            LOG.info("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
             // Removed if statement
             }
         if(authentication.getAuthorities()
                 .containsAll(stream(Role.ROLE_MANAGER.getAuthorities())
                         .map(SimpleGrantedAuthority::new).toList())){
-            LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
-            LOG.debug("Token requested for user: '{}'", authentication.getName());
+            LOG.info("Token requred for user has details: '{}'", authentication.getDetails());
+            LOG.info("Token requested for user: '{}'", authentication.getName());
+            LOG.info("Token requested for user: '{}'", authentication.getCredentials());
+            LOG.info("Token requested for user: '{}'", authentication.getPrincipal());
             String token = tokenService.generateMngrToken(authentication);
-            LOG.debug("Token granted: {}", token);
+            LOG.info("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -87,15 +88,15 @@ public class AuthController {
 
     @PostMapping("/register")
     @Transactional
-    public String registerUser(@RequestBody Customer registerUser){
-       Customer savedUser =  new Customer(generateRandomId(), registerUser.getUsername(), "{noop}" + registerUser.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+    public String registerUser(@RequestBody CustomerDTO customer) throws NoSuchAlgorithmException {
+       Customer savedUser =  new Customer(generateRandomId(), customer.getUsername(), "{noop}" + customer.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
        customerDao.save(savedUser);
        userDetailsManager.createUser(savedUser);
-       return registerUser.getUsername();
+       return customer.getUsername();
     }
 
-    public Long generateRandomId(){
-        Random random = new Random();
+    public Long generateRandomId() throws NoSuchAlgorithmException {
+        SecureRandom random = SecureRandom.getInstanceStrong();
         return random.nextLong();
     }
 
