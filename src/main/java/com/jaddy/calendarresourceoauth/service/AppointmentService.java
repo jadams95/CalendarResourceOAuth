@@ -33,7 +33,7 @@ public class AppointmentService {
     public void saveCustomerAppointment(Appointment appointment, Long scheduleId, String customerName){
         Appointment appointmentDb = new Appointment();
         Customer customerDB = customerDao.findByUsername(customerName);
-        Manager managerDB = managerDao.findManagerBySchedules(scheduleId);
+//        Manager managerDB = managerDao.findManagerBySchedules(scheduleId);
         Optional<Schedule> scheduleDB = scheduleDao.findById(scheduleId);
         if(appointment == null){
             throw new RuntimeException("Appointment had an Error");
@@ -43,7 +43,7 @@ public class AppointmentService {
 
             appointmentDb.setStatus(AppointmentStatus.BOOKED);
             appointmentDb.setCustomer(customerDB);
-            appointmentDb.setManager(managerDB);
+//            appointmentDb.setManager(managerDB);
             appointmentDb.setSchedule(scheduleDB.get());
 
             // Entity
@@ -51,12 +51,13 @@ public class AppointmentService {
             appointmentDb.setAppointmentScheduleEndTime(appointment.getAppointmentScheduleEndTime());
 
             Customer customerEntity = new Customer();
-            customerEntity.setAppointments(List.of(appointmentDb));
+            customerEntity.setId(customerDB.getId());
+//            customerEntity.setAppointments(List.of(appointmentDb));
             customerDao.save(customerEntity);
 
-            Manager managerEntity = new Manager();
-            managerEntity.setAppointments(List.of(appointmentDb));
-            managerDao.save(managerEntity);
+//            Manager managerEntity = new Manager();
+//            managerEntity.setAppointments(List.of(appointmentDb));
+//            managerDao.save(managerEntity);
             appointmentDao.save(appointmentDb);
         }
     }

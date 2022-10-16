@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface SchduleDao extends JpaRepository<Schedule, Long> {
-    Manager findSchedulesByManagerSchedule(Long id);
+    Manager findSchedulesByManagerSchedule_Id(Long managerId);
 }
