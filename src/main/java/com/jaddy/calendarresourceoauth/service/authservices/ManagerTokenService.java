@@ -23,7 +23,7 @@ public class ManagerTokenService {
         this.decoder = decoder;
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateMngrToken(Authentication authentication) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

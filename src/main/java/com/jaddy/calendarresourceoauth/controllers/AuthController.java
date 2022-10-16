@@ -33,17 +33,14 @@ public class AuthController {
 
     private final TokenService tokenService;
 
-    private final ManagerTokenService managerTokenService;
-
     @Autowired
     private CustomerDao customerDao;
 
     @Autowired
     private InMemoryUserDetailsManager userDetailsManager;
 
-    public AuthController(TokenService tokenService, ManagerTokenService managerTokenService) {
+    public AuthController(TokenService tokenService) {
         this.tokenService = tokenService;
-        this.managerTokenService = managerTokenService;
     }
 
     @PreAuthorize("hasAuthority('customer:create')")
@@ -77,7 +74,7 @@ public class AuthController {
     public ResponseEntity<String> tokenMnger(Authentication authentication){
             LOG.info("Token requred for user has details: '{}'", authentication.getPrincipal());
             LOG.debug("Token requested for user: '{}'", authentication.getName());
-            String token = managerTokenService.generateToken(authentication);
+            String token = tokenService.generateMngrToken(authentication);
             LOG.debug("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
     }
