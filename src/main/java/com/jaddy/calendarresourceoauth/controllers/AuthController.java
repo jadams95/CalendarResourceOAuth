@@ -3,8 +3,7 @@ package com.jaddy.calendarresourceoauth.controllers;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.dao.CustomerDao;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
-import com.jaddy.calendarresourceoauth.model.CustomerDTO;
-import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
+import com.jaddy.calendarresourceoauth.model.dtos.CustomerDTO;
 import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 
-import javax.security.auth.Subject;
 import javax.transaction.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Collections;
-import java.util.Random;
-import java.util.random.RandomGenerator;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
@@ -97,7 +91,9 @@ public class AuthController {
 
     public Long generateRandomId() throws NoSuchAlgorithmException {
         SecureRandom random = SecureRandom.getInstanceStrong();
-        return random.nextLong();
+        Long userId = random.nextLong();
+        if(userId.longValue() < 0) return userId * -1;
+        return userId;
     }
 
 }

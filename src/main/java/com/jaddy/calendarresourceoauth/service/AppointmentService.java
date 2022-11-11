@@ -48,27 +48,21 @@ public class AppointmentService {
         }
         else {
             // Create the References to save
-
             appointmentDb.setStatus(AppointmentStatus.BOOKED);
             appointmentDb.setCustomer(customerDB);
-
             appointmentDb.setSchedule(scheduleDB.get());
-//            managerEntity.setAppointments(List.of(appointmentDb));
-//            managerDao.save(managerEntity);
 
             // Entity
             appointmentDb.setAppointmentScheduleStartTime(appointment.getAppointmentScheduleStartTime());
             appointmentDb.setAppointmentScheduleEndTime(appointment.getAppointmentScheduleEndTime());
 
-            Customer customerEntity = new Customer();
-            customerEntity.setId(customerDB.getId());
-//            customerEntity.setAppointments(List.of(appointmentDb));
-            customerDao.saveAndFlush(customerEntity);
+            Customer customerEntity = new Customer(customerDB.getId(), customerDB.getUsername(), customerDB.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+//            customerDao.saveAndFlush(customerEntity);
 
             Manager managerEntity = new Manager(scheduleDB.get().getScheduleList().getId(), scheduleDB.get().getScheduleList().getUsername(), scheduleDB.get().getScheduleList().getPassword(), scheduleDB.get().getScheduleList().getRole(), Role.ROLE_MANAGER.getAuthorities());
-//            managerEntity.setId();
-            managerDao.saveAndFlush(managerEntity);
+//            managerDao.saveAndFlush(managerEntity);
 
+            appointmentDb.setCustomer(customerEntity);
             appointmentDb.setManager(managerEntity);
             appointmentDao.save(appointmentDb);
         }

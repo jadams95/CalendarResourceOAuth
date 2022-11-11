@@ -7,9 +7,22 @@ import com.jaddy.calendarresourceoauth.dao.SchedulePlanDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalField;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -17,6 +30,8 @@ import java.util.stream.Collectors;
 public class ScheduleService {
 
     private final SchduleDao schduleDao;
+
+    Logger logger = LogManager.getLogger(ScheduleService.class);
     private final ManagerDao managerDao;
 
     private final SchedulePlanDao schedulePlanDao;
@@ -55,9 +70,9 @@ public class ScheduleService {
 
 
 
-//            scheduleDb.setId(generateRandomId());
+            scheduleDb.setId(generateRandomId());
             scheduleDb.setName(scheduleEntity.getName());
-            scheduleDb.setDuration(scheduleEntity.getDuration());
+//            scheduleDb.setDuration(scheduleEntity.getDuration());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
 
 
@@ -72,7 +87,13 @@ public class ScheduleService {
         }
     }
 
-    public Schedule saveSchedule(Schedule scheduleEntity, Long schedulePlanId, String managerName){
+//    public Schedule findScheduleById(Long scheduleId){
+//       Optional<Schedule> scheduleDb = schduleDao.findById(scheduleId);
+//        return
+//    }
+
+    @Transactional
+    public Schedule saveSchedule(Schedule scheduleEntity, Long id, String managerName) throws ParseException {
         Schedule scheduleDb = new Schedule();
         Manager dbManager = managerDao.findByUsername(managerName);
         if(scheduleEntity == null){
@@ -82,15 +103,20 @@ public class ScheduleService {
 //            schedulePlanDao
 
             SchedulePlan schedulePlan = new SchedulePlan();
-            schedulePlan.setId(schedulePlanId);
+            schedulePlan.setId(id);
             schedulePlanDao.save(schedulePlan);
 
 
 
 
-//            scheduleDb.setId(generateRandomId());
+            scheduleDb.setId(generateRandomId());
             scheduleDb.setName(scheduleEntity.getName());
-            scheduleDb.setDuration(scheduleEntity.getDuration());
+
+
+//            Date testdb = new Date(text.format(dateStringDb));
+            logger.info(scheduleEntity.getScheduleStartOfWeek());
+//            scheduleDb.setScheduleStartOfWeek(scheduleEntity.getScheduleStartOfWeek());
+//            scheduleDb.setDuration(scheduleEntity.getDuration());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
 
 
@@ -100,6 +126,7 @@ public class ScheduleService {
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
             scheduleDb.setSchedulePlanner(schedulePlan);
             scheduleDb.setManagerSchedule(dbManager);
+
 //            schedulePlan.setMonday(schedulePlanModel);
             schduleDao.save(scheduleDb);
             return scheduleDb;

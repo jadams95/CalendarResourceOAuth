@@ -45,7 +45,7 @@ public class Manager implements UserDetails {
     private List<Appointment> appointments;
 
     @OneToMany
-    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedule"))
+    @JoinTable(name = "schedule_manager", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedule"))
     private List<Schedule> schedules;
 
     @OneToMany(mappedBy = "managerSchedule", targetEntity = Schedule.class, cascade = {CascadeType.ALL})

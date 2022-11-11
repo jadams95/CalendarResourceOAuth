@@ -2,6 +2,7 @@ package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
+import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
@@ -12,8 +13,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -38,8 +37,15 @@ public class PlanSchedulerController {
 
 //    @PostAuthorize("hasAuthority('manager:create')")
     @PutMapping("/monday/{id}")
-    public void saveMondayWorkSchedule(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+    public ResponseEntity<SchedulePlan> saveMondayWorkSchedule(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         schedulePlanService.saveSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        Manager managerResponse =  managerDao.findByUsername(principal.getName());
+        schedulePlan.setId(schedulePlanId);
+//        schedulePlan.setScheduleStartOfWeek(dayPlan.getStartOfSchedule());
+        schedulePlan.setMonday(dayPlan);
+        schedulePlan.setManager(managerResponse);
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
     @PostMapping("/tuesday/{id}")
     public void saveTuesdayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal){

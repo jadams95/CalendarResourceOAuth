@@ -1,4 +1,4 @@
-package com.jaddy.calendarresourceoauth.model;
+package com.jaddy.calendarresourceoauth.model.dtos;
 
 public class CustomerDTO {
 

@@ -1,7 +1,6 @@
 package com.jaddy.calendarresourceoauth.model;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class TimePeriod implements Comparable<TimePeriod>{

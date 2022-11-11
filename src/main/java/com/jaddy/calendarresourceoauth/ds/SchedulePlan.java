@@ -2,9 +2,6 @@ package com.jaddy.calendarresourceoauth.ds;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 import com.jaddy.calendarresourceoauth.model.TimePeriod;
@@ -14,7 +11,6 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -29,9 +25,7 @@ public class SchedulePlan extends BaseEntity {
     /**
      * Migrate this to Schedule because we are linking the Schedules to the Schedules Plan
      * **/
-    @Temporal(DATE)
-    @Column(name = "schedule_start_of_week")
-    private Date scheduleStartOfWeek;
+
 
 
 
@@ -100,13 +94,7 @@ public class SchedulePlan extends BaseEntity {
 //        this.startScheduleDate = startScheduleDate;
 //    }
 
-    public Date getScheduleStartOfWeek() {
-        return scheduleStartOfWeek;
-    }
 
-    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
-        this.scheduleStartOfWeek = scheduleStartOfWeek;
-    }
 
     public Manager getManager() {
         return manager;

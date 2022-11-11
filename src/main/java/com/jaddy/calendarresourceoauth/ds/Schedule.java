@@ -1,22 +1,36 @@
 package com.jaddy.calendarresourceoauth.ds;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+
+import static javax.persistence.TemporalType.DATE;
+import static javax.persistence.TemporalType.TIME;
 
 @Table(name = "schedules", schema = "public")
 @Entity
+@PrimaryKeyJoinColumn(name = "id_schedule_details")
 public class Schedule extends BaseEntity {
+
+
+
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String scheduleDescription;
 
-    @Column(name = "duration")
-    private int duration;
+//    @Column(name = "duration")
+//    private int duration;
+
+    @Temporal(DATE)
+    @Column(name = "schedule_start_of_week")
+    private Date scheduleStartOfWeek;
 
     @Column(name = "target")
     private String targetCustomer;
@@ -62,14 +76,22 @@ public class Schedule extends BaseEntity {
         this.scheduleDescription = scheduleDescription;
     }
 
-    public int getDuration() {
-        return duration;
+//    public int getDuration() {
+//        return duration;
+//    }
+//
+//    public void setDuration(int duration) {
+//        this.duration = duration;
+//    }
+
+
+    public Date getScheduleStartOfWeek() {
+        return scheduleStartOfWeek;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
+        this.scheduleStartOfWeek = scheduleStartOfWeek;
     }
-
 
     public SchedulePlan getScheduleDetailsId() {
         return scheduleDetailsId;

@@ -5,17 +5,12 @@ import com.jaddy.calendarresourceoauth.dao.SchedulePlanDao;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
-import com.jaddy.calendarresourceoauth.model.TimePeriod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -48,10 +43,10 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
-            schedulePlan.setId(schedulePlanDB.get().getId());
-            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+            schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
+//            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
+//            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
             schedulePlan.setManager(dbManager);
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setMonday(schedulePlanModel);
@@ -71,9 +66,9 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             schedulePlan.setId(schedulePlan.getId());
-            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+//            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
+//            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
             schedulePlan.setManager(dbManager);
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setTuesday(schedulePlanModel);
@@ -100,9 +95,9 @@ public class SchedulePlanService {
 
 //            schedulePlanDao.findAllByScheduleStartOfWeek()
 //            schedulePlan.setId(generateRandomId());
-            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
+//            schedulePlanModel.setStartOfSchedule(dayPlan.getStartOfSchedule());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
+//            schedulePlan.setScheduleStartOfWeek(schedulePlanModel.getStartOfSchedule());
             schedulePlan.setManager(dbManager);
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
 //            schedulePlan.setMonday();
