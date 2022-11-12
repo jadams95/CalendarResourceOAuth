@@ -23,7 +23,7 @@ import static java.util.Arrays.stream;
 @PrimaryKeyJoinColumn(name = "id_manager")
 public class Manager implements UserDetails {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_manager", nullable = false)
     private Long id;
 
     @Column(name = "username")
@@ -44,12 +44,25 @@ public class Manager implements UserDetails {
     @JsonBackReference
     private List<Appointment> appointments;
 
-    @OneToMany
-    @JoinTable(name = "schedule_manager", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedule"))
+    @ManyToMany
+    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedules_details"))
     private List<Schedule> schedules;
 
-    @OneToMany(mappedBy = "managerSchedule", targetEntity = Schedule.class, cascade = {CascadeType.ALL})
-    private List<Schedule> schedulePlan;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setAuthorities(String[] authorities) {
+        this.authorities = authorities;
+    }
 
     public Long getId() {
         return id;
@@ -72,13 +85,13 @@ public class Manager implements UserDetails {
     }
 
 
-    public Manager(Long id, String username, String password, String role, String[] authorities, List<Schedule> schedulePlan) {
+    public Manager(Long id, String username, String password, String role, String[] authorities, List<Schedule> schedules) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.authorities = authorities;
-        this.schedulePlan = schedulePlan;
+        this.schedules = schedules;
     }
 
     public List<Appointment> getAppointments() {
@@ -97,14 +110,6 @@ public class Manager implements UserDetails {
         this.schedules = schedules;
     }
 
-    public List<Schedule> getSchedulePlan() {
-        return schedulePlan;
-    }
-
-    public void setSchedulePlan(List<Schedule> schedulePlan) {
-        this.schedulePlan = schedulePlan;
-    }
-
     public String getRole() {
         return role;
     }
@@ -120,7 +125,7 @@ public class Manager implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(appointments, schedules, schedulePlan);
+        return Objects.hash(appointments, schedules);
     }
 
     @Override

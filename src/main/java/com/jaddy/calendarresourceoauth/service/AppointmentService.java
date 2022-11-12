@@ -13,6 +13,8 @@ import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +39,11 @@ public class AppointmentService {
         this.managerDao = managerDao;
     }
 
-    public void saveCustomerAppointment(Appointment appointment, Long scheduleId, String customerName){
+    public void saveCustomerAppointment(Appointment appointment, Long scheduleId, String customerName) throws NoSuchAlgorithmException {
         Appointment appointmentDb = new Appointment();
         Customer customerDB = customerDao.findByUsername(customerName);
-//        Manager managerDB = scheduleDao.findSchedulesByManagerSchedule_Id(scheduleId);
+//        Manager managerDB = scheduleDao;
+        Optional<Manager> managerDB = managerDao.findById(Long.valueOf(2697));
         Optional<Schedule> scheduleDB = scheduleDao.findById(scheduleId);
 
         if(appointment == null){
@@ -48,23 +51,45 @@ public class AppointmentService {
         }
         else {
             // Create the References to save
+            appointmentDb.setId(generateRandomId());
             appointmentDb.setStatus(AppointmentStatus.BOOKED);
             appointmentDb.setCustomer(customerDB);
-            appointmentDb.setSchedule(scheduleDB.get());
+//            appointmentDb.setSchedule(scheduleDB.get());
 
             // Entity
             appointmentDb.setAppointmentScheduleStartTime(appointment.getAppointmentScheduleStartTime());
             appointmentDb.setAppointmentScheduleEndTime(appointment.getAppointmentScheduleEndTime());
 
             Customer customerEntity = new Customer(customerDB.getId(), customerDB.getUsername(), customerDB.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
-//            customerDao.saveAndFlush(customerEntity);
+            Manager managerEntity = new Manager();
+            Schedule scheduleEntity = new Schedule();
+            managerDB.ifPresent(x -> managerEntity.setId(x.getId()));
+            managerDB.ifPresent(x -> managerEntity.setUsername(x.getUsername()));
+            managerDB.ifPresent(x -> managerEntity.setPassword(x.getPassword()));
+            managerDB.ifPresent(x -> managerEntity.setRole(Role.ROLE_MANAGER.name()));
+            managerDB.ifPresent(x -> managerEntity.setAuthorities(Role.ROLE_MANAGER.getAuthorities()));
 
-            Manager managerEntity = new Manager(scheduleDB.get().getScheduleList().getId(), scheduleDB.get().getScheduleList().getUsername(), scheduleDB.get().getScheduleList().getPassword(), scheduleDB.get().getScheduleList().getRole(), Role.ROLE_MANAGER.getAuthorities());
+            scheduleDB.ifPresent(x -> scheduleEntity.setId(x.getId()));
+            scheduleDB.ifPresent(x -> scheduleEntity.setName(x.getName()));
+            scheduleDB.ifPresent(x -> scheduleEntity.setScheduleDescription(x.getScheduleDescription()));
+            scheduleDB.ifPresent(x -> scheduleEntity.setEditable(x.getEditable()));
+            scheduleDB.ifPresent(x -> scheduleEntity.setTargetCustomer(x.getTargetCustomer()));
+//            scheduleDB.ifPresent(x -> );
+//            managerDao.save(managerEntity);
+
+//            appointmentDb.setManager(managerEntity);
+//            Manager managerEntity = new Manager(2697, , scheduleDB.get().getScheduleList().getPassword(), scheduleDB.get().getScheduleList().getRole(), Role.ROLE_MANAGER.getAuthorities());
 //            managerDao.saveAndFlush(managerEntity);
-
             appointmentDb.setCustomer(customerEntity);
             appointmentDb.setManager(managerEntity);
+            appointmentDb.setSchedule(scheduleEntity);
             appointmentDao.save(appointmentDb);
         }
+    }
+    public Long generateRandomId() throws NoSuchAlgorithmException {
+        SecureRandom random = SecureRandom.getInstanceStrong();
+        Long userId = random.nextLong();
+        if(userId.longValue() < 0) return userId * -1;
+        return userId;
     }
 }

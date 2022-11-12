@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
+
 @RestController
 public class AppointmentController {
 
@@ -19,7 +21,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointment/{id}")
-    public ResponseEntity<?> saveAppointment(@RequestBody Appointment appointmentEntity, @PathVariable("id") Long scheduleId, Authentication authentication){
+    public ResponseEntity<?> saveAppointment(@RequestBody Appointment appointmentEntity, @PathVariable("id") Long scheduleId, Authentication authentication) throws NoSuchAlgorithmException {
         if(appointmentEntity != null) {
             appointmentService.saveCustomerAppointment(appointmentEntity, scheduleId, authentication.getName());
             return new ResponseEntity<>(appointmentEntity, HttpStatus.OK);

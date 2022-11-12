@@ -13,14 +13,23 @@ import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.TemporalType.DATE;
 
 @TypeDefs(@TypeDef( name = "json", typeClass = JsonType.class, defaultForType = JsonType.class))
 @Entity
 @Table(name = "schedule_plans", schema = "public")
-public class SchedulePlan extends BaseEntity {
+public class SchedulePlan  {
 
+    @Id
+    @Column(name = "id")
+    private Long id;
+
+
+    @OneToOne
+    @JoinColumn(name = "id_schedules_details")
+    private Schedule schedule;
 
     /**
      * Migrate this to Schedule because we are linking the Schedules to the Schedules Plan
@@ -29,15 +38,9 @@ public class SchedulePlan extends BaseEntity {
 
 
 
-    @OneToOne(mappedBy = "scheduleDetailsId")
-    private Schedule scheduleDetails;
+//    @OneToOne(mappedBy = "id_manager")
+//    private Schedule scheduleDetails;
 
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_manager")
-    @JsonIgnore
-    private Manager manager;
 
 
 //    @Temporal(TemporalType.DATE)
@@ -95,13 +98,12 @@ public class SchedulePlan extends BaseEntity {
 //    }
 
 
-
-    public Manager getManager() {
-        return manager;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setManager(Manager manager) {
-        this.manager = manager;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     public DayPlan getDay(String day) {
@@ -188,6 +190,21 @@ public class SchedulePlan extends BaseEntity {
         this.sunday = sunday;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+//    public Schedule getScheduleDetails() {
+//        return scheduleDetails;
+//    }
+//
+//    public void setScheduleDetails(Schedule scheduleDetails) {
+//        this.scheduleDetails = scheduleDetails;
+//    }
 
     public static SchedulePlan generateDefaultWorkingPlan() {
         SchedulePlan wp = new SchedulePlan();

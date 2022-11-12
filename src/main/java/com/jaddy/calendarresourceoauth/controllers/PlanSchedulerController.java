@@ -38,13 +38,13 @@ public class PlanSchedulerController {
 //    @PostAuthorize("hasAuthority('manager:create')")
     @PutMapping("/monday/{id}")
     public ResponseEntity<SchedulePlan> saveMondayWorkSchedule(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-        schedulePlanService.saveSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
+        schedulePlanService.updateSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
         SchedulePlan schedulePlan = new SchedulePlan();
         Manager managerResponse =  managerDao.findByUsername(principal.getName());
         schedulePlan.setId(schedulePlanId);
 //        schedulePlan.setScheduleStartOfWeek(dayPlan.getStartOfSchedule());
         schedulePlan.setMonday(dayPlan);
-        schedulePlan.setManager(managerResponse);
+//        schedulePlan.setManager(managerResponse);
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
     @PostMapping("/tuesday/{id}")
@@ -52,10 +52,10 @@ public class PlanSchedulerController {
         schedulePlanService.saveSchedulePlanWorkDayTuesday(dayPlan, principal.getName());
     }
 
-    @PostMapping("/wednesday/{id}")
-    public void saveWednesdayWorkSchedule(@RequestBody DayPlan dayPlan, Principal principal, @PathVariable("id") Long customerId){
-        schedulePlanService.saveSchedulePlanWorkDayWednesday(dayPlan, principal.getName(), customerId);
-    }
+//    @PostMapping("/")
+//    public void saveWednesdayWorkSchedule(Principal principal){
+//        schedulePlanService.createSchedulePlan(principal.getName());
+//    }
 
     @GetMapping("/{id}")
     public SchedulePlan displaySchedulePlanById(@PathVariable("id") Long id){
@@ -63,11 +63,11 @@ public class PlanSchedulerController {
     }
 
 
-    @GetMapping("/{managerId}")
-    public List<SchedulePlan> displayAllSchedulePlansByManagerId(@PathVariable("managerId") Long managerId){
-//        return schedulePlanService
-        return schedulePlanService.findSchedulesPlanByManagerId(managerId);
-    }
+//    @GetMapping("/{managerId}")
+//    public List<SchedulePlan> displayAllSchedulePlansByManagerId(@PathVariable("managerId") Long managerId){
+////        return schedulePlanService
+//        return schedulePlanService.findSchedulesPlanByManagerId(managerId);
+//    }
 
     @GetMapping("")
     public ResponseEntity<List<SchedulePlan>> displayAllSchedulePlans(){

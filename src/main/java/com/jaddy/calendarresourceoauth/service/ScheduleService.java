@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -20,10 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,12 +33,14 @@ public class ScheduleService {
     Logger logger = LogManager.getLogger(ScheduleService.class);
     private final ManagerDao managerDao;
 
+    private final SchedulePlanService schedulePlanService;
     private final SchedulePlanDao schedulePlanDao;
 
-    public ScheduleService(SchduleDao schduleDao, ManagerDao managerDao, SchedulePlanDao schedulePlanDao){
+    public ScheduleService(SchduleDao schduleDao, ManagerDao managerDao, SchedulePlanDao schedulePlanDao, SchedulePlanService schedulePlanService){
         this.schduleDao = schduleDao;
         this.managerDao = managerDao;
         this.schedulePlanDao = schedulePlanDao;
+        this.schedulePlanService = schedulePlanService;
     }
 
 
@@ -59,7 +60,7 @@ public class ScheduleService {
 
     }
 
-    public Schedule saveJustSchedule(Schedule scheduleEntity){
+    public Schedule saveJustSchedule(Schedule scheduleEntity) throws NoSuchAlgorithmException {
         Schedule scheduleDb = new Schedule();
 //        Manager dbManager = managerDao.findByUsername(userName);
         if(scheduleEntity == null){
@@ -92,49 +93,65 @@ public class ScheduleService {
 //        return
 //    }
 
+    /**
+     *
+     */
     @Transactional
-    public Schedule saveSchedule(Schedule scheduleEntity, Long id, String managerName) throws ParseException {
+    public Schedule saveSchedule(Schedule scheduleEntity, String managerName) throws ParseException, NoSuchAlgorithmException {
         Schedule scheduleDb = new Schedule();
+//        SchedulePlan schedulePlanDB = new SchedulePlan();
         Manager dbManager = managerDao.findByUsername(managerName);
         if(scheduleEntity == null){
-            throw new RuntimeException(" User Cannot be loaded");
+            throw new RuntimeException(" Schedule Cannot be found for User");
         } else {
 
-//            schedulePlanDao
 
+//            dbManager.setSchedules(Arrays.asList(scheduleEntity));
+//            managerDao.save(dbManager);
+
+//            SchedulePlan schedulePlan = new SchedulePlan();
+//            schedulePlan.setId(dbManager.getId());
+//            schedulePlan.setManager(dbManager);
+//            schedulePlanDao.save(schedulePlan);
             SchedulePlan schedulePlan = new SchedulePlan();
-            schedulePlan.setId(id);
-            schedulePlanDao.save(schedulePlan);
+            Long scheduleIdent = generateRandomId();
 
 
 
-
-            scheduleDb.setId(generateRandomId());
+            scheduleDb.setId(scheduleIdent);
             scheduleDb.setName(scheduleEntity.getName());
+            scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
+            scheduleDb.setEditable(scheduleEntity.getEditable());
+            scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
 
+            scheduleDb.setManagerSchedule(Arrays.asList(dbManager));
+//            schedulePlan.setSchedule(scheduleDb);
+//            schedulePlanDao.save(schedulePlan);
+            schduleDao.save(scheduleDb);
+//
 
 //            Date testdb = new Date(text.format(dateStringDb));
-            logger.info(scheduleEntity.getScheduleStartOfWeek());
+//            logger.info(scheduleEntity.getScheduleStartOfWeek());
 //            scheduleDb.setScheduleStartOfWeek(scheduleEntity.getScheduleStartOfWeek());
 //            scheduleDb.setDuration(scheduleEntity.getDuration());
-            scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
+
 
 
             // Removed the Many to Many for Schedules and Manager
             // In favor of one to one references of Schedule and Schedule Plan
-            scheduleDb.setEditable(scheduleEntity.getEditable());
-            scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
-            scheduleDb.setSchedulePlanner(schedulePlan);
-            scheduleDb.setManagerSchedule(dbManager);
+
+//            scheduleDb.setSchedulePlanner(schedulePlan);
 
 //            schedulePlan.setMonday(schedulePlanModel);
-            schduleDao.save(scheduleDb);
+
             return scheduleDb;
         }
     }
-    public Long generateRandomId(){
-        Random random = new Random();
-        return random.nextLong();
+    public Long generateRandomId() throws NoSuchAlgorithmException {
+        SecureRandom random = SecureRandom.getInstanceStrong();
+        Long userId = random.nextLong();
+        if(userId.longValue() < 0) return userId * -1;
+        return userId;
     }
 
 }

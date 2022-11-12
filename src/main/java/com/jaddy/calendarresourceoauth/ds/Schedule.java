@@ -15,10 +15,10 @@ import static javax.persistence.TemporalType.TIME;
 
 @Table(name = "schedules", schema = "public")
 @Entity
-@PrimaryKeyJoinColumn(name = "id_schedule_details")
 public class Schedule extends BaseEntity {
 
-
+    @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
+    private SchedulePlan schedulePlan;
 
     @Column(name = "name")
     private String name;
@@ -41,18 +41,18 @@ public class Schedule extends BaseEntity {
      * make you input the times of hours and breaks for the  Schedule Plan for That week,
      * then it will direct you to Schedule
      */
-    @OneToOne()
-    @JoinColumn(name = "id_schedule_details")
-    private SchedulePlan scheduleDetailsId;
-
+//    @OneToOne()
+//    @JoinColumn(name = "id_schedule_details")
+//    private SchedulePlan scheduleDetailsId;
+//
 
 
 //    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
 //            inverseJoinColumns = @JoinColumn(name = "id_manager"))
 
-    @ManyToOne
-    @JoinTable(name = "schedule_manager", joinColumns = @JoinColumn(name = "id_schedule"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
-    private Manager managerSchedule;
+    @ManyToMany
+    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
+    private List<Manager> managerSchedule;
 
 
     private Boolean editable;
@@ -93,19 +93,19 @@ public class Schedule extends BaseEntity {
         this.scheduleStartOfWeek = scheduleStartOfWeek;
     }
 
-    public SchedulePlan getScheduleDetailsId() {
-        return scheduleDetailsId;
-    }
+//    public SchedulePlan getScheduleDetailsId() {
+//        return scheduleDetailsId;
+//    }
+//
+//    public void setScheduleDetailsId(SchedulePlan scheduleDetailsId) {
+//        this.scheduleDetailsId = scheduleDetailsId;
+//    }
 
-    public void setScheduleDetailsId(SchedulePlan scheduleDetailsId) {
-        this.scheduleDetailsId = scheduleDetailsId;
-    }
-
-    public Manager getScheduleList() {
+    public List<Manager> getScheduleList() {
         return managerSchedule;
     }
 
-    public void setManagerSchedule(Manager managerSchedule) {
+    public void setManagerSchedule(List<Manager> managerSchedule) {
         this.managerSchedule = managerSchedule;
     }
 
@@ -117,13 +117,13 @@ public class Schedule extends BaseEntity {
         this.targetCustomer = targetCustomer;
     }
 
-    public SchedulePlan getSchedulePlanner() {
-        return scheduleDetailsId;
-    }
-
-    public void setSchedulePlanner(SchedulePlan scheduleDetailsId) {
-        this.scheduleDetailsId = scheduleDetailsId;
-    }
+//    public SchedulePlan getSchedulePlanner() {
+//        return scheduleDetailsId;
+//    }
+//
+//    public void setSchedulePlanner(SchedulePlan scheduleDetailsId) {
+//        this.scheduleDetailsId = scheduleDetailsId;
+//    }
 
     public Boolean getEditable() {
         return editable;
@@ -131,6 +131,14 @@ public class Schedule extends BaseEntity {
 
     public void setEditable(Boolean editable) {
         this.editable = editable;
+    }
+
+    public SchedulePlan getSchedulePlan() {
+        return schedulePlan;
+    }
+
+    public void setSchedulePlan(SchedulePlan schedulePlan) {
+        this.schedulePlan = schedulePlan;
     }
 
     @Override
