@@ -1,8 +1,10 @@
 package com.jaddy.calendarresourceoauth.controllers;
 
+import com.jaddy.calendarresourceoauth.dao.SchduleDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.ScheduleService;
 import org.apache.logging.log4j.LogManager;
@@ -10,16 +12,16 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ScheduleController {
@@ -28,36 +30,44 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final SchedulePlanService schedulePlanService;
 
+    private final SchduleDao schduleDao;
 
-    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService){
+    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService, SchduleDao schduleDao){
         this.scheduleService = scheduleService;
         this.schedulePlanService = schedulePlanService;
+        this.schduleDao = schduleDao;
     }
     @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule")
-    public Schedule createSchedule(@RequestBody Schedule schedule, Principal principal) throws RuntimeException, ParseException, NoSuchAlgorithmException {
-//            SchedulePlan schedulePlan = schedulePlanService.createSchedulePlan(id, principal.getName());
+    public ResponseEntity<ScheduleDTO> createSchedule(@RequestBody Schedule schedule, Principal principal) throws RuntimeException, ParseException, NoSuchAlgorithmException {
+        Schedule testSchedule = scheduleService.saveSchedule(schedule, principal.getName());
+        schedulePlanService.createSchedulePlan(testSchedule.getId());
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
+//            scheduleDb.setSchedulePlanner(schedulePlan);
 
-//            schedule.setManagerSchedule(Arrays.asList(schedulePlan.getManager()));
-//           SchedulePlan schedulePlanDB = schedulePlanService.createSchedulePlan(principal.getName());
-//            logger.info(schedulePlanDB);
-            Schedule testSchedule = scheduleService.saveSchedule(schedule, principal.getName());
-            schedulePlanService.createSchedulePlan(testSchedule.getId());
-            return testSchedule;
+//            schedulePlan.setMonday(schedulePlanModel);
+
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
+        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
         }
 
-//    @PostAuthorize("hasAuthority('SCOPE_manager:create')")
-//    @PostMapping("/schedule")
-//    public ResponseEntity<Schedule> saveSchedules(@RequestBody Schedule schedule) throws RuntimeException{
-//        if(schedule != null) {
-//            scheduleService.saveJustSchedule(schedule);
-//            return new ResponseEntity<>(schedule, HttpStatus.OK);
-//        }
-////        if(authentication.getAuthorities().contains("customer:create")) return new ResponseEntity<>("User is unauthorized for request" + authentication.getName(), HttpStatus.UNAUTHORIZED);
-////        if(authentication.getAuthorities().contains(Arrays.stream(Role.ROLE_CUSTOMER.getAuthorities()).filter(x -> x.startsWith("customer")))) return new ResponseEntity<>("User is not authorized for request", HttpStatus.FORBIDDEN);
-////        if (authentication.getName() != null) return new ResponseEntity<>(HttpStatus.OK);
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+    @PostAuthorize("hasAuthority('SCOPE_manager:read')")
+    @GetMapping("/schedule")
+    public List<?> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
+        List<Schedule> testSchedule = scheduleService.findAllSchedules();
+//        schedulePlanService.createSchedulePlan(testSchedule.getId());
+//        ScheduleDTO scheduleDTO = new ScheduleDTO();
+//        Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
+//            scheduleDb.setSchedulePlanner(schedulePlan);
+
+//            schedulePlan.setMonday(schedulePlanModel);
+        return testSchedule.stream().toList();
+    }
 
 
 }

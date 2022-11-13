@@ -7,6 +7,7 @@ import com.jaddy.calendarresourceoauth.dao.SchedulePlanDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -98,54 +99,47 @@ public class ScheduleService {
      */
     @Transactional
     public Schedule saveSchedule(Schedule scheduleEntity, String managerName) throws ParseException, NoSuchAlgorithmException {
-        Schedule scheduleDb = new Schedule();
-//        SchedulePlan schedulePlanDB = new SchedulePlan();
+        Long scheduleIdent = generateRandomId();
+//        ScheduleDTO scheduleDTO = new ScheduleDTO();
         Manager dbManager = managerDao.findByUsername(managerName);
-        if(scheduleEntity == null){
+        if(dbManager == null){
             throw new RuntimeException(" Schedule Cannot be found for User");
         } else {
-
-
-//            dbManager.setSchedules(Arrays.asList(scheduleEntity));
-//            managerDao.save(dbManager);
-
-//            SchedulePlan schedulePlan = new SchedulePlan();
-//            schedulePlan.setId(dbManager.getId());
-//            schedulePlan.setManager(dbManager);
-//            schedulePlanDao.save(schedulePlan);
+            Schedule scheduleDb = new Schedule();
             SchedulePlan schedulePlan = new SchedulePlan();
-            Long scheduleIdent = generateRandomId();
+
 
 
 
             scheduleDb.setId(scheduleIdent);
+            scheduleDb.setSchedulePlan(null);
             scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
-            scheduleDb.setEditable(scheduleEntity.getEditable());
+            scheduleDb.setScheduleStartOfWeek(null);
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
-
-            scheduleDb.setManagerSchedule(Arrays.asList(dbManager));
+            scheduleDb.setEditable(scheduleEntity.getEditable());
+            scheduleDb.setManagerSchedule(null);
 //            schedulePlan.setSchedule(scheduleDb);
 //            schedulePlanDao.save(schedulePlan);
             schduleDao.save(scheduleDb);
+//            Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
+////            scheduleDb.setSchedulePlanner(schedulePlan);
 //
-
-//            Date testdb = new Date(text.format(dateStringDb));
-//            logger.info(scheduleEntity.getScheduleStartOfWeek());
-//            scheduleDb.setScheduleStartOfWeek(scheduleEntity.getScheduleStartOfWeek());
-//            scheduleDb.setDuration(scheduleEntity.getDuration());
-
-
-
-            // Removed the Many to Many for Schedules and Manager
-            // In favor of one to one references of Schedule and Schedule Plan
-
-//            scheduleDb.setSchedulePlanner(schedulePlan);
-
-//            schedulePlan.setMonday(schedulePlanModel);
+////            schedulePlan.setMonday(schedulePlanModel);
+//
+//            scheduleRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
+//            scheduleRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
+//            scheduleRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
+//            scheduleRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
+//            scheduleRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
 
             return scheduleDb;
         }
+    }
+
+    @Transactional
+    public List<Schedule> findAllSchedules(){
+        return schduleDao.findAll();
     }
     public Long generateRandomId() throws NoSuchAlgorithmException {
         SecureRandom random = SecureRandom.getInstanceStrong();

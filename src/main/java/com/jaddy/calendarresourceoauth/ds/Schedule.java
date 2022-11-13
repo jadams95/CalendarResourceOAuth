@@ -1,24 +1,19 @@
 package com.jaddy.calendarresourceoauth.ds;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jaddy.calendarresourceoauth.ds.users.Customer;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.TemporalType.DATE;
-import static javax.persistence.TemporalType.TIME;
 
 @Table(name = "schedules", schema = "public")
 @Entity
 public class Schedule extends BaseEntity {
 
-    @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
-    private SchedulePlan schedulePlan;
+
 
     @Column(name = "name")
     private String name;
@@ -50,6 +45,8 @@ public class Schedule extends BaseEntity {
 //    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
 //            inverseJoinColumns = @JoinColumn(name = "id_manager"))
 
+    @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
+    private SchedulePlan schedulePlan;
     @ManyToMany
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
     private List<Manager> managerSchedule;
@@ -58,6 +55,13 @@ public class Schedule extends BaseEntity {
     private Boolean editable;
 
     public Schedule() {
+    }
+
+    public Schedule(String name, String scheduleDescription, String targetCustomer, Boolean editable) {
+        this.name = name;
+        this.scheduleDescription = scheduleDescription;
+        this.targetCustomer = targetCustomer;
+        this.editable = editable;
     }
 
     public String getName() {
