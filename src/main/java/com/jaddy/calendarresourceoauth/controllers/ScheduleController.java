@@ -58,15 +58,15 @@ public class ScheduleController {
 
     @PostAuthorize("hasAuthority('SCOPE_manager:read')")
     @GetMapping("/schedule")
-    public List<?> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
-        List<Schedule> testSchedule = scheduleService.findAllSchedules();
+    public List<ScheduleDTO> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
+//        testSchedule =
 //        schedulePlanService.createSchedulePlan(testSchedule.getId());
 //        ScheduleDTO scheduleDTO = new ScheduleDTO();
 //        Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
 //            scheduleDb.setSchedulePlanner(schedulePlan);
 
 //            schedulePlan.setMonday(schedulePlanModel);
-        return testSchedule.stream().toList();
+        return scheduleService.findAllSchedules();
     }
 
 

@@ -16,15 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -138,8 +130,17 @@ public class ScheduleService {
     }
 
     @Transactional
-    public List<Schedule> findAllSchedules(){
-        return schduleDao.findAll();
+    public List<ScheduleDTO> findAllSchedules(){
+        return schduleDao.findAll().stream().map(schedule -> {
+            Optional<Schedule> scheduleAllRespDB = schduleDao.findById(schedule.getId());
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
+            return scheduleDTO;
+        }).toList();
     }
     public Long generateRandomId() throws NoSuchAlgorithmException {
         SecureRandom random = SecureRandom.getInstanceStrong();
