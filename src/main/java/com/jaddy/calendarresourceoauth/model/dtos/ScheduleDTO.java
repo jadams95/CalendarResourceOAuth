@@ -1,8 +1,10 @@
 package com.jaddy.calendarresourceoauth.model.dtos;
 
 import com.jaddy.calendarresourceoauth.ds.Schedule;
+import com.jaddy.calendarresourceoauth.ds.users.Manager;
 
 import java.util.Date;
+import java.util.List;
 
 public class ScheduleDTO extends Schedule {
     private Long id;
@@ -12,6 +14,7 @@ public class ScheduleDTO extends Schedule {
     private String targetCustomer;
     private Boolean editable;
 
+    private List<Manager> managerSchedule;
 
     public ScheduleDTO() {
     }
@@ -43,6 +46,7 @@ public class ScheduleDTO extends Schedule {
     public void setScheduleDescription(String scheduleDescription) {
         super.setScheduleDescription(scheduleDescription);
     }
+
 
 
     @Override
@@ -81,5 +85,13 @@ public class ScheduleDTO extends Schedule {
 
     public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
         this.scheduleStartOfWeek = scheduleStartOfWeek;
+    }
+
+    public List<Manager> getManagerSchedule() {
+        return managerSchedule;
+    }
+
+    public void setManagerSchedule(List<Manager> managerSchedule) {
+        this.managerSchedule = managerSchedule;
     }
 }

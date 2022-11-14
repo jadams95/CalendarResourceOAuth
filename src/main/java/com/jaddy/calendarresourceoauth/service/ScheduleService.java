@@ -38,48 +38,6 @@ public class ScheduleService {
 
 
 
-    public List<Schedule> getScheduleByUserName(String userName){
-//        Schedule scheduleDb = new Schedule();
-        List<Schedule> scheList;
-        Manager dbManager = managerDao.findByUsername(userName);
-        if(userName == null){
-            throw new RuntimeException(" User Cannot be loaded");
-        }
-        else {
-           scheList = dbManager.getSchedules();
-           return scheList;
-        }
-
-
-    }
-
-    public Schedule saveJustSchedule(Schedule scheduleEntity) throws NoSuchAlgorithmException {
-        Schedule scheduleDb = new Schedule();
-//        Manager dbManager = managerDao.findByUsername(userName);
-        if(scheduleEntity == null){
-            throw new RuntimeException(" User Cannot be loaded");
-        } else {
-
-//            schedulePlanDao
-
-
-
-            scheduleDb.setId(generateRandomId());
-            scheduleDb.setName(scheduleEntity.getName());
-//            scheduleDb.setDuration(scheduleEntity.getDuration());
-            scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
-
-
-            // Removed the Many to Many for Schedules and Manager
-            // In favor of one to one references of Schedule and Schedule Plan
-            scheduleDb.setEditable(scheduleEntity.getEditable());
-            scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
-//            scheduleDb.setSchedulePlanner(schedulePlan);
-//            schedulePlan.setMonday(schedulePlanModel);
-            schduleDao.save(scheduleDb);
-            return scheduleDb;
-        }
-    }
 
 //    public Schedule findScheduleById(Long scheduleId){
 //       Optional<Schedule> scheduleDb = schduleDao.findById(scheduleId);
@@ -104,13 +62,13 @@ public class ScheduleService {
 
 
             scheduleDb.setId(scheduleIdent);
-            scheduleDb.setSchedulePlan(null);
+//            scheduleDb.setSchedulePlan(null);
             scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
-            scheduleDb.setScheduleStartOfWeek(null);
+//            scheduleDb.setScheduleStartOfWeek(null);
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
             scheduleDb.setEditable(scheduleEntity.getEditable());
-            scheduleDb.setManagerSchedule(null);
+//            scheduleDb.setManagerSchedule(List.of(dbManager));
 //            schedulePlan.setSchedule(scheduleDb);
 //            schedulePlanDao.save(schedulePlan);
             schduleDao.save(scheduleDb);
@@ -133,12 +91,14 @@ public class ScheduleService {
     public List<ScheduleDTO> findAllSchedules(){
         return schduleDao.findAll().stream().map(schedule -> {
             Optional<Schedule> scheduleAllRespDB = schduleDao.findById(schedule.getId());
+//            Manager managerDb = managerDao.findByUsername(managerName);
             ScheduleDTO scheduleDTO = new ScheduleDTO();
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
+//            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setManagerSchedule(x.getManagerSchedule()));
             return scheduleDTO;
         }).toList();
     }

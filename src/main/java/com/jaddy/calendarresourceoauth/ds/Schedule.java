@@ -105,7 +105,7 @@ public class Schedule extends BaseEntity {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
 
-    public List<Manager> getScheduleList() {
+    public List<Manager> getManagerSchedule() {
         return managerSchedule;
     }
 

@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "b54bdc21-9103-46e4-aa77-9a75e42313a9",
+		"name": "LavishResourceServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Authentication",
+			"item": [
+				{
+					"name": "Register Customer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test@example.org\",\r\n    \"password\": \"password123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login to CustomerAccount",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "test@example.org",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password123!",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-rb-title",
+								"value": "user",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login to CustomerAccount Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "adam@example.org",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login to ManagerAccount",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dvega",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Login CustomerAccount on ManagerToken",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "test1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jadams",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/tokenMnger",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"tokenMnger"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication Home",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgyNzg3NDksImlhdCI6MTY2ODI3NTE0OX0.kH1kyV_OmB9_i41GpRWdkU7eWuYJqV136E_Wpibud3UQS9b2LDDIXcy4sIfIVzcgTUhRbOeWBQydvNDwEfpQzxMdx4Kk6G_UUBTeA80En7-c7RD82ypRJZWGrs7PeMxz5ONKn5iSFoVOhKzCE2A08TP-X8NSZ_0ILyYnjOGWzGJasn_-yg1nyWgiiXjpBdcdRJJxdxJWyTKZKgy3kLdFCZtnpBmH039F0ll8zaDMLXi59ms42mJ_rLinabL7CfGBpLG58rWZvUOPvVzZ4y99HAw12xhGHLYfgzXbomx5424qLTOb9KJpDWDEOPVlEaPthnL8iga3FtlK8hcN_no0xw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SchedulePlan",
+			"item": [
+				{
+					"name": "SchedulePlan Monday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/monday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"monday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Tuesday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/tuesday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"tuesday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Wednesday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/wednesday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"wednesday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Thursday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/thursday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"thursday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Friday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/friday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"friday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Saturday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/saturday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"saturday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SchedulePlan Sunday",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY5MzQsImlhdCI6MTY2ODM4MzMzNH0.tPHfn10uJRT8x1lPh3bAa7_sBZKUSOk0cLpfhDCs7n3wtqJFI9FwpSpfeRMO0c7ikgc3pFuSL2AK8ZOD5pnGxm8jETA8TmN3z0vVWerZ05rJ64gDmAUKJh1mUiNrlRxzwALNfOIan4wO8seSlmOKgphsTyAc8RoQQsVxWZBjTf-xTrHv43SqhKwg385t9ZbB7Pd-cge5axjReIMr4Utk77H5VVsV3tK0NATqqOvBK-arMUsb4vDXkfKDVF9K7zgwMHtVaGrN9ftrF2UuHkRgX0CEJNxNnxydh-PG9ltF9fbAQ0NlTqxihi4Blup7yTYTBqhERwgZ5kvbhqAiJNB-Qg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"schedule\": 6408329831774218344,\r\n   \"workingHours\": {\r\n        \"start\": \"10:15:30\",\r\n        \"end\": \"17:59:59\",\r\n        \"breaks\": [],\r\n        \"timePeroidsWithBreaksExcluded\":[{\"start\":null,\"end\":null}]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/sunday/6608790875534737108",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								"sunday",
+								"6608790875534737108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Schedule Plans",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgyODQyNjMsImlhdCI6MTY2ODI4MDY2M30.o8l5xdusRouuUmE0PfIsHuL1euVWkl5EgUluXpdfPc3V-9in-Uhj2_38KGTjjn9TRTA6fQAMTKM4-IW4WcUWCm3L6gzyB3BrJGlrDF8Y9QUDwus9AofyikYzlqlFS_iPQurfrMyDYA4rCUrPLnwdRdvfow0x76r5GLvhobqAgdZsX_D2KXDWPuTAk4FQuLKld8qfPATeK1s0-yXRrC4noqT0fQ2Fp4klABTd1P_LdITClsC8ba0EcJYpRcVRJAGnWq3QPt159XBPk2ggMIuOQg68gC9qz8CCD8au7zSTzfM6kLAs9nQL28WtNPtZVQBvCICLgdVmYH-wkBhumJ1D-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Schedule Plans by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY1MTcsImlhdCI6MTY2ODM4MjkxN30.L1zDxXVRi6d-pW82RfxJjEHEIUio53kR-0vsSRTMUeXKaL886YisZ2aGSTiRjd2qn5lakZySI5BX7RfmYL_1fKkAWLH8Hbu3CV8J7J7FaT_r2Ibibv7SaqAo5_LU2yM9oivVPJSxkBs0kEArHcjaMr7gyw8NsctkAS5-XbL5aJHJGX3KqjKS0VlFo6APm9KMUo9yTff6LDM1sSNUOjy1X3b8rMg5IWMN5eX0JYroNHaa9zbxBz7qgNsuopKicFyoGbi_lY2FXT4T6Rmh7cVroK16dAJeq_pLyh7fpFcBjTy9fseLLAoFXH4N_3RIc9lzZpyspKmqLgMF5TPxzxke6g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Schedule Plans by ManagerID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY1MTcsImlhdCI6MTY2ODM4MjkxN30.L1zDxXVRi6d-pW82RfxJjEHEIUio53kR-0vsSRTMUeXKaL886YisZ2aGSTiRjd2qn5lakZySI5BX7RfmYL_1fKkAWLH8Hbu3CV8J7J7FaT_r2Ibibv7SaqAo5_LU2yM9oivVPJSxkBs0kEArHcjaMr7gyw8NsctkAS5-XbL5aJHJGX3KqjKS0VlFo6APm9KMUo9yTff6LDM1sSNUOjy1X3b8rMg5IWMN5eX0JYroNHaa9zbxBz7qgNsuopKicFyoGbi_lY2FXT4T6Rmh7cVroK16dAJeq_pLyh7fpFcBjTy9fseLLAoFXH4N_3RIc9lzZpyspKmqLgMF5TPxzxke6g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/schedulePlan",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedulePlan"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"item": [
+				{
+					"name": "Creates Schedule with ManagerSchedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzNDgxNDYsImlhdCI6MTY2ODM0NDU0Nn0.ULtn277fdFTtMAyo5-YlWIsaZpu6QGOGe12xnq1UOuhhZaHsQHAIHZmNL1g8FbHlyrlxkIh8AXk-SXRNCAa9D80kDvGXmrxH3YYIZ3qJA4qd7lEuVHYnDjBWZ6-WqXUJqLaISSRKSZwvCorhUNSoxj0ntAbheeT7OqGAyF28i9XYmq7_0FziTl3O8vix6TIC8HHZt5p3F8eirOL3FNoZ1tQHvjAIsXesxcr182lTZR8R5gYfLxQgDpgKbgCWoPB7G_ueojgo_zMWJrQowgkDDJLg-z1FaBxINRXNZJRThnvQq9u2Tg76y3gu71RZzgD9QnAs0uslkq6TCk3qw3lD-Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Lavish Lashes \",\r\n   \"scheduleDescription\": \"an event to do lashes for a group of women\",\r\n   \"targetCustomer\": \"Milfs\",\r\n   \"editable\": true,\r\n   \"managerSchedule\": [2697]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedule",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Manager creates Schedule Copy 2",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODc1NzIsImlhdCI6MTY2ODM4Mzk3Mn0.UUsD-yfLLtx3rEXRPrBOMDa3gj_QyB-nEF2udKaGnAvu9e8nKtZoD4OG5vFTRYEhwLNs8BgmC5QfFE2YnbvYO7ulYohglIXcm4E8m1a0hsihZJdWfq9K-2mFrKqoE3BKJJ9wm1hZEn8foJv9g0aIp7WstRalWqxmxPTMuFpUYCSB8oL6NE5fXAQ6WoRVZ18vYW_bX5QD8keslqgi2Dgkq6uR__aBpQi6w476zWmR5E-LhSH6lP9FTVFyujb4ZctRiMxASqJtB5X_2xjBnafpvYH2tHEDkKQ36PVewCumw_sCjLiMSJwcNZLgcS6eIp1UkPEfN1Fhm7dgkqcaJvLQ7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Lavish Lashes test\",\r\n   \"scheduleDescription\": \"an event to do lashes for a group of women\",\r\n   \"targetCustomer\": \"Momss\",\r\n   \"editable\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedule/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedule",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Manager creates Schedule Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjU4OTg3NTcsImlhdCI6MTY2NTg5NTE1N30.nu7geWWdsz52_nnmROxnc1Rnodv9nDZkMiY5uQOsYKbxXQmeDDE5udjwgsTwzaoHuedANKr1D5jA3bvVeRHl6a1qd5Ha3Ke39goxDy9ySmd2rl0KLV5L4seERz8JxBy5hVwCYqYQyTznWkzYlQt5aI5nJAIaJTJfVAOeH8cS9B6WzzJHTjs_IAN7ITz6zziRuL8AwCCenCSMXInxQ0qgGhg09jK9GD-eaqj8mH5tu4gd_FJ3Xt7AzNVqAESy9lFoE9uiFLsdyLYl93Y_kE6GsVeAO1_LgjXGYTFRcw6NwXz68Wod6PDltTk8hCHTm4PiXW8NQ_vDwINUNG9W36WBsA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"test Party\",\r\n   \"duration\": 3600,\r\n   \"scheduleDescription\": \"an event to do lashes for a group of women\",\r\n   \"editable\": true,\r\n   \"targetCustomer\": \"Milfs\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/schedule",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Schedule Plans by ManagerID Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkdmVnYSIsInJvbGUiOiJST0xFX01BTkFHRVIiLCJzY29wZSI6Im1hbmFnZXI6Y3JlYXRlIG1hbmFnZXI6ZGVsZXRlIG1hbmFnZXI6cmVhZCBtYW5hZ2VyOnVwZGF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODY1MTcsImlhdCI6MTY2ODM4MjkxN30.L1zDxXVRi6d-pW82RfxJjEHEIUio53kR-0vsSRTMUeXKaL886YisZ2aGSTiRjd2qn5lakZySI5BX7RfmYL_1fKkAWLH8Hbu3CV8J7J7FaT_r2Ibibv7SaqAo5_LU2yM9oivVPJSxkBs0kEArHcjaMr7gyw8NsctkAS5-XbL5aJHJGX3KqjKS0VlFo6APm9KMUo9yTff6LDM1sSNUOjy1X3b8rMg5IWMN5eX0JYroNHaa9zbxBz7qgNsuopKicFyoGbi_lY2FXT4T6Rmh7cVroK16dAJeq_pLyh7fpFcBjTy9fseLLAoFXH4N_3RIc9lzZpyspKmqLgMF5TPxzxke6g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/schedule",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Customer creates Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUub3JnIiwicm9sZSI6IlJPTEVfQ1VTVE9NRVIiLCJzY29wZSI6ImN1c3RvbWVyOnJlYWQgY3VzdG9tZXI6dXBkYXRlIGN1c3RvbWVyOmNyZWF0ZSIsImlzcyI6InNlbGYiLCJleHAiOjE2NjgzODM4OTYsImlhdCI6MTY2ODM4MDI5Nn0.Szmsd-QtyPxoAcAiuf28mwWcCqgZjUA0hroIfGfgAZy2LNwiAMM6Cp8W16668fy5P7GRETbYIeX1l1T6xxZUm9M_hJbHuXckAEcnxtqGZ37ZEa6zNmnz5aBjgxWGHKK9xYxMTZT00XSSf0lPk0RJVyMdrMGdutkc1a7mP1sJVCBDJOg1RatztEZWYWVtyI2n5Ud3Gxzb-O7TU3W6hyp6OOscqc-kmaF08lZ8jvpR2SLDxhx-0tlba32BC9xIe4p6xUfhfvpqyN5b7iMJkFZpxbkz7HhHcNmBtAp_uOWcGNlpr0ANXnL9wB9BanSnr_cRHdfOLjDoY6D3t4oOkbQ6LA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appointmentScheduleStartTime\": \"2023-12-03T10:15:30\",\r\n    \"appointmentScheduleEndTime\": \"2023-12-03T10:17:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/appointment/4123164587844475131",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"appointment",
+								"4123164587844475131"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer updates Appointment Copy",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
