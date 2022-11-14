@@ -1,16 +1,17 @@
 package com.jaddy.calendarresourceoauth.ds.users;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.ds.Appointment;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
+import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +47,7 @@ public class Manager implements UserDetails {
 
     @ManyToMany
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedules_details"))
-    private List<Schedule> schedules;
+    private List<Schedule> schedules = new ArrayList<>();
 
     public void setUsername(String username) {
         this.username = username;
@@ -104,10 +105,6 @@ public class Manager implements UserDetails {
 
     public List<Schedule> getSchedules() {
         return schedules;
-    }
-
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
     }
 
     public String getRole() {

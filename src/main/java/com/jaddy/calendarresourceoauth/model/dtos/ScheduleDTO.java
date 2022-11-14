@@ -14,7 +14,7 @@ public class ScheduleDTO extends Schedule {
     private String targetCustomer;
     private Boolean editable;
 
-    private List<Manager> managerSchedule;
+    public List<Manager> managerSchedule;
 
     public ScheduleDTO() {
     }
@@ -25,6 +25,15 @@ public class ScheduleDTO extends Schedule {
         this.scheduleDescription = scheduleDescription;
         this.targetCustomer = targetCustomer;
         this.editable = editable;
+    }
+
+    public ScheduleDTO(Long id, String name, String scheduleDescription, String targetCustomer, Boolean editable, List<Manager> managerSchedule) {
+        this.id = id;
+        this.name = name;
+        this.scheduleDescription = scheduleDescription;
+        this.targetCustomer = targetCustomer;
+        this.editable = editable;
+        this.managerSchedule = managerSchedule;
     }
 
     @Override
@@ -91,7 +100,7 @@ public class ScheduleDTO extends Schedule {
         return managerSchedule;
     }
 
-    public void setManagerSchedule(List<Manager> managerSchedule) {
-        this.managerSchedule = managerSchedule;
+    public void linkScheduleToManager(Manager manager) {
+        this.managerSchedule.add(manager);
     }
 }

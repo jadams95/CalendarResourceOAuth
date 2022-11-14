@@ -1,5 +1,6 @@
 package com.jaddy.calendarresourceoauth.controllers;
 
+import com.jaddy.calendarresourceoauth.dao.ManagerDao;
 import com.jaddy.calendarresourceoauth.dao.SchduleDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
@@ -28,14 +29,17 @@ public class ScheduleController {
 
     private Logger logger = LogManager.getLogger(ScheduleController.class);
     private final ScheduleService scheduleService;
+
+    private final ManagerDao managerDao;
     private final SchedulePlanService schedulePlanService;
 
     private final SchduleDao schduleDao;
 
-    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService, SchduleDao schduleDao){
+    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService, SchduleDao schduleDao, ManagerDao managerDao){
         this.scheduleService = scheduleService;
         this.schedulePlanService = schedulePlanService;
         this.schduleDao = schduleDao;
+        this.managerDao = managerDao;
     }
     @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule")
@@ -56,6 +60,14 @@ public class ScheduleController {
     @GetMapping("/schedule")
     public List<ScheduleDTO> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
         return scheduleService.findAllSchedules();
+    }
+    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{id_schedule}")
+    public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedule") Long idSchedule, Principal principal){
+        Manager manager = managerDao.findByUsername(principal.getName());
+        Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, manager);
+        ScheduleDTO scheduleDTO = new ScheduleDTO(dbSchedule.getId(), dbSchedule.getName(), dbSchedule.getScheduleDescription(), dbSchedule.getTargetCustomer(), dbSchedule.getEditable(), dbSchedule.getManagerSchedule());
+        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
     }
 
 

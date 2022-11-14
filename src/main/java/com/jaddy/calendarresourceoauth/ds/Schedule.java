@@ -2,8 +2,10 @@ package com.jaddy.calendarresourceoauth.ds;
 
 
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +49,10 @@ public class Schedule extends BaseEntity {
 
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
+
     @ManyToMany
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
-    private List<Manager> managerSchedule;
+    public List<Manager> managerSchedule = new ArrayList<>();
 
 
     private Boolean editable;
@@ -105,12 +108,13 @@ public class Schedule extends BaseEntity {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
 
+    @JsonIgnore
     public List<Manager> getManagerSchedule() {
         return managerSchedule;
     }
 
-    public void setManagerSchedule(List<Manager> managerSchedule) {
-        this.managerSchedule = managerSchedule;
+    public void linkScheduleToManager(Manager manager) {
+        managerSchedule.add(manager);
     }
 
     public String getTargetCustomer() {
@@ -140,7 +144,6 @@ public class Schedule extends BaseEntity {
     public SchedulePlan getSchedulePlan() {
         return schedulePlan;
     }
-
     public void setSchedulePlan(SchedulePlan schedulePlan) {
         this.schedulePlan = schedulePlan;
     }

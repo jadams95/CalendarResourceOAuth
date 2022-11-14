@@ -109,4 +109,17 @@ public class ScheduleService {
         return userId;
     }
 
+    @Transactional
+    public Schedule updteSchdleToLnkWthMnger(Long idSchedule, Manager managerEntity) {
+        Optional<Schedule> scheduleAllRespDB = schduleDao.findById(idSchedule);
+        Schedule schedule = new Schedule();
+        scheduleAllRespDB.ifPresent(x -> schedule.setId(x.getId()));
+        scheduleAllRespDB.ifPresent(x -> schedule.setName(x.getName()));
+        scheduleAllRespDB.ifPresent(x -> schedule.setScheduleDescription(x.getScheduleDescription()));
+        scheduleAllRespDB.ifPresent(x -> schedule.setTargetCustomer(x.getTargetCustomer()));
+        scheduleAllRespDB.ifPresent(x -> schedule.setEditable(x.getEditable()));
+        scheduleAllRespDB.ifPresent(x -> schedule.linkScheduleToManager(managerEntity));
+        schduleDao.save(schedule);
+        return schedule;
+    }
 }
