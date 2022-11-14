@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth.ds;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 
@@ -50,6 +51,7 @@ public class Schedule extends BaseEntity {
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
     public List<Manager> managerSchedule = new ArrayList<>();
@@ -108,7 +110,6 @@ public class Schedule extends BaseEntity {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
 
-    @JsonIgnore
     public List<Manager> getManagerSchedule() {
         return managerSchedule;
     }

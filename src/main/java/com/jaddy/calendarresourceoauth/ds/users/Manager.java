@@ -37,6 +37,7 @@ public class Manager implements UserDetails {
     private String role;
 
 
+
     @Column(name = "authorities")
     private String[] authorities;
 
