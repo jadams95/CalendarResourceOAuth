@@ -5,6 +5,7 @@ import com.jaddy.calendarresourceoauth.dao.SchduleDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.jaddy.calendarresourceoauth.model.dtos.ManagerDTO;
 import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.ScheduleService;
@@ -65,6 +66,7 @@ public class ScheduleController {
     @PutMapping("/schedule/{id_schedule}")
     public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedule") Long idSchedule, Principal principal){
         Manager manager = managerDao.findByUsername(principal.getName());
+//        ManagerDTO managerDTO = new ManagerDTO(manager.getId(), manager.getUsername());
         Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, manager);
         ScheduleDTO scheduleDTO = new ScheduleDTO(dbSchedule.getId(), dbSchedule.getName(), dbSchedule.getScheduleDescription(), dbSchedule.getTargetCustomer(), dbSchedule.getEditable(), dbSchedule.getManagerSchedule());
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);

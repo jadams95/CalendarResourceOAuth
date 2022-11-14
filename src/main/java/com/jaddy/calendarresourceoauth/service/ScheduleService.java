@@ -7,6 +7,7 @@ import com.jaddy.calendarresourceoauth.dao.SchedulePlanDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.jaddy.calendarresourceoauth.model.dtos.ManagerDTO;
 import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
