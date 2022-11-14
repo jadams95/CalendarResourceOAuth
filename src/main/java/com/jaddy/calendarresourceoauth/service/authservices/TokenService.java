@@ -21,6 +21,11 @@ public class TokenService {
         this.decoder = decoder;
     }
 
+    /**
+     *
+     * @param authentication
+     * @return
+     */
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()

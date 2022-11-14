@@ -2,10 +2,8 @@ package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
-import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
-import com.jaddy.calendarresourceoauth.service.authservices.ManagerTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,7 @@ import java.util.List;
 public class PlanSchedulerController {
 
 
-    @Autowired
-    private ManagerTokenService tokenService;
+
 
     private final SchedulePlanService schedulePlanService;
 
