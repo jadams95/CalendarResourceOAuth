@@ -39,7 +39,6 @@ public class PlanSchedulerController {
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
         SchedulePlan schedulePlan = new SchedulePlan();
         schedulePlan.setId(testSchedulePlan.getId());
-        schedulePlan.setSchedule(testSchedulePlan.getSchedule());
         schedulePlan.setMonday(testSchedulePlan.getMonday());
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
