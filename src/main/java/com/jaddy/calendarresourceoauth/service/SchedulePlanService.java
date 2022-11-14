@@ -48,6 +48,7 @@ public class SchedulePlanService {
         if(dbManager == null){
             throw new RuntimeException(" User Cannot be loaded");
         } else {
+
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));

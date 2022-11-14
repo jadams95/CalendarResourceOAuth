@@ -28,7 +28,11 @@ public class ResourceServerConfig {
     public SecurityFilterChain resourceConfig(HttpSecurity http) throws Exception {
        http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                .authorizeRequests(x ->
-                       x.antMatchers("/register", "/token").permitAll().antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
+                       x.antMatchers("/register", "/token").permitAll()
+                               .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
+                               .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:create")
+                               .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:read")
+                               .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:update")
                        .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                .httpBasic();
