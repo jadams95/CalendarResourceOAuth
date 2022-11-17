@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth.ds.users;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.ds.Appointment;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,10 +26,13 @@ public class Customer implements UserDetails {
     @Column(name = "username")
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String role;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String[] authorities;
 
 
