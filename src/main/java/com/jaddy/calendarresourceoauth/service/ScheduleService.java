@@ -119,7 +119,7 @@ public class ScheduleService {
         scheduleAllRespDB.ifPresent(x -> schedule.setScheduleDescription(x.getScheduleDescription()));
         scheduleAllRespDB.ifPresent(x -> schedule.setTargetCustomer(x.getTargetCustomer()));
         scheduleAllRespDB.ifPresent(x -> schedule.setEditable(x.getEditable()));
-        scheduleAllRespDB.ifPresent(x -> schedule.linkScheduleToManager(managerEntity));
+//        scheduleAllRespDB.ifPresent(x -> schedule.linkScheduleToManager(managerEntity));
         schduleDao.save(schedule);
         return schedule;
     }

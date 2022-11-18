@@ -7,6 +7,7 @@ import com.jaddy.calendarresourceoauth.ds.Appointment;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,28 +22,29 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.stream;
 
 @Entity
-@Table(name = "managers")
-@PrimaryKeyJoinColumn(name = "id_manager")
+@Table(name = "`managers`")
+@PrimaryKeyJoinColumn(name = "`uid_manager`")
 public class Manager implements UserDetails {
     @Id
-    @Column(name = "id_manager", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "`username`")
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password")
+    @Column(name = "`password`")
     private String password;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "role")
+    @Column(name = "`role`")
     private String role;
 
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "authorities")
+    @Column(columnDefinition = "text[]", name = "`authorities`")
+    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
     private String[] authorities;
 
 
@@ -51,7 +53,7 @@ public class Manager implements UserDetails {
     private List<Appointment> appointments;
 
     @ManyToMany
-    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_manager"), inverseJoinColumns = @JoinColumn(name = "id_schedules_details"))
+    @JoinTable(name = "`schedule_managers_table`", joinColumns = @JoinColumn(name = "`uid_manager`"), inverseJoinColumns = @JoinColumn(name = "`manager_schedule`"))
     private List<Schedule> schedules = new ArrayList<>();
 
     public void setUsername(String username) {

@@ -25,6 +25,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -52,19 +55,16 @@ public class SecurityConfig {
     }
 
     @Bean
-        public InMemoryUserDetailsManager users() {
-            Manager manager = new Manager(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
-            Manager manager2 = new Manager(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
-            Manager manager3 = new Manager(25234L, "testmanager2@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
-            LOG.info(manager.toString());
-            managerDao.save(manager);
-            managerDao.save(manager2);
-            managerDao.save(manager3);
-            return new InMemoryUserDetailsManager(
-                    User.withUsername(manager.getUsername()).password(manager.getPassword()).roles("MANAGER").authorities(manager.getAuthorities()).build(),
-                    User.withUsername(manager2.getUsername()).password(manager2.getPassword()).roles("MANAGER").authorities(manager2.getAuthorities()).build(),
-                    User.withUsername(manager3.getUsername()).password(manager3.getPassword()).roles("MANAGER").authorities(manager3.getAuthorities()).build()
-            );
+        public JdbcUserDetailsManager users(DataSource dataSource) {
+            JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+            return jdbcUserDetailsManager;
     }
-
+    /** Old Manager details **/
+//    Manager manager = new Manager(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
+//    Manager manager2 = new Manager(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
+//    Manager manager3 = new Manager(25234L, "testmanager2@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
+//            LOG.info(manager.toString());
+//            managerDao.save(manager);
+//            managerDao.save(manager2);
+//            managerDao.save(manager3);
 }

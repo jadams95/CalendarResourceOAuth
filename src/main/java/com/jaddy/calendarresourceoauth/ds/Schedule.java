@@ -12,25 +12,25 @@ import java.util.List;
 
 import static javax.persistence.TemporalType.DATE;
 
-@Table(name = "schedules", schema = "public")
+@Table(name = "`schedules`", schema = "public")
 @Entity
 public class Schedule extends BaseEntity {
 
 
 
-    @Column(name = "name")
+    @Column(name = "`name`")
     private String name;
-    @Column(name = "description")
+    @Column(name = "`description`")
     private String scheduleDescription;
 
 //    @Column(name = "duration")
 //    private int duration;
 
     @Temporal(DATE)
-    @Column(name = "schedule_start_of_week")
+    @Column(name = "`schedule_start_of_week`")
     private Date scheduleStartOfWeek;
 
-    @Column(name = "target")
+    @Column(name = "`target`")
     private String targetCustomer;
 
 
@@ -47,14 +47,13 @@ public class Schedule extends BaseEntity {
 
 //    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
 //            inverseJoinColumns = @JoinColumn(name = "id_manager"))
-
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
 
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
-    public List<Manager> managerSchedule = new ArrayList<>();
+//    @JsonBackReference
+//    @ManyToMany
+//    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
+//    public List<Manager> managerSchedule = new ArrayList<>();
 
 
     private Boolean editable;
@@ -110,13 +109,13 @@ public class Schedule extends BaseEntity {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
 
-    public List<Manager> getManagerSchedule() {
-        return managerSchedule;
-    }
-
-    public void linkScheduleToManager(Manager manager) {
-        managerSchedule.add(manager);
-    }
+//    public List<Manager> getManagerSchedule() {
+//        return managerSchedule;
+//    }
+//
+//    public void linkScheduleToManager(Manager manager) {
+//        managerSchedule.add(manager);
+//    }
 
     public String getTargetCustomer() {
         return targetCustomer;

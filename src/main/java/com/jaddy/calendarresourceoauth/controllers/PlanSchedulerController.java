@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,7 +28,7 @@ public class PlanSchedulerController {
     private ManagerDao managerDao;
 
     @Autowired
-    private InMemoryUserDetailsManager userDetailsManager;
+    private JdbcUserDetailsManager userDetailsManager;
 
     public PlanSchedulerController(SchedulePlanService schedulePlanService) {
         this.schedulePlanService = schedulePlanService;

@@ -10,34 +10,34 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "appointments", schema = "public")
+@Table(name = "`appointments`", schema = "public")
 @JsonSerialize(using = AppointmentSerializer.class)
 public class Appointment extends BaseEntity implements Comparable<Appointment> {
-    @Column(name = "appointment_start")
+    @Column(name = "`appointment_start`")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime appointmentScheduleStartTime;
-    @Column(name = "appointment_end")
+    @Column(name = "`appointment_end`")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime appointmentScheduleEndTime;
-    @Column(name = "canceled_at")
+    @Column(name = "`canceled_at`")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime appointmentCanceledTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "`status`")
     private AppointmentStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "id_manager")
+    @JoinColumn(name = "`uid_manager`")
     private Manager manager;
 
     @ManyToOne
-    @JoinColumn(name="id_customer")
+    @JoinColumn(name="`id_customer`")
     private Customer customer;
 
 
     @ManyToOne
-    @JoinColumn(name="id_schedule")
+    @JoinColumn(name="`id_schedule`")
     private Schedule schedule;
 
     public Appointment() {

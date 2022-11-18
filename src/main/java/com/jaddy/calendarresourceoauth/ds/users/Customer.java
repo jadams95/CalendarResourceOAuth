@@ -4,11 +4,15 @@ package com.jaddy.calendarresourceoauth.ds.users;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.ds.Appointment;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,14 +20,14 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.stream;
 
 @Entity
-@Table(name = "customers", schema = "public")
+@Table(name = "`customers`", schema = "public")
 @PrimaryKeyJoinColumn(name = "id_customer")
 public class Customer implements UserDetails {
     @Id
-    @Column(name = "id_customer", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "`username`")
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -33,6 +37,8 @@ public class Customer implements UserDetails {
     private String role;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(columnDefinition = "text[]", name = "`authorities`")
+    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
     private String[] authorities;
 
 

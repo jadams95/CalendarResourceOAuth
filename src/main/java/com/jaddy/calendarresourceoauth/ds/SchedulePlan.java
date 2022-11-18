@@ -23,12 +23,12 @@ import static javax.persistence.TemporalType.DATE;
 public class SchedulePlan  {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "`id`")
     private Long id;
 
 
     @OneToOne
-    @JoinColumn(name = "id_schedules_details")
+    @JoinColumn(name = "`id_schedules_details`")
     private Schedule schedule;
 
     /**
@@ -51,37 +51,37 @@ public class SchedulePlan  {
 
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "monday")
+    @Column(columnDefinition = "json", name = "`monday`")
     @JsonInclude
     private DayPlan monday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "tuesday")
+    @Column(columnDefinition = "json", name = "`tuesday`")
     @JsonInclude
     private DayPlan tuesday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "wednesday")
+    @Column(columnDefinition = "json", name = "`wednesday`")
     @JsonInclude
     private DayPlan wednesday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "thursday")
+    @Column(columnDefinition = "json", name = "`thursday`")
     @JsonInclude
     private DayPlan thursday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "friday")
+    @Column(columnDefinition = "json", name = "`friday`")
     @JsonInclude
     private DayPlan friday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "saturday")
+    @Column(columnDefinition = "json", name = "`saturday`")
     @JsonInclude
     private DayPlan saturday;
 
     @Type(type = "json")
-    @Column(columnDefinition = "json", name = "sunday")
+    @Column(columnDefinition = "json", name = "`sunday`")
     @JsonInclude
     private DayPlan sunday;
 

@@ -62,15 +62,15 @@ public class ScheduleController {
     public List<ScheduleDTO> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
         return scheduleService.findAllSchedules();
     }
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-    @PutMapping("/schedule/{id_schedule}")
-    public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedule") Long idSchedule, Principal principal){
-        Manager manager = managerDao.findByUsername(principal.getName());
-//        ManagerDTO managerDTO = new ManagerDTO(manager.getId(), manager.getUsername());
-        Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, manager);
-        ScheduleDTO scheduleDTO = new ScheduleDTO(dbSchedule.getId(), dbSchedule.getName(), dbSchedule.getScheduleDescription(), dbSchedule.getTargetCustomer(), dbSchedule.getEditable(), dbSchedule.getManagerSchedule());
-        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
-    }
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PutMapping("/schedule/{id_schedule}")
+//    public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedule") Long idSchedule, Principal principal){
+//        Manager manager = managerDao.findByUsername(principal.getName());
+////        ManagerDTO managerDTO = new ManagerDTO(manager.getId(), manager.getUsername());
+//        Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, manager);
+//        ScheduleDTO scheduleDTO = new ScheduleDTO(dbSchedule.getId(), dbSchedule.getName(), dbSchedule.getScheduleDescription(), dbSchedule.getTargetCustomer(), dbSchedule.getEditable(), dbSchedule.getManagerSchedule());
+//        return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
+//    }
 
 
 }

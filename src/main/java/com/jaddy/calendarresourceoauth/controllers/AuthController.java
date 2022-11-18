@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 
@@ -35,7 +36,7 @@ public class AuthController {
     private CustomerDao customerDao;
 
     @Autowired
-    private InMemoryUserDetailsManager userDetailsManager;
+    private JdbcUserDetailsManager userDetailsManager;
 
     public AuthController(TokenService tokenService) {
         this.tokenService = tokenService;
