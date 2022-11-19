@@ -41,7 +41,7 @@ public class AppointmentService {
 
     public void saveCustomerAppointment(Appointment appointment, Long scheduleId, String customerName) throws NoSuchAlgorithmException {
         Appointment appointmentDb = new Appointment();
-        Customer customerDB = customerDao.findByUsername(customerName);
+//        Customer customerDB = usersDao.findByUsername(customerName);
 //        Manager managerDB = scheduleDao;
         Optional<Manager> managerDB = managerDao.findById(Long.valueOf(2697));
         Optional<Schedule> scheduleDB = scheduleDao.findById(scheduleId);
@@ -53,21 +53,21 @@ public class AppointmentService {
             // Create the References to save
             appointmentDb.setId(generateRandomId());
             appointmentDb.setStatus(AppointmentStatus.BOOKED);
-            appointmentDb.setCustomer(customerDB);
+//            appointmentDb.setCustomer(customerDB);
 //            appointmentDb.setSchedule(scheduleDB.get());
 
             // Entity
             appointmentDb.setAppointmentScheduleStartTime(appointment.getAppointmentScheduleStartTime());
             appointmentDb.setAppointmentScheduleEndTime(appointment.getAppointmentScheduleEndTime());
 
-            Customer customerEntity = new Customer(customerDB.getId(), customerDB.getUsername(), customerDB.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+//            Customer customerEntity = new Customer(customerDB.getId(), customerDB.getUsername(), customerDB.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
             Manager managerEntity = new Manager();
             Schedule scheduleEntity = new Schedule();
             managerDB.ifPresent(x -> managerEntity.setId(x.getId()));
-            managerDB.ifPresent(x -> managerEntity.setUsername(x.getUsername()));
-            managerDB.ifPresent(x -> managerEntity.setPassword(x.getPassword()));
-            managerDB.ifPresent(x -> managerEntity.setRole(Role.ROLE_MANAGER.name()));
-            managerDB.ifPresent(x -> managerEntity.setAuthorities(Role.ROLE_MANAGER.getAuthorities()));
+//            managerDB.ifPresent(x -> managerEntity.setUsername(x.getUsername()));
+//            managerDB.ifPresent(x -> managerEntity.setPassword(x.getPassword()));
+//            managerDB.ifPresent(x -> managerEntity.setRole(Role.ROLE_MANAGER.name()));
+//            managerDB.ifPresent(x -> managerEntity.setAuthorities(Role.ROLE_MANAGER.getAuthorities()));
 
             scheduleDB.ifPresent(x -> scheduleEntity.setId(x.getId()));
             scheduleDB.ifPresent(x -> scheduleEntity.setName(x.getName()));
@@ -80,7 +80,8 @@ public class AppointmentService {
 //            appointmentDb.setManager(managerEntity);
 //            Manager managerEntity = new Manager(2697, , scheduleDB.get().getScheduleList().getPassword(), scheduleDB.get().getScheduleList().getRole(), Role.ROLE_MANAGER.getAuthorities());
 //            managerDao.saveAndFlush(managerEntity);
-            appointmentDb.setCustomer(customerEntity);
+            // Need to set the Many to Many Mapping
+//            appointmentDb.setCustomer(customerEntity);
             appointmentDb.setManager(managerEntity);
             appointmentDb.setSchedule(scheduleEntity);
             appointmentDao.save(appointmentDb);

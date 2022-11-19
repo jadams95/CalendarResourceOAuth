@@ -22,24 +22,31 @@ import static java.util.Arrays.stream;
 @Entity
 @Table(name = "`customers`", schema = "public")
 @PrimaryKeyJoinColumn(name = "id_customer")
-public class Customer implements UserDetails {
+public class Customer {
+
+
     @Id
-    @Column(name = "`id`", nullable = false)
-    private Long id;
+    @Column(name = "`id_customer`")
+    Long id;
 
-    @Column(name = "`username`")
-    private String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String role;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(columnDefinition = "text[]", name = "`authorities`")
-    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
-    private String[] authorities;
+//    @Id
+//    @Column(name = "`id`", nullable = false)
+//    private Long id;
+//
+//    @Column(name = "`username`")
+//    private String username;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private String password;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private String role;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @Column(columnDefinition = "text[]", name = "`authorities`")
+//    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
+//    private String[] authorities;
 
 
     @OneToMany(mappedBy = "customer")
@@ -57,28 +64,30 @@ public class Customer implements UserDetails {
     public Customer(){
     }
 
-
-    public Customer(Long id, String username, String password, String role, String[] authorities){
+    public Customer(Long id) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.authorities = authorities;
     }
+//    public Customer(Long id, String username, String password, String role, String[] authorities){
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.authorities = authorities;
+//    }
+//
+//
+//    public Customer(Long id, String username, String password, String role, String[] authorities, List<Appointment> appointments){
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.authorities = authorities;
+//        this.appointments = appointments;
+//    }
 
 
-    public Customer(Long id, String username, String password, String role, String[] authorities, List<Appointment> appointments){
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.authorities = authorities;
-        this.appointments = appointments;
-    }
 
-
-
-    //    @OneToMany
+//        @OneToMany
 //    private List<Appointment> appointmentList;
 
     public List<Appointment> getAppointments() {
@@ -89,38 +98,39 @@ public class Customer implements UserDetails {
         this.appointments = appointments;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return stream(Role.ROLE_CUSTOMER.getAuthorities()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return stream(Role.ROLE_CUSTOMER.getAuthorities()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return this.password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return this.username;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

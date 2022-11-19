@@ -38,6 +38,8 @@ public class SecurityConfig {
     private final ManagerDao managerDao;
     private final RsaKeyProperties rsaKeys;
 
+
+
     public SecurityConfig(RsaKeyProperties rsaKeys, ManagerDao managerDao) {
         this.rsaKeys = rsaKeys;
         this.managerDao = managerDao;
@@ -54,11 +56,7 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
-    @Bean
-        public JdbcUserDetailsManager users(DataSource dataSource) {
-            JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-            return jdbcUserDetailsManager;
-    }
+
     /** Old Manager details **/
 //    Manager manager = new Manager(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());
 //    Manager manager2 = new Manager(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities());

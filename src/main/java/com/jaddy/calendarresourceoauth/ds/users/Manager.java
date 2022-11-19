@@ -24,28 +24,34 @@ import static java.util.Arrays.stream;
 @Entity
 @Table(name = "`managers`")
 @PrimaryKeyJoinColumn(name = "`uid_manager`")
-public class Manager implements UserDetails {
-    @Id
-    @Column(name = "`id`", nullable = false)
-    private Long id;
+public class Manager {
 
-    @Column(name = "`username`")
-    private String username;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "`password`")
-    private String password;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "`role`")
-    private String role;
+    @Id Long id;
 
 
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(columnDefinition = "text[]", name = "`authorities`")
-    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
-    private String[] authorities;
+
+//    @Id
+//    @Column(name = "`id`", nullable = false)
+//    private Long id;
+//
+//    @Column(name = "`username`")
+//    private String username;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @Column(name = "`password`")
+//    private String password;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @Column(name = "`role`")
+//    private String role;
+//
+//
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @Column(columnDefinition = "text[]", name = "`authorities`")
+//    @Type(type = "com.jaddy.calendarresourceoauth.utils.PostgreSqlStringArrayType")
+//    private String[] authorities;
 
 
     @OneToMany(mappedBy = "manager")
@@ -56,22 +62,16 @@ public class Manager implements UserDetails {
     @JoinTable(name = "`schedule_managers_table`", joinColumns = @JoinColumn(name = "`uid_manager`"), inverseJoinColumns = @JoinColumn(name = "`manager_schedule`"))
     private List<Schedule> schedules = new ArrayList<>();
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setAuthorities(String[] authorities) {
-        this.authorities = authorities;
-    }
-
+    //
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//
+//    public void setAuthorities(String[] authorities) {
+//        this.authorities = authorities;
+//    }
+//
     public Long getId() {
         return id;
     }
@@ -84,28 +84,32 @@ public class Manager implements UserDetails {
     public Manager() {
     }
 
-    public Manager(Long id, String username, String password, String role, String[] authorities) {
+    public Manager(Long id) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.authorities = authorities;
     }
+    //    public Manager(Long id, String username, String password, String role, String[] authorities) {
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.authorities = authorities;
+//    }
 
 
-    public Manager(Long id, String username, String password, String role, String[] authorities, List<Schedule> schedules) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.authorities = authorities;
-        this.schedules = schedules;
-    }
+//    public Manager(Long id, String username, String password, String role, String[] authorities, List<Schedule> schedules) {
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.authorities = authorities;
+//        this.schedules = schedules;
+//    }
+
 
     public List<Appointment> getAppointments() {
         return appointments;
     }
-
+//
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
@@ -114,9 +118,9 @@ public class Manager implements UserDetails {
         return schedules;
     }
 
-    public String getRole() {
-        return role;
-    }
+//    public String getRole() {
+//        return role;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -132,38 +136,4 @@ public class Manager implements UserDetails {
         return Objects.hash(appointments, schedules);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return stream(Role.ROLE_MANAGER.getAuthorities()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

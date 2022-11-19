@@ -2,9 +2,13 @@ package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.dao.CustomerDao;
+import com.jaddy.calendarresourceoauth.dao.UsersDao;
 import com.jaddy.calendarresourceoauth.ds.users.Customer;
+import com.jaddy.calendarresourceoauth.ds.users.Users;
 import com.jaddy.calendarresourceoauth.model.dtos.CustomerDTO;
+//import com.jaddy.calendarresourceoauth.model.dtos.CustomerPrincipal;
 import com.jaddy.calendarresourceoauth.service.authservices.TokenService;
+import com.jaddy.calendarresourceoauth.service.userservices.CustomerDetailsService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,19 +37,18 @@ public class AuthController {
     private final TokenService tokenService;
 
     @Autowired
-    private CustomerDao customerDao;
+    private UsersDao usersDao;
 
     @Autowired
-    private JdbcUserDetailsManager userDetailsManager;
-
+    private CustomerDetailsService customerDetailsService;
     public AuthController(TokenService tokenService) {
         this.tokenService = tokenService;
     }
 
-    @PreAuthorize("hasAnyAuthority('customer:read', 'customer:update', 'customer:create', 'manager:read', 'manager:update', 'manager:create', 'manager:delete')")
+    @PreAuthorize("permitAll()")
     @PostMapping(value = "/token", produces = {"text/plain"})
     public ResponseEntity<String> loginToken(Authentication authentication) {
-        if(authentication.getAuthorities().containsAll(stream(Role.ROLE_CUSTOMER.getAuthorities())
+        if (authentication.getAuthorities().containsAll(stream(Role.ROLE_CUSTOMER.getAuthorities())
                 .map(SimpleGrantedAuthority::new).toList())) {
             LOG.info("Token requred for user has details: '{}'", authentication.getDetails());
             LOG.info("Token requested for user: '{}'", authentication.getName());
@@ -54,11 +57,10 @@ public class AuthController {
             String token = tokenService.generateToken(authentication);
             LOG.info("Token granted: {}", token);
             return new ResponseEntity<>(token, HttpStatus.OK);
-            // Removed if statement
-            }
-        if(authentication.getAuthorities()
+        }
+        if (authentication.getAuthorities()
                 .containsAll(stream(Role.ROLE_MANAGER.getAuthorities())
-                        .map(SimpleGrantedAuthority::new).toList())){
+                        .map(SimpleGrantedAuthority::new).toList())) {
             LOG.info("Token requred for user has details: '{}'", authentication.getDetails());
             LOG.info("Token requested for user: '{}'", authentication.getName());
             LOG.info("Token requested for user: '{}'", authentication.getCredentials());
@@ -69,6 +71,7 @@ public class AuthController {
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
 
 // -------- Can Delete in a little refactoring to be in one method
 //    @PreAuthorize("hasAuthority('manager:create')")
@@ -83,11 +86,10 @@ public class AuthController {
 
     @PostMapping("/register")
     @Transactional
-    public String registerUser(@RequestBody CustomerDTO customer) throws NoSuchAlgorithmException {
-       Customer savedUser =  new Customer(generateRandomId(), customer.getUsername(), "{noop}" + customer.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
-       customerDao.save(savedUser);
-       userDetailsManager.createUser(savedUser);
-       return customer.getUsername();
+    public String registerUser(@RequestBody Users customer) throws NoSuchAlgorithmException {
+       Users savedUser =  new Users(generateRandomId(), customer.getUsername(), "{noop}" + customer.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities());
+//       usersDao.save(new Users(generateRandomId(), customer.getUsername(), "{noop}" + customer.getPassword(), Role.ROLE_CUSTOMER.name(), Role.ROLE_CUSTOMER.getAuthorities()));
+       return customerDetailsService.saveCustomer(savedUser).getUsername();
     }
 
     public Long generateRandomId() throws NoSuchAlgorithmException {

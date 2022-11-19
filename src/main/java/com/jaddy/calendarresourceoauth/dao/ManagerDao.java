@@ -17,5 +17,5 @@ public interface ManagerDao extends JpaRepository<Manager, Long> {
 
     Manager findManagerBySchedules(Long scheduleId);
 
-    Manager findByUsername(String userName);
+//    Manager findByUsername(String userName);
 }

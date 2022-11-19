@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerDao extends JpaRepository<Customer, Long> {
-    Customer findByUsername(String userName);
+//    Customer findByUsername(String userName);
 }

@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth;
 
 import com.jaddy.calendarresourceoauth.config.RsaKeyProperties;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,6 +20,9 @@ public class CalendarResourceOAuthApplication {
     }
 
 
-
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
 
 }

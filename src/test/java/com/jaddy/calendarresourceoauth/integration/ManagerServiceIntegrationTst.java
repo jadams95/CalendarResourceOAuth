@@ -4,7 +4,10 @@ import com.jaddy.calendarresourceoauth.config.ResourceServerConfig;
 import com.jaddy.calendarresourceoauth.config.SecurityConfig;
 import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
+import com.jaddy.calendarresourceoauth.dao.UsersDao;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
+import com.jaddy.calendarresourceoauth.ds.users.Users;
+import com.jaddy.calendarresourceoauth.service.userservices.CustomerDetailsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -35,7 +38,11 @@ class ManagerServiceIntegrationTst {
     private ManagerDao managerDao;
 
     @Autowired
-    private JdbcUserDetailsManager jdbcUserDetailsManager;
+    private UsersDao usersDao;
+
+
+    @Autowired
+    private CustomerDetailsService customerDetailsService;
 
 //    @Autowired
 //    private JdbcUserDetailsManager jdbcUserDetailsManager;
@@ -46,9 +53,9 @@ class ManagerServiceIntegrationTst {
 //        this.jdbcUserDetailsManager = jdbcUserDetailsManager;
 //    }
 
-    List<Manager> managerList = List.of(new Manager(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
-            new Manager(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
-                    new Manager(25234L, "testmanager2@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()));
+    List<Users> managerList = List.of(new Users(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
+            new Users(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
+                    new Users(25234L, "testmanager2@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()));
 
 
 
@@ -56,13 +63,12 @@ class ManagerServiceIntegrationTst {
 
     @Commit
     @Test
-    @Disabled
     public void testSaveManagerAndAddSecurityContext(){
 
 //            LOG.info(manager.toString());
-            managerDao.save(managerList.get(0));
-            managerDao.save(managerList.get(1));
-            managerDao.save(managerList.get(2));
+            customerDetailsService.saveManager(managerList.get(0));
+            customerDetailsService.saveManager(managerList.get(1));
+            customerDetailsService.saveManager(managerList.get(2));
 
 //            jdbcUserDetailsManager.setCreateUserSql("CREATE TABLE public.managers (\n" +
 //                    "\tid int8 NOT NULL,\n" +
@@ -75,21 +81,20 @@ class ManagerServiceIntegrationTst {
 //            jdbcUserDetailsManager.createUser(manager2);
 //            jdbcUserDetailsManager.createUser(manager3);
 
-            Manager tstManager = managerDao.findByUsername(managerList.get(0).getUsername());
+            Users tstManager = usersDao.findByUsername(managerList.get(0).getUsername());
             Assertions.assertEquals(managerList.get(0).getUsername(),tstManager.getUsername());
     }
 
-    @Commit
-    @Test
-    public void testJDBCCreateManager(){
-        UserDetails userDetails = User.withUsername(managerList.get(0).getUsername()).roles("MANAGER")
-                .authorities(Role.ROLE_MANAGER.getAuthorities())
-                .password(managerList.get(0).getPassword())
-                .build();
-        jdbcUserDetailsManager.setCreateUserSql();
-//        jdbcUserDetailsManager.createUser(userDetails);
-        Assertions.assertTrue(jdbcUserDetailsManager.userExists(managerList.get(0).getUsername()));
-    }
+//    @Commit
+//    @Test
+//    public void testJDBCCreateManager(){
+//        UserDetails userDetails = User.withUsername(managerList.get(0).getUsername()).roles("MANAGER")
+//                .authorities(Role.ROLE_MANAGER.getAuthorities())
+//                .password(managerList.get(0).getPassword())
+//                .build();
+////        jdbcUserDetailsManager.createUser(userDetails);
+//        Assertions.assertTrue(customerDetailsService.loadManagerByUsername(managerList.get(0).getUsername()));
+//    }
 
 
 }

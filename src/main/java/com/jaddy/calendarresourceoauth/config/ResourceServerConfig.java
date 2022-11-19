@@ -1,34 +1,55 @@
 package com.jaddy.calendarresourceoauth.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.jaddy.calendarresourceoauth.service.userservices.CustomerDetailsService;
+import com.jaddy.calendarresourceoauth.filters.CustomAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoderInitializationException;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class ResourceServerConfig {
 
+    @Autowired
+    private CustomAuthenticationProvider authProvider;
+
+    @Autowired
+    private CustomerDetailsService customerDetailsService;
+
+    @Bean
+    public JdbcUserDetailsManager users(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        return jdbcUserDetailsManager;
+    }
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(authProvider).userDetailsService(customerDetailsService);
+        return authenticationManagerBuilder.build();
+    }
     @Bean
     public SecurityFilterChain resourceConfig(HttpSecurity http) throws Exception {
-       http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+       http.headers().httpStrictTransportSecurity().disable().and().csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+               .authenticationProvider(authProvider)
                .authorizeRequests(x ->
-                       x.antMatchers("/register", "/token").permitAll()
+                       x.antMatchers("/register").permitAll()
+                               .antMatchers("/token").permitAll()
                                .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:read")

@@ -1,16 +1,17 @@
 package com.jaddy.calendarresourceoauth.model.dtos;
 
-public class CustomerDTO {
+import com.jaddy.calendarresourceoauth.ds.users.Customer;
+import com.jaddy.calendarresourceoauth.ds.users.Manager;
+
+public class CustomerDTO extends Customer {
 
     private Long id;
-
     private String username;
 
-    private String password;
-
-    private String role;
-
-    private String[] authorities;
+    public CustomerDTO(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -28,27 +29,4 @@ public class CustomerDTO {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String[] getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(String[] authorities) {
-        this.authorities = authorities;
-    }
 }
