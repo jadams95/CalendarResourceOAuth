@@ -33,68 +33,28 @@ import java.util.List;
 @TestConfiguration
 @SpringBootTest()
 class ManagerServiceIntegrationTst {
-
     @Autowired
     private ManagerDao managerDao;
-
     @Autowired
     private UsersDao usersDao;
-
-
     @Autowired
     private CustomerDetailsService customerDetailsService;
-
-//    @Autowired
-//    private JdbcUserDetailsManager jdbcUserDetailsManager;
-//    private JdbcUserDetailsManager jdbcUserDetailsManager;
-
-//    public ManagerServiceIntegrationTst(ManagerDao managerDao, JdbcUserDetailsManager jdbcUserDetailsManager){
-//        this.managerDao = managerDao;
-//        this.jdbcUserDetailsManager = jdbcUserDetailsManager;
-//    }
 
     List<Users> managerList = List.of(new Users(05211L, "dvega", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
             new Users(21234L, "testmanager@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()),
                     new Users(25234L, "testmanager2@example.org", "{noop}password123!", Role.ROLE_MANAGER.name(), Role.ROLE_MANAGER.getAuthorities()));
 
-
-
-
-
     @Commit
     @Test
     public void testSaveManagerAndAddSecurityContext(){
-
-//            LOG.info(manager.toString());
             customerDetailsService.saveManager(managerList.get(0));
             customerDetailsService.saveManager(managerList.get(1));
             customerDetailsService.saveManager(managerList.get(2));
-
-//            jdbcUserDetailsManager.setCreateUserSql("CREATE TABLE public.managers (\n" +
-//                    "\tid int8 NOT NULL,\n" +
-//                    "\tauthorities _text NULL,\n" +
-//                    "\t\"password\" varchar(255) NULL,\n" +
-//                    "\t\"role\" varchar(255) NULL,\n" +
-//                    "\tusername varchar(255) NULL\n" +
-//                    ");");
-//            jdbcUserDetailsManager.createUser(manager);
-//            jdbcUserDetailsManager.createUser(manager2);
-//            jdbcUserDetailsManager.createUser(manager3);
-
             Users tstManager = usersDao.findByUsername(managerList.get(0).getUsername());
             Assertions.assertEquals(managerList.get(0).getUsername(),tstManager.getUsername());
     }
 
-//    @Commit
-//    @Test
-//    public void testJDBCCreateManager(){
-//        UserDetails userDetails = User.withUsername(managerList.get(0).getUsername()).roles("MANAGER")
-//                .authorities(Role.ROLE_MANAGER.getAuthorities())
-//                .password(managerList.get(0).getPassword())
-//                .build();
-////        jdbcUserDetailsManager.createUser(userDetails);
-//        Assertions.assertTrue(customerDetailsService.loadManagerByUsername(managerList.get(0).getUsername()));
-//    }
+
 
 
 }

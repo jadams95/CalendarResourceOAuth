@@ -28,6 +28,8 @@ public class Manager {
 
     @Id Long id;
 
+    @Column(name = "username")
+    private String username;
 
 
 
@@ -84,8 +86,9 @@ public class Manager {
     public Manager() {
     }
 
-    public Manager(Long id) {
+    public Manager(Long id, String username) {
         this.id = id;
+        this.username = username;
     }
     //    public Manager(Long id, String username, String password, String role, String[] authorities) {
 //        this.id = id;
@@ -105,6 +108,14 @@ public class Manager {
 //        this.schedules = schedules;
 //    }
 
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public List<Appointment> getAppointments() {
         return appointments;

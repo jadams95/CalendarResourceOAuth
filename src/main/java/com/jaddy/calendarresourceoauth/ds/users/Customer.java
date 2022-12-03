@@ -29,6 +29,9 @@ public class Customer {
     @Column(name = "`id_customer`")
     Long id;
 
+    @Column(name = "`username`")
+    private String username;
+
 
 //    @Id
 //    @Column(name = "`id`", nullable = false)
@@ -64,8 +67,9 @@ public class Customer {
     public Customer(){
     }
 
-    public Customer(Long id) {
+    public Customer(Long id, String username) {
         this.id = id;
+        this.username = username;
     }
 //    public Customer(Long id, String username, String password, String role, String[] authorities){
 //        this.id = id;
@@ -98,7 +102,15 @@ public class Customer {
         this.appointments = appointments;
     }
 
-//    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        return stream(Role.ROLE_CUSTOMER.getAuthorities()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //    }

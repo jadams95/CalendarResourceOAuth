@@ -56,7 +56,7 @@ public class CustomerDetailsService implements UserDetailsService {
         }
         if(managerPrincipalEnt == null){
             usersDao.save(manager);
-            managerDao.save(new Manager(manager.getId()));
+            managerDao.save(new Manager(manager.getId(), manager.getUsername()));
         }
         return new CustomerPrincipal(manager);
     }
@@ -72,7 +72,7 @@ public class CustomerDetailsService implements UserDetailsService {
         }
         if(customerPrincipalEnt == null){
             usersDao.save(customer);
-            customerDao.save(new Customer(customer.getId()));
+            customerDao.save(new Customer(customer.getId(), customer.getUsername()));
         }
         return new CustomerPrincipal(customer);
     }

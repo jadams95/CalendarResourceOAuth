@@ -50,10 +50,10 @@ public class Schedule extends BaseEntity {
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
 
-//    @JsonBackReference
-//    @ManyToMany
-//    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
-//    public List<Manager> managerSchedule = new ArrayList<>();
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
+    public List<Manager> managerSchedule = new ArrayList<>();
 
 
     private Boolean editable;
@@ -109,13 +109,13 @@ public class Schedule extends BaseEntity {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
 
-//    public List<Manager> getManagerSchedule() {
-//        return managerSchedule;
-//    }
-//
-//    public void linkScheduleToManager(Manager manager) {
-//        managerSchedule.add(manager);
-//    }
+    public List<Manager> getManagerSchedule() {
+        return managerSchedule;
+    }
+
+    public void linkScheduleToManager(Manager manager) {
+        managerSchedule.add(manager);
+    }
 
     public String getTargetCustomer() {
         return targetCustomer;

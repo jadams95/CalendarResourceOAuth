@@ -9,10 +9,4 @@ import java.util.List;
 
 
 public interface SchduleDao extends JpaRepository<Schedule, Long> {
-
-
-//     @Query("select Schedule where from S")
-//     List<Schedule> findByManagerSchedule_Id(Long managerId);
-
-
 }

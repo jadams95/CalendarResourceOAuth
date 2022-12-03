@@ -44,13 +44,13 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
     }
 
 
-//    public Appointment(LocalDateTime appointmentScheduleStartTime, LocalDateTime appointmentScheduleEndTime, Manager manager, Customer customer, Schedule schedule) {
-//        this.appointmentScheduleStartTime = appointmentScheduleStartTime;
-//        this.appointmentScheduleEndTime = appointmentScheduleEndTime;
-//        this.manager = manager;
-//        this.customer = customer;
-//        this.schedule = schedule;
-//    }
+    public Appointment(LocalDateTime appointmentScheduleStartTime, LocalDateTime appointmentScheduleEndTime, Manager manager, Customer customer, Schedule schedule) {
+        this.appointmentScheduleStartTime = appointmentScheduleStartTime;
+        this.appointmentScheduleEndTime = appointmentScheduleEndTime;
+        this.manager = manager;
+        this.customer = customer;
+        this.schedule = schedule;
+    }
 
     @Override
     public int compareTo(Appointment o) {

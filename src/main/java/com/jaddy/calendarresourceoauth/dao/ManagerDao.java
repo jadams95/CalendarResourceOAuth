@@ -10,12 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ManagerDao extends JpaRepository<Manager, Long> {
-//    @EntityGraph(attributePaths = {"schedulePlan.manager"})
-//    @Query("select m from Manager m where m.username=:username")
-
-
-
     Manager findManagerBySchedules(Long scheduleId);
 
-//    Manager findByUsername(String userName);
+    Manager findByUsername(String userName);
 }

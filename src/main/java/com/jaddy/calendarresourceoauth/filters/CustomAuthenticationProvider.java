@@ -7,6 +7,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,26 +39,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
-
+        UsernamePasswordAuthenticationToken token;
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         UserDetails userEntity = customerDetailsService.loadUserByUsername(authentication.getName());
 
-        if (userEntity != null) {
-            // use the credentials
-
-            return new UsernamePasswordAuthenticationToken(username, password, userEntity.getAuthorities());
+        try {
+            if (passwordEncoder.matches(password, userEntity.getPassword())) {
+                // use the credentials
+                token = new UsernamePasswordAuthenticationToken(username, password, userEntity.getAuthorities());
+                return token;
+            } else {
+                throw new BadCredentialsException("Incorrect user Credentials!");
+            }
+        } catch (AccessDeniedException err){
+            err.printStackTrace();
         }
-//        if (userEntity != null && userEntity.getAuthorities().contains(Role.ROLE_MANAGER.getAuthorities())) {
-//            // use the credentials
-//            return new UsernamePasswordAuthenticationToken(username, password, userEntity.getAuthorities());
-//        }
-
-        else {
-            throw new BadCredentialsException("Incorrect user Credentials!");
-        }
-//        return authentication;
+        return null;
     }
 
     @Override
