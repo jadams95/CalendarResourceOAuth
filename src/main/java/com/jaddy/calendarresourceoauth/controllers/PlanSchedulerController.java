@@ -38,7 +38,7 @@ public class PlanSchedulerController {
         this.schedulePlanService = schedulePlanService;
     }
 
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/monday/{id}")
     public ResponseEntity<SchedulePlan> updateMondaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayMonday(schedulePlanId, dayPlan, principal.getName());
@@ -47,7 +47,7 @@ public class PlanSchedulerController {
         schedulePlan.setMonday(testSchedulePlan.getMonday());
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/tuesday/{id}")
     public ResponseEntity<SchedulePlan> updateTuesdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayTuesday(schedulePlanId, dayPlan, principal.getName());
@@ -58,7 +58,7 @@ public class PlanSchedulerController {
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
 
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/wednesday/{id}")
     public ResponseEntity<SchedulePlan> updateWednesdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayWednesday(schedulePlanId, dayPlan, principal.getName());
@@ -70,7 +70,7 @@ public class PlanSchedulerController {
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
 
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/thursday/{id}")
     public ResponseEntity<SchedulePlan> updateThursdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayThursday(schedulePlanId, dayPlan, principal.getName());
@@ -82,7 +82,7 @@ public class PlanSchedulerController {
         schedulePlan.setThursday(testSchedulePlan.getThursday());
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/friday/{id}")
     public ResponseEntity<SchedulePlan> updateFridaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayFriday(schedulePlanId, dayPlan, principal.getName());
@@ -95,7 +95,7 @@ public class PlanSchedulerController {
         schedulePlan.setFriday(testSchedulePlan.getFriday());
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/saturday/{id}")
     public ResponseEntity<SchedulePlan> updateSaturdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySaturday(schedulePlanId, dayPlan, principal.getName());
@@ -110,7 +110,7 @@ public class PlanSchedulerController {
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
 
-    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/sunday/{id}")
     public ResponseEntity<SchedulePlan> updateSundaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
         SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySunday(schedulePlanId, dayPlan, principal.getName());
