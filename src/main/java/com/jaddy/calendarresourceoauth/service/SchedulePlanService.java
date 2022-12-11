@@ -50,6 +50,7 @@ public class SchedulePlanService {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setMonday(schedulePlanModel);
@@ -74,6 +75,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
 
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setTuesday(schedulePlanModel);
@@ -117,7 +119,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setTuesday(plan.getTuesday()));
-
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setWednesday(schedulePlanModel);
@@ -142,7 +144,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setTuesday(plan.getTuesday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setWednesday(plan.getWednesday()));
-
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setThursday(schedulePlanModel);
@@ -169,7 +171,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setWednesday(plan.getWednesday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setThursday(plan.getThursday()));
 
-
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setFriday(schedulePlanModel);
@@ -196,7 +198,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setWednesday(plan.getWednesday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setThursday(plan.getThursday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setFriday(plan.getFriday()));
-
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setSaturday(schedulePlanModel);
@@ -224,6 +226,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setThursday(plan.getThursday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setFriday(plan.getFriday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSaturday(plan.getSaturday()));
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
 
