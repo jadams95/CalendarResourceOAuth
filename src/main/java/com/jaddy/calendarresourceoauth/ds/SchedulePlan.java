@@ -24,6 +24,7 @@ public class SchedulePlan  {
 
     @Id
     @Column(name = "`id`")
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
 

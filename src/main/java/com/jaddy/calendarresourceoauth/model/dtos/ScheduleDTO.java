@@ -1,6 +1,7 @@
 package com.jaddy.calendarresourceoauth.model.dtos;
 
 import com.jaddy.calendarresourceoauth.ds.Schedule;
+import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 
 import java.util.Date;
@@ -16,6 +17,8 @@ public class ScheduleDTO extends Schedule {
 
     public List<Manager> managerSchedule;
 
+    public SchedulePlan schedulePlan;
+
     public ScheduleDTO() {
     }
 
@@ -26,7 +29,6 @@ public class ScheduleDTO extends Schedule {
         this.targetCustomer = targetCustomer;
         this.editable = editable;
     }
-
     public ScheduleDTO(Long id, String name, String scheduleDescription, String targetCustomer, Boolean editable, List<Manager> managerSchedule) {
         this.id = id;
         this.name = name;
@@ -34,6 +36,16 @@ public class ScheduleDTO extends Schedule {
         this.targetCustomer = targetCustomer;
         this.editable = editable;
         this.managerSchedule = managerSchedule;
+    }
+
+    public ScheduleDTO(Long id, String name, String scheduleDescription, String targetCustomer, Boolean editable, List<Manager> managerSchedule, SchedulePlan schedulePlan) {
+        this.id = id;
+        this.name = name;
+        this.scheduleDescription = scheduleDescription;
+        this.targetCustomer = targetCustomer;
+        this.editable = editable;
+        this.managerSchedule = managerSchedule;
+        this.schedulePlan = schedulePlan;
     }
 
     @Override
@@ -56,7 +68,19 @@ public class ScheduleDTO extends Schedule {
         super.setScheduleDescription(scheduleDescription);
     }
 
+    public void setManagerSchedule(List<Manager> managerSchedule) {
+        this.managerSchedule = managerSchedule;
+    }
 
+    @Override
+    public SchedulePlan getSchedulePlan() {
+        return schedulePlan;
+    }
+
+    @Override
+    public void setSchedulePlan(SchedulePlan schedulePlan) {
+        this.schedulePlan = schedulePlan;
+    }
 
     @Override
     public String getTargetCustomer() {

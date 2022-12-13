@@ -23,12 +23,7 @@ public class Schedule extends BaseEntity {
     @Column(name = "`description`")
     private String scheduleDescription;
 
-//    @Column(name = "duration")
-//    private int duration;
 
-    @Temporal(DATE)
-    @Column(name = "`schedule_start_of_week`")
-    private Date scheduleStartOfWeek;
 
     @Column(name = "`target`")
     private String targetCustomer;
@@ -39,20 +34,12 @@ public class Schedule extends BaseEntity {
      * make you input the times of hours and breaks for the  Schedule Plan for That week,
      * then it will direct you to Schedule
      */
-//    @OneToOne()
-//    @JoinColumn(name = "id_schedule_details")
-//    private SchedulePlan scheduleDetailsId;
-//
-
-
-//    @JoinTable(name = "schedules_managers", joinColumns = @JoinColumn(name ="id_schedule"),
-//            inverseJoinColumns = @JoinColumn(name = "id_manager"))
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
 
     @JsonBackReference
     @ManyToMany
-    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "id_manager"))
+    @JoinTable(name = "schedule_managers", joinColumns = @JoinColumn(name = "id_schedules_details"), inverseJoinColumns = @JoinColumn(name = "uid_manager"))
     public List<Manager> managerSchedule = new ArrayList<>();
 
 
@@ -93,13 +80,6 @@ public class Schedule extends BaseEntity {
 //    }
 
 
-    public Date getScheduleStartOfWeek() {
-        return scheduleStartOfWeek;
-    }
-
-    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
-        this.scheduleStartOfWeek = scheduleStartOfWeek;
-    }
 
 //    public SchedulePlan getScheduleDetailsId() {
 //        return scheduleDetailsId;

@@ -49,40 +49,22 @@ public class ScheduleService {
      */
     @Transactional
     public Schedule saveSchedule(Schedule scheduleEntity, String managerName) throws ParseException, NoSuchAlgorithmException {
-        Long scheduleIdent = generateRandomId();
+//        Long scheduleIdent = generateRandomId();
 //        ScheduleDTO scheduleDTO = new ScheduleDTO();
         Manager dbManager = managerDao.findByUsername(managerName);
+
+
         if(dbManager == null){
             throw new RuntimeException(" Schedule Cannot be found for User");
         } else {
             Schedule scheduleDb = new Schedule();
-            SchedulePlan schedulePlan = new SchedulePlan();
-
-
-
-
-            scheduleDb.setId(scheduleIdent);
-//            scheduleDb.setSchedulePlan(null);
+            scheduleDb.setId(scheduleEntity.getId());
             scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
-//            scheduleDb.setScheduleStartOfWeek(null);
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
             scheduleDb.setEditable(scheduleEntity.getEditable());
-//            scheduleDb.setManagerSchedule(List.of(dbManager));
-//            schedulePlan.setSchedule(scheduleDb);
-//            schedulePlanDao.save(schedulePlan);
+            scheduleDb.linkScheduleToManager(dbManager);
             schduleDao.save(scheduleDb);
-//            Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
-////            scheduleDb.setSchedulePlanner(schedulePlan);
-//
-////            schedulePlan.setMonday(schedulePlanModel);
-//
-//            scheduleRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
-//            scheduleRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
-//            scheduleRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
-//            scheduleRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
-//            scheduleRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
-
             return scheduleDb;
         }
     }
@@ -118,8 +100,10 @@ public class ScheduleService {
         scheduleAllRespDB.ifPresent(x -> schedule.setScheduleDescription(x.getScheduleDescription()));
         scheduleAllRespDB.ifPresent(x -> schedule.setTargetCustomer(x.getTargetCustomer()));
         scheduleAllRespDB.ifPresent(x -> schedule.setEditable(x.getEditable()));
-//        scheduleAllRespDB.ifPresent(x -> schedule.linkScheduleToManager(managerEntity));
+        scheduleAllRespDB.ifPresent(x -> schedule.linkScheduleToManager(managerEntity));
         schduleDao.save(schedule);
         return schedule;
     }
+
+
 }

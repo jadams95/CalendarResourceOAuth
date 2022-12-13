@@ -35,8 +35,9 @@ public class SchedulePlanService {
     }
 
     @Transactional
-    public SchedulePlan updateSchedulePlanWorkDayMonday(Long scheduleid, DayPlan dayPlan, String userName){
+    public SchedulePlan updateSchedulePlanWorkDayMonday(Long scheduleid, Long schedulePlanId, DayPlan dayPlan, String userName){
 
+        Optional<Schedule> optionalSchedule = schduleDao.findById(scheduleid);
 
         SchedulePlan schedulePlan = new SchedulePlan();
         DayPlan schedulePlanModel = new DayPlan();
@@ -47,15 +48,17 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
 
-            Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
+            Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(schedulePlanId);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
-            schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
+//            Schedule testSchedule = new Schedule();
+//
+//            schduleDao.save(testSchedule);
+            schedulePlanDB.ifPresent(plan -> plan.setSchedule(optionalSchedule.orElseThrow()));
             schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
             dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setMonday(schedulePlanModel);
-            schedulePlanDao.save(schedulePlan);
-            return schedulePlan;
+            return schedulePlanDao.save(schedulePlan);
         }
     }
 
@@ -71,6 +74,8 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
+
+
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
@@ -158,6 +163,7 @@ public class SchedulePlanService {
         SchedulePlan schedulePlan = new SchedulePlan();
         DayPlan schedulePlanModel = new DayPlan();
         Manager dbManager = managerDao.findByUsername(userName);
+        Optional<Schedule> scheduleEx = schduleDao.findById(scheduleid);
 
         LOG.info(dbManager.toString());
         if(dbManager == null){
@@ -165,11 +171,12 @@ public class SchedulePlanService {
         } else {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
-            schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
+            schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(scheduleEx.get()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setTuesday(plan.getTuesday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setWednesday(plan.getWednesday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setThursday(plan.getThursday()));
+//            schedulePlanDB.ifPresent(plan -.);
 
             schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
@@ -259,15 +266,26 @@ public class SchedulePlanService {
         Schedule scheduleExDb = new Schedule();
         SchedulePlan schedulePlanDb = new SchedulePlan();
         Optional<Schedule> scheduleDetailsDB = schduleDao.findById(scheduleId);
-        schedulePlanDb.setId(generateRandomId());
-        scheduleDetailsDB.ifPresent(plan -> schedulePlanDb.setSchedule(plan));
+        schedulePlanDb.setSchedule(scheduleDetailsDB.orElseThrow());
+//        schedulePlanDb.setId(generateRandomId());
+
+//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setId(scheduleId));
+//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setName(schedule.getName()));
+//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setScheduleDescription(schedule.getScheduleDescription()));
+//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setTargetCustomer(schedule.getTargetCustomer()));
+//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setEditable(schedule.getEditable()));
+
+
+            schedulePlanDao.save(schedulePlanDb);
+
+
+        //        scheduleDetailsDB.ifPresent(plan -> schedulePlanDb.setSchedule(plan));
 
 
 //        schedulePlanDb.setSchedule(scheduleExDb);
 
 //        SchedulePlan schedulePlan = new SchedulePlan();
 //            schedulePlan.setSchedule(scheduleDb);
-            schedulePlanDao.save(schedulePlanDb);
 //        managerDao.save()
         return schedulePlanDb;
     }

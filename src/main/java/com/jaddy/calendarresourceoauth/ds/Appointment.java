@@ -23,6 +23,8 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime appointmentCanceledTime;
 
+    private Integer durationAppointment;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "`status`")
     private AppointmentStatus status;

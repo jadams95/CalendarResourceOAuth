@@ -50,9 +50,10 @@ public class ResourceServerConfig {
                .authorizeRequests(x ->
                        x.antMatchers("/register").permitAll()
                                .antMatchers("/token").permitAll()
+                               .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
+                               .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:read")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:create")
-                               .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:read")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:update")
                        .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

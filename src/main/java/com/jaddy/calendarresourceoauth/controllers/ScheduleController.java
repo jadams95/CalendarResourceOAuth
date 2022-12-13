@@ -2,7 +2,9 @@ package com.jaddy.calendarresourceoauth.controllers;
 
 import com.jaddy.calendarresourceoauth.dao.ManagerDao;
 import com.jaddy.calendarresourceoauth.dao.SchduleDao;
+import com.jaddy.calendarresourceoauth.dao.SchedulePlanDao;
 import com.jaddy.calendarresourceoauth.ds.Schedule;
+import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
@@ -29,26 +31,33 @@ public class ScheduleController {
     private final ManagerDao managerDao;
     private final SchedulePlanService schedulePlanService;
 
+    private final SchedulePlanDao schedulePlanDao;
     private final SchduleDao schduleDao;
 
-    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService, SchduleDao schduleDao, ManagerDao managerDao){
+    public ScheduleController(ScheduleService scheduleService, SchedulePlanService schedulePlanService, SchduleDao schduleDao, ManagerDao managerDao, SchedulePlanDao schedulePlanDao){
         this.scheduleService = scheduleService;
         this.schedulePlanService = schedulePlanService;
         this.schduleDao = schduleDao;
         this.managerDao = managerDao;
+        this.schedulePlanDao = schedulePlanDao;
     }
     @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule")
     public ResponseEntity<ScheduleDTO> createSchedule(@RequestBody Schedule schedule, Principal principal) throws RuntimeException, ParseException, NoSuchAlgorithmException {
         Schedule testSchedule = scheduleService.saveSchedule(schedule, principal.getName());
-        schedulePlanService.createSchedulePlan(testSchedule.getId());
-        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        logger.info(testSchedule.getId());
+        SchedulePlan schedulePlan = schedulePlanService.createSchedulePlan(testSchedule.getId());
+        schedulePlanDao.save(schedulePlan);
+//        schduleDao.save(testSchedule);
         Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
         scheduleRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
         scheduleRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
         scheduleRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
         scheduleRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
+        scheduleRespDB.ifPresent(x -> scheduleDTO.setManagerSchedule(x.getManagerSchedule()));
+        logger.info(testSchedule.managerSchedule);
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
         }
 
@@ -58,11 +67,11 @@ public class ScheduleController {
         return scheduleService.findAllSchedules();
     }
     @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-    @PutMapping("/schedule/{id_schedule}")
-    public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedule") Long idSchedule, Principal principal){
+    @PutMapping("/schedule/{id_schedules_details}")
+    public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedules_details") Long idSchedule, Principal principal){
         Manager manager = managerDao.findByUsername(principal.getName());
-//        ManagerDTO managerDTO = new ManagerDTO(manager.getId(), manager.getUsername());
-        Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, manager);
+        Manager managerDTO = new Manager(manager.getId(), manager.getUsername());
+        Schedule dbSchedule = scheduleService.updteSchdleToLnkWthMnger(idSchedule, managerDTO);
         ScheduleDTO scheduleDTO = new ScheduleDTO(dbSchedule.getId(), dbSchedule.getName(), dbSchedule.getScheduleDescription(), dbSchedule.getTargetCustomer(),
                 dbSchedule.getEditable(), dbSchedule.managerSchedule);
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
