@@ -1,0 +1,12 @@
+version: "3"
+services:
+  lavishapiserver:
+    build: ./
+    container_name: lavishapiserver
+    ports:
+      - "9000:9000"
+    network_mode: bridge
+    volumes:
+     - testlavish:/root/
+    stdin_open: true
+    tty: true
