@@ -11,7 +11,6 @@ public class ScheduleDTO extends Schedule {
     private Long id;
     private String name;
     private String scheduleDescription;
-    private Date scheduleStartOfWeek;
     private String targetCustomer;
     private Boolean editable;
 
@@ -112,13 +111,6 @@ public class ScheduleDTO extends Schedule {
         this.id = id;
     }
 
-    public Date getScheduleStartOfWeek() {
-        return scheduleStartOfWeek;
-    }
-
-    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
-        this.scheduleStartOfWeek = scheduleStartOfWeek;
-    }
 
     public List<Manager> getManagerSchedule() {
         return managerSchedule;

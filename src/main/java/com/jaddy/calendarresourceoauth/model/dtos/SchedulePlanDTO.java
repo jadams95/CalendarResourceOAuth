@@ -4,13 +4,14 @@ import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SchedulePlanDTO {
 
     private Long schedulePlanId;
 
-    private Date scheduleStartOfWeek;
+    private LocalDate eventPlannerDate;
 
     private Schedule scheduleDetails;
 
@@ -30,6 +31,7 @@ public class SchedulePlanDTO {
 
     private DayPlan sunday;
 
+    public SchedulePlanDTO(){}
 
     public SchedulePlanDTO(Long schedulePlanId, Date scheduleStartOfWeek, DayPlan monday, Manager manager){}
 
@@ -41,12 +43,12 @@ public class SchedulePlanDTO {
         this.schedulePlanId = schedulePlanId;
     }
 
-    public Date getScheduleStartOfWeek() {
-        return scheduleStartOfWeek;
+    public LocalDate getScheduleStartOfWeek() {
+        return eventPlannerDate;
     }
 
-    public void setScheduleStartOfWeek(Date scheduleStartOfWeek) {
-        this.scheduleStartOfWeek = scheduleStartOfWeek;
+    public void setScheduleStartOfWeek(LocalDate eventPlannerDate) {
+        this.eventPlannerDate = eventPlannerDate;
     }
 
     public Schedule getScheduleDetails() {

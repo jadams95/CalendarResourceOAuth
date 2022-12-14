@@ -73,14 +73,13 @@ public class ScheduleService {
     public List<ScheduleDTO> findAllSchedules(){
         return schduleDao.findAll().stream().map(schedule -> {
             Optional<Schedule> scheduleAllRespDB = schduleDao.findById(schedule.getId());
-//            Manager managerDb = managerDao.findByUsername(managerName);
             ScheduleDTO scheduleDTO = new ScheduleDTO();
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setName(x.getName()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setScheduleDescription(x.getScheduleDescription()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setTargetCustomer(x.getTargetCustomer()));
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
-//            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setManagerSchedule(x.getManagerSchedule()));
+            scheduleAllRespDB.ifPresent(x -> scheduleDTO.setManagerSchedule(x.getManagerSchedule()));
             return scheduleDTO;
         }).toList();
     }

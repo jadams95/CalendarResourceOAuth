@@ -34,7 +34,7 @@ public class Schedule extends BaseEntity {
      * make you input the times of hours and breaks for the  Schedule Plan for That week,
      * then it will direct you to Schedule
      */
-    @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "schedule", cascade = CascadeType.ALL)
     private SchedulePlan schedulePlan;
 
     @JsonBackReference

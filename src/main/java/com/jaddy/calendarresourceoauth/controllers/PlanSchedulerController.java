@@ -7,6 +7,7 @@ import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 //import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
+import com.jaddy.calendarresourceoauth.model.dtos.SchedulePlanDTO;
 import com.jaddy.calendarresourceoauth.service.SchedulePlanService;
 import com.jaddy.calendarresourceoauth.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,8 +138,8 @@ public class PlanSchedulerController {
 
 //    @PostAuthorize("hasAuthority('SCOPE_manager:read')")
     @GetMapping("/schedule/schedulePlanners")
-    public List<SchedulePlan> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
-        return schedulePlanService.findAllSchedules();
+    public List<SchedulePlanDTO> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
+        return schedulePlanService.findAllSchedulePlans();
     }
 
 // The idea was to be able to filter SchedulePlans that are assigned to id_manager, but

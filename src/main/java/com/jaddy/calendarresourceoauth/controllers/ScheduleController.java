@@ -44,11 +44,13 @@ public class ScheduleController {
     @PostAuthorize("hasAuthority('SCOPE_manager:create')")
     @PostMapping("/schedule")
     public ResponseEntity<ScheduleDTO> createSchedule(@RequestBody Schedule schedule, Principal principal) throws RuntimeException, ParseException, NoSuchAlgorithmException {
+        // calls the create Schedule method on scheduleservice
         Schedule testSchedule = scheduleService.saveSchedule(schedule, principal.getName());
         logger.info(testSchedule.getId());
+        // calls the create Schedule Plan Method on scheduleplanner service
         SchedulePlan schedulePlan = schedulePlanService.createSchedulePlan(testSchedule.getId());
         schedulePlanDao.save(schedulePlan);
-//        schduleDao.save(testSchedule);
+        // map the schedule Entity into the ScheduleDTO Object
         Optional<Schedule> scheduleRespDB = schduleDao.findById(testSchedule.getId());
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
@@ -58,6 +60,8 @@ public class ScheduleController {
         scheduleRespDB.ifPresent(x -> scheduleDTO.setEditable(x.getEditable()));
         scheduleRespDB.ifPresent(x -> scheduleDTO.setManagerSchedule(x.getManagerSchedule()));
         logger.info(testSchedule.managerSchedule);
+
+        // returns the scheduleDTO Object if Present
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
         }
 

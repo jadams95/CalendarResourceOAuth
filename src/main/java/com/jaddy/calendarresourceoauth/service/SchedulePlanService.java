@@ -7,6 +7,8 @@ import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
+import com.jaddy.calendarresourceoauth.model.dtos.ScheduleDTO;
+import com.jaddy.calendarresourceoauth.model.dtos.SchedulePlanDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -295,15 +297,38 @@ public class SchedulePlanService {
 
 
 
-    public List<SchedulePlan> findAllSchedulePlans(){
-        List<SchedulePlan> schedulePlan1 = schedulePlanDao.findAll();
-        if(schedulePlan1 == null){
-            throw new RuntimeException("Cannot Find Appointment");
-        } else {
-            return schedulePlan1;
-        }
-    }
+    @Transactional
+    public List<SchedulePlanDTO> findAllSchedulePlans(){
+        return schedulePlanDao.findAll().stream().map(
+                schedulePlan -> {
+                    Optional<SchedulePlan> schedulePlanDbEntity = schedulePlanDao.findById(schedulePlan.getId());
+                    SchedulePlanDTO schedulePlan2 = new SchedulePlanDTO();
 
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setSchedulePlanId(x.getId()));
+
+                    // get the Schedule to link to SchedulePLanner
+                    Optional<Schedule> scheduleEntity = schduleDao.findById(schedulePlan2.getSchedulePlanId());
+                    Schedule scheduleEx = new Schedule();
+                    scheduleEntity.ifPresent(x -> scheduleEx.setId(x.getId()));
+                    scheduleEntity.ifPresent(x -> scheduleEx.setName(x.getName()));
+                    scheduleEntity.ifPresent(x -> scheduleEx.setScheduleDescription(x.getScheduleDescription()));
+                    scheduleEntity.ifPresent(x -> scheduleEx.setTargetCustomer(x.getTargetCustomer()));
+                    scheduleEntity.ifPresent(x -> scheduleEx.setEditable(x.getEditable()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setScheduleDetails(scheduleEx));
+
+
+                    // Setting up the SchedulePlan DayPlanner
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setMonday(x.getMonday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setTuesday(x.getTuesday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setWednesday(x.getWednesday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setThursday(x.getThursday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setFriday(x.getFriday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setSaturday(x.getSaturday()));
+                    schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setSunday(x.getSunday()));
+
+                    return schedulePlan2;
+                }).toList();
+    }
 
     public Long generateRandomId() throws NoSuchAlgorithmException {
         SecureRandom random = SecureRandom.getInstanceStrong();
@@ -311,7 +336,5 @@ public class SchedulePlanService {
         if(userId.longValue() < 0) return userId * -1;
         return userId;
     }
-
-
 
 }
