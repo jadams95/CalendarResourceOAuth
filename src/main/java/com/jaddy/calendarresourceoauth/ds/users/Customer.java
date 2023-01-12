@@ -1,23 +1,10 @@
 package com.jaddy.calendarresourceoauth.ds.users;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jaddy.calendarresourceoauth.constants.Role;
 import com.jaddy.calendarresourceoauth.ds.Appointment;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
 
 @Entity
 @Table(name = "`customers`", schema = "public")

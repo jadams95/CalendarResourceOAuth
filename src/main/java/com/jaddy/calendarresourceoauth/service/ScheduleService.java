@@ -71,7 +71,8 @@ public class ScheduleService {
 
     @Transactional
     public List<ScheduleDTO> findAllSchedules(){
-        return schduleDao.findAll().stream().map(schedule -> {
+        return schduleDao.findAll().stream()
+                .map(schedule -> {
             Optional<Schedule> scheduleAllRespDB = schduleDao.findById(schedule.getId());
             ScheduleDTO scheduleDTO = new ScheduleDTO();
             scheduleAllRespDB.ifPresent(x -> scheduleDTO.setId(x.getId()));
