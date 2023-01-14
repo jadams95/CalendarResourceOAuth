@@ -125,6 +125,9 @@ public class Manager {
         this.appointments = appointments;
     }
 
+    public void addSchedule(Schedule schedule){
+        this.schedules.add(schedule);
+    }
     public List<Schedule> getSchedules() {
         return schedules;
     }

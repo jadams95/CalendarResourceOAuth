@@ -2,6 +2,7 @@ package com.jaddy.calendarresourceoauth.ds;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jaddy.calendarresourceoauth.ds.users.Manager;
 import com.jaddy.calendarresourceoauth.model.DayPlan;
 import com.jaddy.calendarresourceoauth.model.TimePeriod;
@@ -30,6 +31,7 @@ public class SchedulePlan  {
 
     @OneToOne
     @JoinColumn(name = "`id_schedules_details`")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Schedule schedule;
 
     /**

@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -269,6 +270,8 @@ public class SchedulePlanService {
         SchedulePlan schedulePlanDb = new SchedulePlan();
         Optional<Schedule> scheduleDetailsDB = schduleDao.findById(scheduleId);
         schedulePlanDb.setSchedule(scheduleDetailsDB.orElseThrow());
+
+
 //        schedulePlanDb.setId(generateRandomId());
 
 //        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setId(scheduleId));
@@ -306,14 +309,22 @@ public class SchedulePlanService {
 
                     schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setSchedulePlanId(x.getId()));
 
+
                     // get the Schedule to link to SchedulePLanner
                     Optional<Schedule> scheduleEntity = schduleDao.findById(schedulePlan2.getSchedulePlanId());
                     Schedule scheduleEx = new Schedule();
+
+                    // get the Manager for SchedulePlanner
+
+
+
+
                     scheduleEntity.ifPresent(x -> scheduleEx.setId(x.getId()));
                     scheduleEntity.ifPresent(x -> scheduleEx.setName(x.getName()));
                     scheduleEntity.ifPresent(x -> scheduleEx.setScheduleDescription(x.getScheduleDescription()));
                     scheduleEntity.ifPresent(x -> scheduleEx.setTargetCustomer(x.getTargetCustomer()));
                     scheduleEntity.ifPresent(x -> scheduleEx.setEditable(x.getEditable()));
+                    scheduleEntity.ifPresent(x -> scheduleEx.managerSchedule = x.getManagerSchedule());
                     schedulePlanDbEntity.ifPresent(x -> schedulePlan2.setScheduleDetails(scheduleEx));
 
 

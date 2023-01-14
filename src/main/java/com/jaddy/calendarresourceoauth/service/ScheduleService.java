@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -57,14 +58,17 @@ public class ScheduleService {
         if(dbManager == null){
             throw new RuntimeException(" Schedule Cannot be found for User");
         } else {
+
             Schedule scheduleDb = new Schedule();
             scheduleDb.setId(scheduleEntity.getId());
             scheduleDb.setName(scheduleEntity.getName());
             scheduleDb.setScheduleDescription(scheduleEntity.getScheduleDescription());
             scheduleDb.setTargetCustomer(scheduleEntity.getTargetCustomer());
             scheduleDb.setEditable(scheduleEntity.getEditable());
-            scheduleDb.linkScheduleToManager(dbManager);
+            scheduleDb.managerSchedule.add(dbManager);
             schduleDao.save(scheduleDb);
+            dbManager.addSchedule(scheduleDb);
+            managerDao.save(dbManager);
             return scheduleDb;
         }
     }
