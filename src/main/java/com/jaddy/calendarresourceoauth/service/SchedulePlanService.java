@@ -56,21 +56,9 @@ public class SchedulePlanService {
             schedulePlanModel.setEventName(dayPlan.getEventName());
             schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
             schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-
-
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(schedulePlanId);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
-//            Schedule testSchedule = new Schedule();
-//
-//            schduleDao.save(testSchedule);
             schedulePlanDB.ifPresent(plan -> plan.setSchedule(optionalSchedule.orElseThrow()));
-
-
-
-
-//            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
-//            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-//            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setMonday(schedulePlanModel);
             return schedulePlanDao.save(schedulePlan);
         }

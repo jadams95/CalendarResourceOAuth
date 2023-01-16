@@ -52,6 +52,7 @@ public class ResourceServerConfig {
                                .antMatchers("/token").permitAll()
                                .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")
+                               .antMatchers("/scheduleMngr").hasAuthority("SCOPE_manager:read")
                                .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:read")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedulePlan").hasAuthority("SCOPE_manager:update")

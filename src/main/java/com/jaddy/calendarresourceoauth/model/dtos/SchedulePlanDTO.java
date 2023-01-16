@@ -11,8 +11,6 @@ public class SchedulePlanDTO {
 
     private Long schedulePlanId;
 
-    private LocalDate eventPlannerDate;
-
     private Schedule scheduleDetails;
 
     private Manager manager;
@@ -41,14 +39,6 @@ public class SchedulePlanDTO {
 
     public void setSchedulePlanId(Long schedulePlanId) {
         this.schedulePlanId = schedulePlanId;
-    }
-
-    public LocalDate getScheduleStartOfWeek() {
-        return eventPlannerDate;
-    }
-
-    public void setScheduleStartOfWeek(LocalDate eventPlannerDate) {
-        this.eventPlannerDate = eventPlannerDate;
     }
 
     public Schedule getScheduleDetails() {

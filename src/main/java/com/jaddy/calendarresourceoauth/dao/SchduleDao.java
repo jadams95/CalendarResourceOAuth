@@ -11,7 +11,9 @@ import java.util.Optional;
 
 public interface SchduleDao extends JpaRepository<Schedule, Long> {
 // Commented out need to test
-//    @Query("SELECT s from Schedule s where s.managerSchedule = :managerSchedule")
-//    Optional<List<Schedule>> findSchedulesByManagerSchedule(String username);
+    @Query("""
+    SELECT s from Schedule s join s.managerSchedule u where u.username = :username
+    """)
+    List<Schedule> findSchedulesByManagerSchedule(String username);
 
 }

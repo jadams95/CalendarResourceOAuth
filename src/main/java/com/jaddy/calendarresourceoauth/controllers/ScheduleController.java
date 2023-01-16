@@ -74,6 +74,12 @@ public class ScheduleController {
     public List<ScheduleDTO> getAllSchedules() throws RuntimeException, ParseException, NoSuchAlgorithmException {
         return scheduleService.findAllSchedules();
     }
+
+    @PostAuthorize("hasAuthority('SCOPE_manager:read')")
+    @GetMapping("/scheduleMngr")
+    public List<Schedule> getAllSchedules(Principal principal) throws RuntimeException, ParseException, NoSuchAlgorithmException {
+        return scheduleService.fndAllSchedulesByManager(principal.getName());
+    }
     @PostAuthorize("hasAuthority('SCOPE_manager:update')")
     @PutMapping("/schedule/{id_schedules_details}")
     public ResponseEntity<ScheduleDTO> updateScheduleAndLinkManager(@PathVariable("id_schedules_details") Long idSchedule, Principal principal){
@@ -84,6 +90,8 @@ public class ScheduleController {
                 dbSchedule.getEditable(), dbSchedule.managerSchedule);
         return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
     }
+
+
 
 
 }

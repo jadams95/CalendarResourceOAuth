@@ -17,7 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -109,5 +108,14 @@ public class ScheduleService {
         return schedule;
     }
 
-
+    @Transactional
+    public List<Schedule> fndAllSchedulesByManager(String managerName){
+        Manager managerRespDB = managerDao.findByUsername(managerName);
+        return schduleDao.findSchedulesByManagerSchedule(managerRespDB.getUsername()).stream().map(schedules -> {
+            SchedulePlan schedulePlanEx = schedulePlanDao.findById(schedules.getId()).orElseThrow(() -> new RuntimeException("Could not Find the Schedule Planner"));
+            schedules.managerSchedule.stream().filter(manager -> schedules.managerSchedule.stream().filter(x -> x.getId().equals(manager.getId())).isParallel());
+            schedules.setSchedulePlan(schedulePlanEx);
+            return schedules;
+        }).toList();
+    }
 }

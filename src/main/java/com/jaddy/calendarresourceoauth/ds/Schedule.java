@@ -106,9 +106,9 @@ public class Schedule extends BaseEntity {
     }
 
 //    public SchedulePlan getSchedulePlanner() {
-//        return scheduleDetailsId;
+//        return schedulePlan;
 //    }
-//
+
 //    public void setSchedulePlanner(SchedulePlan scheduleDetailsId) {
 //        this.scheduleDetailsId = scheduleDetailsId;
 //    }
