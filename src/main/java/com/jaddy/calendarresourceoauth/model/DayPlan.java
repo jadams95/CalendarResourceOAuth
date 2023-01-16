@@ -1,12 +1,13 @@
 package com.jaddy.calendarresourceoauth.model;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DayPlan {
+
+    private UUID eventId;
+
+    private String eventName;
 
     private LocalDate eventPlannerDate;
     private TimePeriod workingHours;
@@ -25,7 +26,9 @@ public class DayPlan {
         this.breaks = new ArrayList();
     }
 
-    public DayPlan(LocalDate eventPlannerDate,TimePeriod workingHours) {
+    public DayPlan(UUID eventId, String eventName, LocalDate eventPlannerDate,TimePeriod workingHours) {
+        this.eventId = eventId;
+        this.eventName = eventName;
         this.eventPlannerDate = eventPlannerDate;
         this.workingHours = workingHours;
         this.breaks = new ArrayList();
@@ -99,6 +102,19 @@ public class DayPlan {
         breaks.add(breakToAdd);
     }
 
+    public UUID getEventId() {
+        return eventId;
+    }
 
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
+    }
 
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
 }

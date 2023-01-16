@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -51,15 +52,25 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
 
+            schedulePlanModel.setEventId(generateRandomUUID());
+            schedulePlanModel.setEventName(dayPlan.getEventName());
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+
+
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(schedulePlanId);
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
 //            Schedule testSchedule = new Schedule();
 //
 //            schduleDao.save(testSchedule);
             schedulePlanDB.ifPresent(plan -> plan.setSchedule(optionalSchedule.orElseThrow()));
-            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
-            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+
+
+
+
+//            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
+//            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+//            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
             schedulePlan.setMonday(schedulePlanModel);
             return schedulePlanDao.save(schedulePlan);
         }
@@ -77,15 +88,17 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
-
+            schedulePlanModel.setEventId(generateRandomUUID());
+            schedulePlanModel.setEventName(dayPlan.getEventName());
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
 
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
 
-            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
-            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+
+
             schedulePlan.setTuesday(schedulePlanModel);
             schedulePlanDao.save(schedulePlan);
             return schedulePlan;
@@ -228,6 +241,15 @@ public class SchedulePlanService {
             throw new RuntimeException(" User Cannot be loaded");
         } else {
             Optional<SchedulePlan> schedulePlanDB = schedulePlanDao.findById(scheduleid);
+
+            schedulePlanModel.setEventId(dayPlan.getEventId());
+            schedulePlanModel.setEventName(dayPlan.getEventName());
+            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
+            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
+
+            // this line doesn't make sense to me
+            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+
             schedulePlanDB.ifPresent(plan -> schedulePlan.setId(plan.getId()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSchedule(plan.getSchedule()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setMonday(plan.getMonday()));
@@ -236,9 +258,7 @@ public class SchedulePlanService {
             schedulePlanDB.ifPresent(plan -> schedulePlan.setThursday(plan.getThursday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setFriday(plan.getFriday()));
             schedulePlanDB.ifPresent(plan -> schedulePlan.setSaturday(plan.getSaturday()));
-            schedulePlanModel.setEventPlannerDate(dayPlan.getEventPlannerDate());
-            schedulePlanModel.setWorkingHours(dayPlan.getWorkingHours());
-            dayPlan.setWorkingHours(schedulePlanModel.getWorkingHours());
+
 
             schedulePlan.setSunday(schedulePlanModel);
             schedulePlanDao.save(schedulePlan);
@@ -346,6 +366,10 @@ public class SchedulePlanService {
         Long userId = random.nextLong();
         if(userId.longValue() < 0) return userId * -1;
         return userId;
+    }
+
+    public UUID generateRandomUUID() {
+        return UUID.randomUUID();
     }
 
 }
