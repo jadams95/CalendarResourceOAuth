@@ -279,17 +279,7 @@ public class SchedulePlanService {
         Optional<Schedule> scheduleDetailsDB = schduleDao.findById(scheduleId);
         schedulePlanDb.setSchedule(scheduleDetailsDB.orElseThrow());
 
-
-//        schedulePlanDb.setId(generateRandomId());
-
-//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setId(scheduleId));
-//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setName(schedule.getName()));
-//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setScheduleDescription(schedule.getScheduleDescription()));
-//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setTargetCustomer(schedule.getTargetCustomer()));
-//        scheduleDetailsDB.ifPresent(schedule -> scheduleExDb.setEditable(schedule.getEditable()));
-
-
-            schedulePlanDao.save(schedulePlanDb);
+        schedulePlanDao.save(schedulePlanDb);
 
 
         //        scheduleDetailsDB.ifPresent(plan -> schedulePlanDb.setSchedule(plan));

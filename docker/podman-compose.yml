@@ -10,3 +10,17 @@ services:
      - testlavish:/root/
     stdin_open: true
     tty: true
+
+  authdb:
+    image: postgres
+    restart: always
+    hostname: testdb
+    ports:
+     - "5432:5432"
+    network_mode: bridge
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    volumes:
+      - testlavishdb:/root/
