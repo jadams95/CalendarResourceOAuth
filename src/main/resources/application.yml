@@ -1,8 +1,8 @@
 server:
   port: 9000
 rsa:
-  private-key: "file:..\\..\\.aws\\certs\\private.pem"
-  public-key: "file:..\\..\\.aws\\certs\\public.pem"
+  private-key: "classpath:certs\\private.pem"
+  public-key: "classpath:certs\\public.pem"
 
 spring:
   jpa:
