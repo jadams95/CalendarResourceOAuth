@@ -18,6 +18,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.7'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.0.1'
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.1'
 
 //    runtimeOnly 'com.h2database:h2:2.1.214'
     runtimeOnly 'org.postgresql:postgresql:42.5.1'
@@ -25,13 +27,13 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test:5.7.3'
 }
 
-tasks.named("bootJar") {
-    manifest {
-//        from { configurations.collect { it.isDirectory() ? it : zipTree(it) } }
-        attributes 'Start-Class': 'com.jaddy.calendarresourceoauth.CalendarResourceOAuthApplication'
-    }
-
-}
+//tasks.named("bootJar") {
+//    manifest {
+////        from { configurations.collect { it.isDirectory() ? it : zipTree(it) } }
+//        attributes 'Start-Class': 'com.jaddy.calendarresourceoauth.CalendarResourceOAuthApplication'
+//    }
+//
+//}
 tasks.named('test') {
     useJUnitPlatform()
 }

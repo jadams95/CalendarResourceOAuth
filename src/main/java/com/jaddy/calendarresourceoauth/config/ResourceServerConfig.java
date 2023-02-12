@@ -2,9 +2,13 @@ package com.jaddy.calendarresourceoauth.config;
 
 import com.jaddy.calendarresourceoauth.service.userservices.CustomerDetailsService;
 import com.jaddy.calendarresourceoauth.filters.CustomAuthenticationProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,11 +23,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class ResourceServerConfig {
+
+    Logger logger = LogManager.getLogger(ResourceServerConfig.class);
+
+    @Autowired
+    private DBConfig dbConfig;
 
     @Autowired
     private CustomAuthenticationProvider authProvider;
@@ -31,8 +41,48 @@ public class ResourceServerConfig {
     @Autowired
     private CustomerDetailsService customerDetailsService;
 
+
+//    DataSource dataSource;
+
+//    @Bean
+//    public DataSource setupEnvDb(){
+//        return
+//    }
+
+
+//    @Bean
+//    public DataSource setupSource(){
+//        DataSource dataSource = null;
+//        DataSourceBuilder<?> builder = DataSourceBuilder.create();
+//        dataSource = builder.url("jdbc:postgresql://authdb-example.crfc6n1khr2t.us-east-1.rds.amazonaws.com/authexampledb")
+//                .username("jadams").password("Adam1212DB").driverClassName("org.postgres.Driver")
+//                .build();
+//        return dataSource;
+//    }
+
+//    @Bean()
+//    public DataSource dataSource()
+//    {
+//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+//        dataSourceBuilder.driverClassName("org.postgres.Driver");
+//        dataSourceBuilder.url("jdbc:postgresql://authdb-example.crfc6n1khr2t.us-east-1.rds.amazonaws.com/authexampledb");
+//        dataSourceBuilder.username("jadams");
+//        dataSourceBuilder.password("Adam1212DB");
+//        DataSource dataSource = dataSourceBuilder.build();
+//        return dataSource;
+//    }
+
+//    @Bean
+//    @Primary
+//    public DataSource testDataSource(DataSource dataSource) {
+
+//        return dataSource;
+//    }
+
+
     @Bean
-    public JdbcUserDetailsManager users(DataSource dataSource) {
+    public JdbcUserDetailsManager users(DataSource dataSource) throws SQLException {
+        logger.info(dbConfig.getUser() +  "\n" + dbConfig.getPassword() + "\n" +dbConfig.url + "\n" + dbConfig.directory);
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         return jdbcUserDetailsManager;
     }

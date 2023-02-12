@@ -1,19 +1,10 @@
 server:
   port: 9000
-
 rsa:
-  private-key: "classpath:certs/private.pem"
-  public-key: "classpath:certs/public.pem"
-
-
+  private-key: "file:..\\..\\.aws\\certs\\private.pem"
+  public-key: "file:..\\..\\.aws\\certs\\public.pem"
 
 spring:
-  datasource:
-    url: jdbc:postgresql://authdb-example.crfc6n1khr2t.us-east-1.rds.amazonaws.com/authexampledb
-    username: jadams
-    driver-class-name: org.postgresql.Driver
-    password: Adam1212DB
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,11 +13,11 @@ spring:
     properties:
       hibernate:
         dialect: com.jaddy.calendarresourceoauth.utils.PostgreSQL94CustomDialect
-
-
-#    generate-ddl: true
-
-#JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+  datasource:
+    driver-class-name: ${prod-env-driver}
+    url: ${prod-env-url}
+    username: ${prod-env-user}
+    password: ${prod-env-psswrd}
 
 logging:
   level:
