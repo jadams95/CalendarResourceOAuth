@@ -68,73 +68,73 @@ public class PlanSchedulerController {
         return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
     }
 //
-////    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-//    @PutMapping("/schedule/{scheduleId}/wednesday/{id}")
-//    public ResponseEntity<SchedulePlan> updateWednesdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-//        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayWednesday(schedulePlanId, dayPlan, principal.getName());
-//        SchedulePlan schedulePlan = new SchedulePlan();
-//        schedulePlan.setId(testSchedulePlan.getId());
-//        schedulePlan.setMonday(testSchedulePlan.getMonday());
-//        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
-//        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
-//        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
-//    }
-//
-////    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-//    @PutMapping("/schedule/{scheduleId}/thursday/{id}")
-//    public ResponseEntity<SchedulePlan> updateThursdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-//        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayThursday(schedulePlanId, dayPlan, principal.getName());
-//        SchedulePlan schedulePlan = new SchedulePlan();
-//        schedulePlan.setId(testSchedulePlan.getId());
-//        schedulePlan.setMonday(testSchedulePlan.getMonday());
-//        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
-//        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
-//        schedulePlan.setThursday(testSchedulePlan.getThursday());
-//        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
-//    }
-////    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-//    @PutMapping("/schedule/{scheduleId}/friday/{id}")
-//    public ResponseEntity<SchedulePlan> updateFridaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-//        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayFriday(schedulePlanId, dayPlan, principal.getName());
-//        SchedulePlan schedulePlan = new SchedulePlan();
-//        schedulePlan.setId(testSchedulePlan.getId());
-//        schedulePlan.setMonday(testSchedulePlan.getMonday());
-//        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
-//        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
-//        schedulePlan.setThursday(testSchedulePlan.getThursday());
-//        schedulePlan.setFriday(testSchedulePlan.getFriday());
-//        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
-//    }
-////    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-//    @PutMapping("/saturday/{id}")
-//    public ResponseEntity<SchedulePlan> updateSaturdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-//        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySaturday(schedulePlanId, dayPlan, principal.getName());
-//        SchedulePlan schedulePlan = new SchedulePlan();
-//        schedulePlan.setId(testSchedulePlan.getId());
-//        schedulePlan.setMonday(testSchedulePlan.getMonday());
-//        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
-//        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
-//        schedulePlan.setThursday(testSchedulePlan.getThursday());
-//        schedulePlan.setFriday(testSchedulePlan.getFriday());
-//        schedulePlan.setSaturday(testSchedulePlan.getSaturday());
-//        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
-//    }
-//
-////    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
-//    @PutMapping("/sunday/{id}")
-//    public ResponseEntity<SchedulePlan> updateSundaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
-//        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySunday(schedulePlanId, dayPlan, principal.getName());
-//        SchedulePlan schedulePlan = new SchedulePlan();
-//        schedulePlan.setId(testSchedulePlan.getId());
-//        schedulePlan.setMonday(testSchedulePlan.getMonday());
-//        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
-//        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
-//        schedulePlan.setThursday(testSchedulePlan.getThursday());
-//        schedulePlan.setFriday(testSchedulePlan.getFriday());
-//        schedulePlan.setSaturday(testSchedulePlan.getSaturday());
-//        schedulePlan.setSunday(testSchedulePlan.getSunday());
-//        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
-//    }
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{scheduleId}/wednesday/{id}")
+    public ResponseEntity<SchedulePlan> updateWednesdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayWednesday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        schedulePlan.setId(testSchedulePlan.getId());
+        schedulePlan.setMonday(testSchedulePlan.getMonday());
+        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
+        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
+    }
+
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{scheduleId}/thursday/{id}")
+    public ResponseEntity<SchedulePlan> updateThursdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayThursday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        schedulePlan.setId(testSchedulePlan.getId());
+        schedulePlan.setMonday(testSchedulePlan.getMonday());
+        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
+        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
+        schedulePlan.setThursday(testSchedulePlan.getThursday());
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
+    }
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{scheduleId}/friday/{id}")
+    public ResponseEntity<SchedulePlan> updateFridaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDayFriday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        schedulePlan.setId(testSchedulePlan.getId());
+        schedulePlan.setMonday(testSchedulePlan.getMonday());
+        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
+        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
+        schedulePlan.setThursday(testSchedulePlan.getThursday());
+        schedulePlan.setFriday(testSchedulePlan.getFriday());
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
+    }
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{scheduleId}/saturday/{id}")
+    public ResponseEntity<SchedulePlan> updateSaturdaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySaturday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        schedulePlan.setId(testSchedulePlan.getId());
+        schedulePlan.setMonday(testSchedulePlan.getMonday());
+        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
+        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
+        schedulePlan.setThursday(testSchedulePlan.getThursday());
+        schedulePlan.setFriday(testSchedulePlan.getFriday());
+        schedulePlan.setSaturday(testSchedulePlan.getSaturday());
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
+    }
+
+//    @PostAuthorize("hasAuthority('SCOPE_manager:update')")
+    @PutMapping("/schedule/{scheduleId}/sunday/{id}")
+    public ResponseEntity<SchedulePlan> updateSundaySchedulePlan(@PathVariable("id") Long schedulePlanId, @RequestBody DayPlan dayPlan, Principal principal){
+        SchedulePlan testSchedulePlan = schedulePlanService.updateSchedulePlanWorkDaySunday(schedulePlanId, dayPlan, principal.getName());
+        SchedulePlan schedulePlan = new SchedulePlan();
+        schedulePlan.setId(testSchedulePlan.getId());
+        schedulePlan.setMonday(testSchedulePlan.getMonday());
+        schedulePlan.setTuesday(testSchedulePlan.getTuesday());
+        schedulePlan.setWednesday(testSchedulePlan.getWednesday());
+        schedulePlan.setThursday(testSchedulePlan.getThursday());
+        schedulePlan.setFriday(testSchedulePlan.getFriday());
+        schedulePlan.setSaturday(testSchedulePlan.getSaturday());
+        schedulePlan.setSunday(testSchedulePlan.getSunday());
+        return new ResponseEntity<>(schedulePlan, HttpStatus.OK);
+    }
 
 //    @PostAuthorize("hasAuthority('SCOPE_manager:read')")
     @GetMapping("/schedule/schedulePlanners")
@@ -142,16 +142,4 @@ public class PlanSchedulerController {
         return schedulePlanService.findAllSchedulePlans();
     }
 
-// The idea was to be able to filter SchedulePlans that are assigned to id_manager, but
-// implemented first a simple getById for the SchedulePlan
-//    @GetMapping("/{id}")
-//    public SchedulePlan displaySchedulePlanById(@PathVariable("id") Long id){
-//        return schedulePlanService.findSchedulePlanById(id);
-//    }
-
-//    @PostAuthorize("hasAuthority('SCOPE_manager:read')")
-//    @GetMapping("/")
-//    public ResponseEntity<List<SchedulePlan>> displayAllSchedulePlans(){
-//        return new ResponseEntity<>(schedulePlanService.findAllSchedulePlans(), HttpStatus.OK);
-//    }
 }
