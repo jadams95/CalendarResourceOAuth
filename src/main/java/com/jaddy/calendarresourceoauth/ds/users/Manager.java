@@ -8,25 +8,26 @@ import com.jaddy.calendarresourceoauth.ds.Schedule;
 import com.jaddy.calendarresourceoauth.ds.SchedulePlan;
 import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
+//import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+//import javax.persistence.Id;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
 
 @Entity
 @Table(name = "`managers`")
 @PrimaryKeyJoinColumn(name = "`uid_manager`")
 public class Manager {
 
-    @Id Long id;
+    @Id
+    Long id;
 
     @Column(name = "username")
     private String username;
