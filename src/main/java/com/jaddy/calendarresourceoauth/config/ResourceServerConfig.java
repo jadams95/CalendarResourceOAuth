@@ -62,6 +62,7 @@ public class ResourceServerConfig {
                .authenticationProvider(authProvider)
                .authorizeRequests(x ->
                        x.antMatchers("/register").permitAll()
+                               .antMatchers("/api").permitAll()
                                .antMatchers("/token").permitAll()
                                .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")

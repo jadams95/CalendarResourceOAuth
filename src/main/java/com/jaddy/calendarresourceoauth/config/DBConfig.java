@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-//
 
+//@PropertySources(@PropertySource("file:../../.spring_config/lavishConfProd.properties"))
 @Component
 @Configuration
-@PropertySources(@PropertySource("file:..\\..\\.aws\\lavishConfProd.properties"))
+@PropertySources(@PropertySource("file:../../.spring_config/lavishConfProd.properties"))
 public class DBConfig {
 
     @Value("${user.dir}")
