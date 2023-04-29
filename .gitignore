@@ -17,6 +17,8 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 !**/src/main/resources/certs/
+!**/.spring_config/
+!**/.spring_config/certs/
 
 ### IntelliJ IDEA ###
 .idea
