@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.3'
+    id 'org.springframework.boot' version '2.7.11'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
 }
@@ -27,13 +27,42 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test:5.7.3'
 }
 
+
+//bootJar {
+//    baseName = 'calendar-resource-oauth'
+//    version =  '1.0.0'
+//}
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'com.jaddy.calendarresourceoauth.CalendarResourceOAuthApplication'
+    }
+}
+//task explodedJar(type: Copy) {
+//    with jar
+//    into "docker"
+//}
+
+//task unpack(type: Copy) {
+//    dependsOn bootJar
+//    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+//    into("build/dependency")
+//}
+
+
+
+//springBoot {
+//    mainClassName =
+//}
 //tasks.named("bootJar") {
 //    manifest {
-////        from { configurations.collect { it.isDirectory() ? it : zipTree(it) } }
 //        attributes 'Start-Class': 'com.jaddy.calendarresourceoauth.CalendarResourceOAuthApplication'
 //    }
 //
 //}
+//tasks.named(''){
+//
+//}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

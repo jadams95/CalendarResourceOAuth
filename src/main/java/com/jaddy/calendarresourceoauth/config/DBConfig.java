@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-//
 
+//@PropertySources(@PropertySource("file:../../.spring_config/lavishConfProd.properties"))
 @Component
 @Configuration
-@PropertySource("file:..\\..\\.aws\\lavishConfProd.properties")
+@PropertySources(@PropertySource("file:../../.spring_config/lavishConfProd.properties"))
 public class DBConfig {
 
     @Value("${user.dir}")

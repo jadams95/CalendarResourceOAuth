@@ -42,43 +42,6 @@ public class ResourceServerConfig {
     private CustomerDetailsService customerDetailsService;
 
 
-//    DataSource dataSource;
-
-//    @Bean
-//    public DataSource setupEnvDb(){
-//        return
-//    }
-
-
-//    @Bean
-//    public DataSource setupSource(){
-//        DataSource dataSource = null;
-//        DataSourceBuilder<?> builder = DataSourceBuilder.create();
-//        dataSource = builder.url("jdbc:postgresql://authdb-example.crfc6n1khr2t.us-east-1.rds.amazonaws.com/authexampledb")
-//                .username("jadams").password("Adam1212DB").driverClassName("org.postgres.Driver")
-//                .build();
-//        return dataSource;
-//    }
-
-//    @Bean()
-//    public DataSource dataSource()
-//    {
-//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-//        dataSourceBuilder.driverClassName("org.postgres.Driver");
-//        dataSourceBuilder.url("jdbc:postgresql://authdb-example.crfc6n1khr2t.us-east-1.rds.amazonaws.com/authexampledb");
-//        dataSourceBuilder.username("jadams");
-//        dataSourceBuilder.password("Adam1212DB");
-//        DataSource dataSource = dataSourceBuilder.build();
-//        return dataSource;
-//    }
-
-//    @Bean
-//    @Primary
-//    public DataSource testDataSource(DataSource dataSource) {
-
-//        return dataSource;
-//    }
-
 
     @Bean
     public JdbcUserDetailsManager users(DataSource dataSource) throws SQLException {
@@ -99,6 +62,7 @@ public class ResourceServerConfig {
                .authenticationProvider(authProvider)
                .authorizeRequests(x ->
                        x.antMatchers("/register").permitAll()
+                               .antMatchers("/api").permitAll()
                                .antMatchers("/token").permitAll()
                                .antMatchers("/schedule/**").hasAuthority("SCOPE_manager:create")
                                .antMatchers("/schedule").hasAuthority("SCOPE_manager:create")

@@ -1,8 +1,10 @@
 server:
   port: 9000
+
 rsa:
-  private-key: "file:..\\..\\.aws\\certs\\private.pem"
-  public-key: "file:..\\..\\.aws\\certs\\public.pem"
+  private-key: "file:../../.spring_config/certs/private.pem"
+  public-key: "file:../../.spring_config/certs/public.pem"
+
 
 spring:
   jpa:
@@ -18,6 +20,8 @@ spring:
     url: ${prod-env-url}
     username: ${prod-env-user}
     password: ${prod-env-psswrd}
+  application:
+    name: calendar-resource-oauth
 
 logging:
   level:
